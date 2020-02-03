@@ -45,9 +45,9 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:3000',
 )
 
+AUTH_USER_MODEL = 'api_user.User'
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,8 +56,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # third parties
     'rest_framework', # djangorestframework
     'corsheaders', #django-cors-header
+
+    # local apps
+    'api_user',
+    'api_post',
+    'api_album',
 ]
 
 MIDDLEWARE = [
@@ -97,8 +103,11 @@ WSGI_APPLICATION = 'bts_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'NAME': 'bts',
+        'USER': 'army',
+        'PASSWORD': '1q2w3e4r',
     }
 }
 
