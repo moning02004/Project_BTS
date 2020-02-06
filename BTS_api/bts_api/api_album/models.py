@@ -6,9 +6,8 @@ def file_path(instance, filename):
     return '{}/{}/{}'.format(instance.category.name, instance.title, filename)
 
 
-
 class Category(models.Model):
-    name = models.CharField(max_length=10)
+    keyword = models.CharField(max_length=10)
 
 
 class Genre(models.Model):
