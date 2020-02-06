@@ -1,3 +1,12 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Album, Genre, AlbumComment, Category, Dislike, like, Music, Police
+
+admin.site.register(Genre)
+admin.site.register(Album)
+admin.site.register(AlbumComment)
+admin.site.register(Category)
+admin.site.register(Dislike)
+admin.site.register(like)
+admin.site.register(Music)
+admin.site.register(Police)
