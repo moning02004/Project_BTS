@@ -1,0 +1,41 @@
+[
+  {
+    "model": "api_album.category",
+    "fields": {
+      "keyword": "싱글"
+    }
+  }, {
+    "model": "api_album.category",
+    "fields": {
+      "keyword": "디지털 싱글"
+    }
+  }, {
+    "model": "api_album.category",
+    "fields": {
+      "keyword": "미니"
+    }
+  }, {
+    "model": "api_album.category",
+    "fields": {
+      "keyword": "정규"
+    }
+  },
+  {
+    "model": "api_album.category",
+    "fields": {
+      "keyword": "리패키지"
+    }
+  },
+  {
+    "model": "api_album.category",
+    "fields": {
+      "keyword": "스페셜 에디션"
+    }
+  },
+  {
+    "model": "api_album.category",
+    "fields": {
+      "keyword": "부틀렉"
+    }
+  }
+]
