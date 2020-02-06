@@ -26,11 +26,15 @@ class PostAPI(APIView):
             author = request.data.get('author')
             content = request.data.get('content')
 
+            author = User.objects.get(pk=int(author))
             Post.objects.create(
                 title=title,
                 content=content,
-                author=User.objects.get(pk=int(author))
+                author=author
             )
+            author.point += 10
+            author.grade = 'Bronze' if 0 <= author.point < 100 else 'Silver' if 1000 <= author.point < 1000 else 'Gold'
+            author.save()
             return Response(status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -78,11 +82,15 @@ class CommentAPI(APIView):
             author = request.data.get('author')
             content = request.data.get('content')
 
+            author = User.objects.get(pk=int(author))
             PostComment.objects.create(
                 post=Post.objects.get(pk=int(post)),
-                author=User.objects.get(pk=author),
-                content=content
+                content=content,
+                author=author
             )
+            author.point += 5
+            author.grade = 'Bronze' if 0 <= author.point < 100 else 'Silver' if 1000 <= author.point < 1000 else 'Gold'
+            author.save()
             return Response(status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
