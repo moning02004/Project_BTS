@@ -1,16 +1,20 @@
 import React from 'react';
-import './App.css';
+import Header from './component/Header';
+import Footer from './component/Footer';
+import Category from './container/Category';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>hello</h1>
-        </header>
-        <h2>middle</h2>
-    </div>
-    
-  );
+
+class App extends React.Component {
+
+  render() {
+    return (
+      <div>
+        <Header />
+        <Category />
+        <Footer />
+      </div>
+    );
+  }
 }
 
 export default App;
