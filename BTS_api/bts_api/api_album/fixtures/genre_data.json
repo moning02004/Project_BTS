@@ -1,0 +1,47 @@
+[
+  {
+    "model": "api_album.genre",
+    "fields": {
+      "keyword": "K-pop"
+    }
+  }, {
+    "model": "api_album.genre",
+    "fields": {
+      "keyword": "댄스 팝"
+    }
+  }, {
+    "model": "api_album.genre",
+    "fields": {
+      "keyword": "랩"
+    }
+  }, {
+    "model": "api_album.genre",
+    "fields": {
+      "keyword": "힙합"
+    }
+  },
+  {
+    "model": "api_album.genre",
+    "fields": {
+      "keyword": "R&B"
+    }
+  },
+  {
+    "model": "api_album.genre",
+    "fields": {
+      "keyword": "록"
+    }
+  },
+  {
+    "model": "api_album.genre",
+    "fields": {
+      "keyword": "발라드"
+    }
+  },
+  {
+    "model": "api_album.genre",
+    "fields": {
+      "keyword": "EDM"
+    }
+  }
+]
