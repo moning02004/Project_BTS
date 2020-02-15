@@ -1,12 +1,12 @@
 import React from 'react';
+
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
+ 
 const axios = require('axios');
 
 class Header extends React.Component {
@@ -40,7 +40,9 @@ class Header extends React.Component {
     .catch( response => { console.log(response) } );
   }
   render() {
+
     return (
+
       <React.Fragment>
         <div style={{borderBottom: `1px solid #ffdddd`}}>
           <Toolbar>
@@ -48,12 +50,12 @@ class Header extends React.Component {
               Menu
             </Button>
             <Menu id="simple-menu" anchorEl={this.state.anchorEl} keepMounted open={Boolean(this.state.anchorEl)} onClose={this.handleClose}>   
-                <MenuItem onClick={this.handleClose}>BTS Propile</MenuItem>
-                <MenuItem onClick={this.handleClose}>Board</MenuItem>
+                <MenuItem><a href="/profile" style={{textDecoration: 'none'}}>BTS Propile</a></MenuItem>
+                <MenuItem><a href="/postList" style={{textDecoration: 'none'}}>Post</a></MenuItem>
             </Menu>
 
             <Typography component="h2" variant="h5" color="inherit" align="center" noWrap style={{flexGrow: 1}}>
-                <Button size="small">BTS_Amry</Button>
+                <a href="/"><img src={require('./img/armypurple.jpg')}/></a>
             </Typography>
     
             <TextField id="email" label="Email" margin="10px" type="email" />
