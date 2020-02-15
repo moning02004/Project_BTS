@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import {BrowserRouter, Route} from 'react-router-dom';
+import Main from './container/Main'
+import SignUp from './container/SignUp'
 import Header from './component/Header';
-import Footer from './component/Footer';
-import Category from './container/Category';
-
 
 class App extends React.Component {
-
   render() {
     return (
-      <div>
+      <Fragment>
         <Header />
-        <Category />
-        <Footer />
-      </div>
+        <BrowserRouter>
+          <Route exact path="/" component={Main} />
+          <Route path="/signup" component={SignUp}/>
+        </BrowserRouter>
+      </Fragment>
     );
   }
 }
