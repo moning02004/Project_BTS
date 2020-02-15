@@ -7,11 +7,11 @@ def file_path(instance, filename):
 
 
 class Category(models.Model):
-    keyword = models.CharField(max_length=10)
+    keyword = models.CharField(max_length=10, primary_key=True)
 
 
 class Genre(models.Model):
-    keyword = models.CharField(max_length=10)
+    keyword = models.CharField(max_length=10, primary_key=True)
 
 
 class Album(models.Model):

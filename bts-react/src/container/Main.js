@@ -10,7 +10,6 @@ class Main extends React.Component {
             <div>
                 <Category />
                 <Content />
-                <Footer />
             </div>
         );
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -6,15 +6,18 @@ import TextField from '@material-ui/core/TextField';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Auth from './Auth';
 
 const axios = require('axios');
+let decoder = require('jwt-decode');
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      anchorEl: null
+      anchorEl: null,
     }
+    this.auth = new Auth();
   }
 
   handleClick = (e) => {
@@ -24,7 +27,8 @@ class Header extends React.Component {
   }
   handleClose = () => {
     this.setState({
-      anchorEl: null
+      anchorEl: null,
+      authenticated: false
     });
   }
 
@@ -32,14 +36,38 @@ class Header extends React.Component {
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
 
-    axios.post('http://localhost:8000/user/login/', {
-      email: email,
+    axios.post('http://127.0.0.1:8000/user/login/', {
+      username: email,
       password: password
-    })
-    .then( response => { console.log(response) } )
-    .catch( response => { console.log(response) } );
+    }).then( response => {
+      let decode = response.data.token;
+      
+      localStorage.setItem('token', decode);
+      this.auth.authenticated = true;
+      window.location.reload();
+    }).catch( response => {
+      alert('해당하는 계정이 없습니다.');
+    });
+  }
+  logout = () => {
+    this.auth.logout();    
+    this.auth.authenticated = false;
+    window.location.reload();
   }
   render() {
+    let login;
+
+    if (!this.auth.authenticated) {
+      login = (<Fragment>
+        <TextField id="email" label="Email" margin="10px" type="email" />
+        <TextField id="password" label="Password" type="password" />
+        <Button variant="outlined" size="small" onClick={this.login}>Login</Button>
+        <Button variant="outlined" size="small"><a href="/signup" style={{textDecoration: 'none'}}>Signup</a></Button>
+      </Fragment>)
+    } else {
+      login = (<Fragment><Button variant="outlined" size="small" onClick={this.logout}>LOGOUT</Button></Fragment>)
+    }
+
     return (
       <React.Fragment>
         <div style={{borderBottom: `1px solid #ffdddd`}}>
@@ -56,10 +84,7 @@ class Header extends React.Component {
                 <Button size="small">BTS_Amry</Button>
             </Typography>
     
-            <TextField id="email" label="Email" margin="10px" type="email" />
-            <TextField id="password" label="Password" type="password" />
-            <Button variant="outlined" size="small" onClick={this.login}>Login</Button>
-            <Button variant="outlined" size="small"><a href="/signup" style={{textDecoration: 'none'}}>Signup</a></Button>
+            {login}
     
           </Toolbar>
         </div>

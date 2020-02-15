@@ -36,7 +36,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUp() {
   const classes = useStyles();
-
+  let token = localStorage.getItem('token');
+  console.log(token);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
