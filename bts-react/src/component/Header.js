@@ -55,7 +55,7 @@ class Header extends React.Component {
             </Menu>
 
             <Typography component="h2" variant="h5" color="inherit" align="center" noWrap style={{flexGrow: 1}}>
-                <a href="/"><img src={require('./img/armypurple.jpg')}/></a>
+                <a href="/"><img src={require('./img/armypurple.jpg')} align="center" /></a>
             </Typography>
     
             <TextField id="email" label="Email" margin="10px" type="email" />

@@ -38,10 +38,12 @@ class SignUp extends React.Component{
     return(
       <Container component="main" maxWidth="xs" spacing={100}>
         <div className={useStyles.paper} >
-        <a href="/"><img src={require('../component/img/armypurple.jpg')}/></a>
-        <Typography component="h1" variant="h5" align="center" marginTop={1000}>
-          Sign up
-        </Typography>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <a href="/"><img src={require('../component/img/armypurple.jpg')} align="center"/></a>
+              <Typography component="h1" variant="h5" align="center" marginTop={1000}>Sign up</Typography>
+            </Grid>
+          </Grid>
         <form className={useStyles.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
