@@ -4,7 +4,8 @@ from . import views
 
 urlpatterns= [
     path('', views.AlbumAPI.as_view()),  # get
-    path('new/', views.AlbumAPI.as_view()),  # post
+    path('<int:pk>/', views.AlbumDetailAPI.as_view()),  # get
+    path('new/', views.AlbumCreateAPI.as_view()),  # post
     path('edit/<int:pk>/', views.AlbumAPI.as_view()),  # put
     path('detail/<int:pk>/', views.AlbumAPI.as_view()),  # get
     path('delete/', views.AlbumAPI.as_view()),  # delete

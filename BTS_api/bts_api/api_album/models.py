@@ -3,15 +3,15 @@ from django.db import models
 
 
 def file_path(instance, filename):
-    return '{}/{}/{}'.format(instance.category.name, instance.title, filename)
+    return 'thumbnail/{}'.format(filename)
 
 
 class Category(models.Model):
-    keyword = models.CharField(max_length=10)
+    keyword = models.CharField(max_length=10, primary_key=True)
 
 
 class Genre(models.Model):
-    keyword = models.CharField(max_length=10)
+    keyword = models.CharField(max_length=10, primary_key=True)
 
 
 class Album(models.Model):
@@ -20,8 +20,11 @@ class Album(models.Model):
 
     thumbnail = models.ImageField(upload_to=file_path, null=True, blank=True)
     title = models.CharField(max_length=150)
-    created = models.DateTimeField(null=False, blank=False)
+    created = models.DateField(null=False, blank=False)
     content = models.TextField()
+
+    def __str__(self):
+        return self.title
 
 
 class Music(models.Model):
