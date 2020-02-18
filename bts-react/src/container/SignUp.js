@@ -23,7 +23,7 @@ class SignUp extends React.Component{
       <React.Fragment>
         <div className="container">
           <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
-            <a href="/"><img src={(require('../img/armypurple.jpg'))} className="img" /></a>
+            <a href="/"><img src={(require('../img/armypurple.jpg'))} className="img" alt="" /></a>
           </div>
 
           <form onSubmit={this.handleSubmit}>

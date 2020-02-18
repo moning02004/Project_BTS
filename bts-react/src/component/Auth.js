@@ -5,34 +5,25 @@ class Auth extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: null,
-            authenticated: false
         }
+        this.user = null;
+        this.auth = false;
         this.check();
     }
 
     check = () => {
-        let token = localStorage.getItem('token');
-        if (token != null) {
+        let token = localStorage.getItem('TOKEN');
+        if (token) {
             let decode = decoder(token);
-            
-            if (!this.isExpired(decode.exp)){
-                this.setState({
-                    user: decode.data,
-                    authenticated: true
-                });
+            if (!this.isExpired(decode.exp)) {
+                this.user = decode.username;
+                this.auth = true;
             } else {
-                this.setState({
-                    user: null,
-                    authenticated: false
-                })
-                localStorage.removeItem('token');
+                this.auth = true;
+                localStorage.removeItem('TOKEN');
             }
         }
-    }
-    
-    isAuthenticated = () => {
-        return this.authenticated;
+        
     }
 
     isExpired = (time) => {
@@ -40,8 +31,9 @@ class Auth extends React.Component {
     }
 
     logout = () => {
-        localStorage.removeItem('token');
-        this.authenticated = false;
+        localStorage.removeItem('TOKEN');
+        this.auth = false;
+        this.user = null;
     }
 }
 

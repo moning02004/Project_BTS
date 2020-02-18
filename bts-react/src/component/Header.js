@@ -7,7 +7,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Auth from './Auth';
 
-const axios = require('axios');
 
 class Header extends React.Component {
   constructor(props) {
@@ -29,26 +28,21 @@ class Header extends React.Component {
       authenticated: false
     });
   }
-
   logout = () => {
-    this.auth.logout();    
-    this.auth.authenticated = false;
+    this.auth.logout();
     window.location.reload();
   }
-
   render() {
     let login;
 
-    if (!this.auth.authenticated) {
+    if (!this.auth.auth) {
       login = (
         <div>
           <Button variant="outlined" size="small"><a href="/login" style={{textDecoration: 'none', color: "black"}}>Login</a></Button>
           <Button variant="outlined" size="small"><a href="/signup" style={{textDecoration: 'none', color: "black"}}>Signup</a></Button>
         </div>)
     } else {
-      login = (
-        <Button variant="outlined" size="small" onClick={this.logout}>LOGOUT</Button>
-        )
+      login = (<Button variant="outlined" size="small" onClick={this.logout}>LOGOUT</Button>)
     }
 
     return (
@@ -61,11 +55,11 @@ class Header extends React.Component {
             </Button>
             <Menu id="simple-menu" anchorEl={this.state.anchorEl} keepMounted open={Boolean(this.state.anchorEl)} onClose={this.handleClose}>   
                 <MenuItem><a href="/profile" style={{textDecoration: 'none', color: "black"}}>BTS Propile</a></MenuItem>
-                <MenuItem><a href="/postList" style={{textDecoration: 'none', color: "black"}}>Post</a></MenuItem>
+                <MenuItem><a href="/post" style={{textDecoration: 'none', color: "black"}}>Post</a></MenuItem>
             </Menu>
 
             <Typography component="h2" variant="h5" color="inherit" align="center" noWrap style={{flexGrow: 1}}>
-                <a href="/"><img src={require('../img/armypurple.jpg')} align="center" /></a>
+                <a href="/"><img src={require('../img/armypurple.jpg')} align="center" alt="x" /></a>
             </Typography>
             
             <div>{login}</div>
@@ -74,7 +68,7 @@ class Header extends React.Component {
         </div>
   
         <div style={{width: "50%", margin: 'auto'}}>
-          <img src="https://www.officialcharts.com/media/657256/bts-make-it-right.jpg?width=796&mode=stretch" width="100%" />
+          <img src="https://www.officialcharts.com/media/657256/bts-make-it-right.jpg?width=796&mode=stretch" width="100%" alt="x" />
        </div>
       </React.Fragment>
     );
