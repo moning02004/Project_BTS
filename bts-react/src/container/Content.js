@@ -12,12 +12,12 @@ class Content extends React.Component {
     }
     
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/album').then(response => {
+        axios.get('http://127.0.0.1:8000/album/').then(response => {
             let responses = response.data;
             responses.forEach(element => {
                 const {album_list} = this.state;
                 this.setState({
-                    album_list: album_list.concat(element)   
+                    album_list: album_list.concat(element)
                 })
             });
         });

@@ -1,8 +1,8 @@
 import React from 'react';
-import Category from './Category';
 import Content from './Content';
 import Header from '../component/Header';
 import Footer from '../component/Footer';
+import { Button } from '@material-ui/core';
 
 
 class Main extends React.Component {
@@ -16,8 +16,18 @@ class Main extends React.Component {
     render() {
         return (
             <div>
-                <Header authenticated={this.state.authenticated}/>
-                <Category />
+                <Header />
+                
+                <div style={{borderTop: `1px solid #ffdddd`}}>
+                    <div style={{display: "flex", justifyContent: "space-around", width: "50%", margin: "auto"}}>
+                        <Button>전체</Button>
+                        <Button>정규</Button>
+                        <Button>미니</Button>
+                        <Button>싱글</Button>
+                        <Button>OST</Button>
+                    </div>
+                </div>
+                
                 <Content category={this.state.category} />
                 <Footer />
             </div>
