@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
+
  // BTS 멤버 소개 페이지
 
  const useStyles = makeStyles(theme => ({
@@ -27,79 +28,82 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <div className={useStyles.root} >
-            <h1>BTS</h1>
-             <div>
-                2013년 데뷔해 국내외 신인상을 휩쓴 방탄소년단은 3년 만에 명실상부 한국을 대표하는 최정상 보이 그룹으로 성장했다. 현재는 아시아를 넘어 북미, 유럽, 남미, 중동에 이르기까지 전 세계 방탄소년단 열풍을 일으키며 글로벌 슈퍼스타로 우뚝 섰다. 
+            <div style={{marginLeft: "5rem", marginTop: "3rem", marginRight: "5rem"}}>
+             <div align = 'center' style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
+                <h1>BTS</h1>
+                2013년 데뷔해 국내외 신인상을 휩쓴 방탄소년단은 3년 만에 명실상부 한국을 대표하는 최정상 보이 그룹으로 성장했다.
+                 현재는 아시아를 넘어 북미, 유럽, 남미, 중동에 이르기까지 전 세계 방탄소년단 열풍을 일으키며 글로벌 슈퍼스타로 우뚝 섰다. 
                 미국 빌보드, 영국 오피셜 차트, 일본 오리콘, 아이튠즈, 스포티파이, 애플뮤직 등 세계 유수의 차트에서 기록한 성적이 이를 증명하고 있으며 음반 판매량, 뮤직비디오 조회수, SNS 지수 등에서도 독보적인 수치를 기록 중이다. 
                 또한, 스타디움 투어를 개최하며 전 세계 콘서트 시장에서도 글로벌 아티스트로서의 면모를 이어가고 있으며, UN 연설 및 LOVE MYSELF 캠페인 등을 통해 선한 영향력을 실천하고 있다.
                 </div> 
  
-            <div className={useStyles.paper} >
+            <div className={useStyles.paper} align = 'center'>
             <h1>Members</h1>
                 <img src="http://armyzip.com/files/attach/images/42769/605/043/e75e43c2e4002dadba03d38b16aaaaf9.jpg"/>
-                <ul>RM
-                    1994. 09. 12 │ #RM, #ナム, #MON_STUDIO
-                    <li>이름: 김남준 (金南俊, Kim Namjoon)</li>
-                    <li>신체: 181cm, 67kg</li>
-                    <li>출생: 경기도 고양시</li>
-                    <li>포지션: 리더, 래퍼, 작곡, 작사, 프로듀싱</li>
-                </ul>
+                    <h3>RM</h3><br />
+                    1994. 09. 12 │ #RM, #ナム, #MON_STUDIO<br />
+                    이름: 김남준 (金南俊, Kim Namjoon)<br />
+                    신체: 181cm, 67kg<br />
+                    출생: 경기도 고양시<br />
+                    포지션: 리더, 래퍼, 작곡, 작사, 프로듀싱<br /><br /><br />
+                
  
-
                 <img src="http://armyzip.com/files/attach/images/42769/605/043/e149dbffcf2b96b390444403ca55f34f.jpg"/>
-                <ul>JIN
-                    1992.12.04  |  #EATJIN #HYUNG
-                    <li>이름: 김석진 (金碩珍, Kim Seokjin)</li>
-                    <li>신체: 179cm, 63kg</li>
-                    <li>출생: 경기도 과천</li>
-                    <li>포지션: 보컬, 작곡, 작사</li>
-                </ul>
+                    <h3>JIN</h3><br />
+                    1992.12.04  |  #EATJIN #HYUNG<br />
+                    이름: 김석진 (金碩珍, Kim Seokjin)<br />
+                    신체: 179cm, 63kg<br />
+                    출생: 경기도 과천<br />
+                    포지션: 보컬, 작곡, 작사<br /><br /><br />
+                
  
                 <img src="http://armyzip.com/files/attach/images/42769/605/043/ebb273d851a7839533658f06ea00423d.jpg"/>
-                <ul>  SUGA
-                    1993.03.09  |  #GENIUSLAB
-                    <li>이름: 민윤기(閔玧其, Min Yoon-gi)</li>
-                    <li>신체: 174cm, 59kg</li>
-                    <li>출생: 대구</li>
-                    <li>포지션: 래퍼, 작곡, 작사, 프로듀싱</li>
-                </ul>
+                    <h3>SUGA</h3><br />
+                    1993.03.09  |  #GENIUSLAB<br />
+                    이름: 민윤기(閔玧其, Min Yoon-gi)<br />
+                    신체: 174cm, 59kg<br />
+                    출생: 대구<br />
+                    포지션: 래퍼, 작곡, 작사, 프로듀싱<br /><br /><br />
+                
 
                 <img src="http://armyzip.com/files/attach/images/42769/605/043/172c275ab282728230f9a4ceaf375c3c.jpg"/>
-                <ul> J-HOPE
-                    1994.02.18  |  #HOBI, #HOPEWORLD
-                    <li>이름: 정호석 (鄭號錫, Jeong Hoseok)</li>
-                    <li>신체: 177cm, 65kg</li>
-                    <li>출생: 광주</li>
-                    <li>포지션: 래퍼, 작곡, 작사, 댄서</li>
-                </ul>
+                 <h3>J-HOPE</h3><br />
+                    1994.02.18  |  #HOBI, #HOPEWORLD<br />
+                    이름: 정호석 (鄭號錫, Jeong Hoseok)<br />
+                    신체: 177cm, 65kg<br />
+                    출생: 광주<br />
+                    포지션: 래퍼, 작곡, 작사, 댄서<br /><br /><br />
+                
 
                 <img src="http://armyzip.com/files/attach/images/42769/605/043/2fb65edc25b7cffa191e4eb07b1c20b5.jpg"/>
-                <ul> JIMIN 1995.10.13  |  #CHIMCHIM
-                    <li>이름: 박지민 (朴智旻, Park Jimin)</li>
-                    <li>신체: 173.6cm, 61kg</li>
-                    <li>출생: 부산</li>
-                    <li>포지션: 보컬, 댄서, 작곡, 작사</li>
-                </ul>
+                <h3>Jimin</h3><br />                    
+                    1995.10.13  |  #CHIMCHIM<br />
+                    이름: 박지민 (朴智旻, Park Jimin)<br />
+                    신체: 173.6cm, 61kg<br />
+                    출생: 부산<br />
+                    포지션: 보컬, 댄서, 작곡, 작사<br /><br /><br />
+            
 
                 <img src="http://armyzip.com/files/attach/images/42769/605/043/7ec5f86731cb5c5563c5a96a3ab2e4fd.jpg"/>
-                <ul>  V 1995.12.30  |  #TT
-                    <li>이름: 김태형 (金泰亨, Kim Taehyung)</li>
-                    <li>신체: 178cm, 62kg</li>
-                    <li>출생: 대구, 거창</li>
-                    <li>포지션: 보컬, 작곡, 작사</li>
-                </ul>
+                <h3>V</h3><br />
+                    1995.12.30  |  #TT
+                    이름: 김태형 (金泰亨, Kim Taehyung)<br />
+                    신체: 178cm, 62kg<br />
+                    출생: 대구, 거창<br />
+                    포지션: 보컬, 작곡, 작사<br /><br /><br />
+                
 
                 <img src="http://armyzip.com/files/attach/images/42769/605/043/6fe48222503abacf19d947df98561347.jpg"/>
-                    <ul>JUNGKOOK 1997.09.01  |  #KOOKIE
-                    <li>이름: 전정국 (田柾國, Jeon Jungkook)</li>
-                    <li>신체: 178cm, 66kg</li>
-                    <li>출생: 부산</li>
-                    <li>포지션: 보컬, 래퍼, 댄서, 작곡, 작사</li>
-                </ul>
+                    <h3>JUNGKOOK</h3> <br />
+                        1997.09.01  |  #KOOKIE<br />
+                    이름: 전정국 (田柾國, Jeon Jungkook)<br />
+                    신체: 178cm, 66kg<br />
+                    출생: 부산<br />
+                    포지션: 보컬, 래퍼, 댄서, 작곡, 작사<br />
+                
                 </div>
             <div className={useStyles.paper} >
-            <h3>DISCOGRAPHY</h3>
+            <h1>DISCOGRAPHY</h1>
                 <ul>
                     <li>2013.06.12. Single Album [2 COOL 4 SKOOL]</li>
                     <li>2013.09.11. 1st Mini Album [O!RUL8,2?]</li>
@@ -129,7 +133,7 @@ class Profile extends React.Component {
                     <li>2018.11.07. Single Album [FAKE LOVE/Airplane pt.2]</li>
                 </ul>
 
-            <h3>DVD/Blu-ray</h3>
+            <h1>DVD/Blu-ray</h1>
                 <ul>
                     <li>2014.04.09. [BTS NOW IN THAILAND]</li>
                     <li>2014.08.27. [防弾少年団 1st JAPAN SHOWCASE -NEXT STAGE- in Zepp TOKYO]</li>
@@ -177,7 +181,7 @@ class Profile extends React.Component {
             </div>
 
             <div className={useStyles.paper} >
-            <h3>CONCERT</h3>
+            <h1>CONCERT</h1>
                 <ul>
                     <li>2014.10. BTS 2014 LIVE TRILOGY: EPISODE Ⅱ. THE RED BULLET (3회, 서울)</li>
                     <li>2015.02. BTS 1ST JAPAN TOUR 2015 WAKE UP: OPEN YOUR EYES (6회, 일본)</li>
@@ -193,7 +197,7 @@ class Profile extends React.Component {
                 </div>
 
             <div classname={useStyles.paper} >
-                <h3>EVENT</h3>
+                <h1>EVENT</h1>
                 <ul>
                     <li>2014.03.29. BTS 1ST FAN MEETING 'MUSTER’</li>
                     <li>2015.10.29. Halloween Party with BTS</li>
@@ -213,7 +217,7 @@ class Profile extends React.Component {
                 </div>
 
                 <div className={useStyles.paper} >
-                    <h3>ACHIEVEMENT</h3>
+                    <h1>ACHIEVEMENT</h1>
                 <ul>
                     <li>2015.05.05. SBS MTV 《THE SHOW》 "I NEED U" 더 쇼 초이스 1위</li>
                     <li>2015.05.07. Mnet 《엠카운트다운》 "I NEED U" 1위</li>
@@ -280,7 +284,7 @@ class Profile extends React.Component {
                     <li>2019.05.12. SBS 《인기가요》 "작은 것들을 위한 시(Boy With Luv)" 1위 (2회)</li>
                 </ul>
 
-                <h3>AWARD</h3>
+                <h1>AWARD</h1>
                 <ul>
                     <li>2013.06.12. Single Album [2 COOL 4 SKOOL]</li>
                     <li>2013.09.11. 1st Mini Album [O!RUL8,2?]</li>
