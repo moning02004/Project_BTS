@@ -9,13 +9,14 @@ class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            category: 'all'
+            category: 'all',
+            authenticated: false
         }
     }
     render() {
         return (
             <div>
-                <Header />
+                <Header authenticated={this.state.authenticated}/>
                 <Category />
                 <Content category={this.state.category} />
                 <Footer />

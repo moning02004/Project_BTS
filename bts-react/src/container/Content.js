@@ -1,12 +1,11 @@
 import React from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, Box } from '@material-ui/core';
+import { Grid, Card, CardMedia, CardContent, Box } from '@material-ui/core';
 
 const axios = require('axios');
 
 class Content extends React.Component {
     constructor(props){
         super(props);
-        console.log(this.props);
         this.state = {
             album_list: []
         }
@@ -36,14 +35,15 @@ class Content extends React.Component {
                             <Card style={{height: '100%', display: 'flex', flexDirection: 'column'}} className="cursorPointer">
                                 <CardMedia image={album.thumbnail} style={{paddingTop: '100%', }} />
                                 <CardContent style={{flexGrow: 1,}}>
-                                    <Typography>
-                                        <Box fontWeight="bold" style={{textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{album.title}</Box>
+                                    <div>
+                                        <Box
+                                            fontWeight="bold" 
+                                            style={{textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{album.title}</Box>
                                         <div>
                                             <span style={{borderRight: `1px solid #ffddff`, marginRight: '1rem', paddingRight: '1rem'}}>{album.created}</span>
                                             <span>{album.category}</span>
                                         </div>
-                                        <Box></Box>
-                                    </Typography>
+                                    </div>
                                 </CardContent>
                             </Card>
                         </Grid>

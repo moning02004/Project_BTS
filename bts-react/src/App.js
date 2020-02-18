@@ -14,15 +14,26 @@ import Register from './container/Register'
 import './App.css'
 
 class App extends React.Component {
+  state = {
+    user: null
+  }
+  setUser = (user) => {
+    this.setState({
+      user: user
+    })
+  }
   render() {
+<<<<<<< HEAD
+=======
      let Header_Hide = window.location.pathname === '/signup' ? null : <Header />
      let Footer_Hide = window.location.pathname === '/signup' ? null : <Footer />
 
+>>>>>>> upstream/master
     return (
       <Fragment>
         <BrowserRouter>
-          <Route exact path="/" component={Main} />
-          <Route path="/login" component={Login}/>
+          <Route exact path="/" component={Main} user={this.state.user} />
+          <Route path="/login" component={Login} registerUser={this.setUser} />
           <Route path="/signup" component={SignUp}/>
           <Route path="/profile" component={Profile}/>
           <Route exact path="/post" component={PostList}/>
