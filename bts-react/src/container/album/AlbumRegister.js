@@ -5,11 +5,13 @@ import Select from '@material-ui/core/Select';
 import { Table } from '@material-ui/core';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
-
-class Register extends React.Component{
+const axios = require('axios')
+class AlbumRegister extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      category: [],
+      genre: [],
         thumbnail: '',
         title: '',
         category: '',
@@ -25,7 +27,17 @@ class Register extends React.Component{
   handleSubmit = (e) => {
     console.log(e);
   }
-
+  componentDidMount() {
+    axios.get('http://127.0.0.1:8000/album/genre/').then(response => {
+        let responses = response.data;
+        responses.forEach(element => {
+            const { genre } = this.state;
+            this.setState({
+                genre: genre.concat(element)
+            })
+        });
+    });
+}
 
 
   render(){
@@ -64,8 +76,8 @@ class Register extends React.Component{
                   }}
                 >
                 <option value="" />
-                <option value={10}>정규</option>
-                <option value={20}>미니</option>
+                <option value="정규">정규</option>
+                <option value="미니">미니</option>
                 <option value={30}>싱글</option>
                 <option value={40}>OST</option>
 
@@ -151,7 +163,7 @@ class Register extends React.Component{
     );
   }
 }
-export default Register;
+export default AlbumRegister;
 /*
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
