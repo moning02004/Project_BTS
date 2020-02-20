@@ -8,5 +8,5 @@ urlpatterns= [
     path('register/', views.UserRegisterAPI.as_view()),
     path('check/', views.UserCheckAPI.as_view()),
     path('edit/<int:pk>/', views.UserUpdateAPI.as_view()),
-    path('delete/<int:pk>/', views.UserUpdateAPI.as_view())
+    path('delete/<int:pk>/', views.UserDestroyAPI.as_view())
 ]

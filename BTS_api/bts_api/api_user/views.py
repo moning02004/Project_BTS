@@ -1,5 +1,6 @@
 from rest_framework.generics import CreateAPIView, UpdateAPIView, DestroyAPIView, ListAPIView
 from rest_framework.response import Response
+from rest_framework.serializers import ModelSerializer
 
 from .models import User
 from .serializers import UserRegisterSerializer, UserUpdateSerializer, UserCheckSerializer
@@ -9,7 +10,7 @@ class UserCheckAPI(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserCheckSerializer
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         username = request.data.get('username')
         try:
             User.objects.get(username=username)
@@ -36,5 +37,4 @@ class UserUpdateAPI(UpdateAPIView):
 
 class UserDestroyAPI(DestroyAPIView):
     queryset = User.objects.all()
-    serializer_class = UserRegisterSerializer
-
+    serializer_class = ModelSerializer
