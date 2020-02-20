@@ -1,38 +1,25 @@
 from rest_framework import status
+from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.mixins import UpdateModelMixin
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import User
+from .serializers import UserRegisterSerializer, UserUpdateSerializer
 
 
-class UserRegisterAPI(APIView):
+class UserRegisterAPI(CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
 
-    def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        nickname = request.data.get('nickname')
+    def create(self, request, *args, **kwargs):
+        return super(UserRegisterAPI, self).create(request, *args, **kwargs)
 
-        print(request.data)
-        # username check button
-        if password is None:
-            stat = status.HTTP_400_BAD_REQUEST if User.objects.filter(username=username).exists() else status.HTTP_200_OK
-        else:
-            user = User.objects.create(username=username, nickname=nickname)
-            user.set_password(password)
-            user.save()
-            stat = status.HTTP_200_OK
-        return Response(status=stat)
 
-    def put(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        nickname = request.data.get('nickname')
+class UserUpdateAPI(UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserUpdateSerializer
 
-        user = User.objects.get(username=username)
-        if password is not None:
-            user.set_password(password)
-        elif nickname is not None:
-            user.nickname = nickname
-        user.save()
-
-        return Response(status=status.HTTP_200_OK)
+    def partial_update(self, request, *args, **kwargs):
+        return super(UserUpdateAPI, self).partial_update(request, *args, **kwargs)

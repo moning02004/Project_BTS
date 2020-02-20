@@ -37,13 +37,7 @@ class AlbumCreateSerializer(serializers.ModelSerializer):
         created = validated_data.get('created')
         category = validated_data.get('category')
 
-        album = Album.objects.create(
-            thumbnail=thumbnail,
-            title=title,
-            content=content,
-            created=created,
-            category=category
-        )
+        album = Album.objects.create()
         for x in validated_data.get('genre').split(','):
             album.genre.add(Genre.objects.get(keyword=x.strip()))
         album.save()

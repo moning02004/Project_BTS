@@ -7,5 +7,5 @@ urlpatterns= [
     path('login/', obtain_jwt_token),
     path('register/', views.UserRegisterAPI.as_view()),
     path('check/', views.UserRegisterAPI.as_view()),
-    path('edit/', views.UserRegisterAPI.as_view())
+    path('edit/<int:pk>/', views.UserUpdateAPI.as_view())
 ]
