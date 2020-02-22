@@ -9,6 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow'; 
 import Button from '@material-ui/core/Button';
+import Header from '../../component/Header';
+import Footer from '../../component/Footer';
 
 const data = [
     {
@@ -93,6 +95,7 @@ class PostList extends React.Component {
     render(){
         return(
           <React.Fragment>
+            <Header />
               <div lassName="container" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
                   <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
                                  
@@ -119,6 +122,7 @@ class PostList extends React.Component {
                       <Button color="primary" size="1rem">글쓰기</Button> 
                   </div>
               </div>
+              <Footer/>
           </React.Fragment>
         );
     }

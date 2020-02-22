@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Header from '../component/Header';
+import Footer from '../component/Footer';
 
 
  // BTS 멤버 소개 페이지
@@ -362,7 +363,7 @@ class Profile extends React.Component {
                    </div>
     
      </div>
-                
+                <Footer/>
             </React.Fragment>
             );
     }
