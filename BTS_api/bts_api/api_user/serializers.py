@@ -38,3 +38,9 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         if password is not None:
             instance.set_password(password)
         return instance
+
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'nickname', 'grade', 'point')

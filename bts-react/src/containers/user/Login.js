@@ -28,12 +28,11 @@ class Login extends React.Component {
       username: username,
       password: password
     }).then( response => {
-      let decode = response.data.token;      
-      localStorage.setItem('TOKEN', decode);
-
+      let decode = response.data;   
+      localStorage.setItem('TOKEN', decode.token);
       window.location.replace('/');
-    }).catch( response => {
-      alert('해당하는 계정이 없습니다.');
+    }).catch( error => {
+      alert(error);
     });
   }
   
@@ -42,7 +41,7 @@ class Login extends React.Component {
       <React.Fragment>
         <div className="container">
           <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
-            <a href="/"><img src={(require('../img/armypurple.jpg'))} className="img" alt="" /></a>
+            <a href="/"><img src='../../img/armypurple.jpg' className="img" alt="" /></a>
           </div>
           <form onSubmit={this.login}>
             <div className="formGroup">

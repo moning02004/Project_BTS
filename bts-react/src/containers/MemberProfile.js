@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Header from '../component/Header';
+import Header from '../components/Header';
 
 
  // BTS 멤버 소개 페이지
@@ -25,7 +25,7 @@ import Header from '../component/Header';
     },
   }));
 
-class Profile extends React.Component {
+class MemberProfile extends React.Component {
 
     render() {
         return (
@@ -368,4 +368,4 @@ class Profile extends React.Component {
     }
 }
 
-export default Profile;
+export default MemberProfile;

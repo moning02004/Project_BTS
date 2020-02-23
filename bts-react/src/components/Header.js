@@ -3,17 +3,29 @@ import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Auth from './Auth';
-import { ListItemText, ListItem, Divider, List, Drawer } from '@material-ui/core';
+import { ListItemText, ListItem, Divider, List, Drawer, Menu, MenuItem } from '@material-ui/core';
 
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      left: false
+      left: false,
+      anchorEl: null,
     }
-    this.auth = new Auth();
+  }
+  
+  handleClose = () => {
+    this.setState({
+      anchorEl: null,
+      authenticated: false
+    });
+  }
+
+  handleClick = (e) => {
+    this.setState({
+      anchorEl: e.currentTarget
+    });
   }
 
   sideList = side => (
@@ -47,21 +59,27 @@ class Header extends React.Component {
     }
     this.setState({ ...this.state, [side]: open });
   };
+  
   logout = () => {
-    this.auth.logout();
     window.location.reload();
   }
   render() {
     let login;
 
-    if (!this.auth.auth) {
+    if (!true) {
       login = (
         <div>
-          <Button variant="outlined" size="small"><a href="/login" style={{textDecoration: 'none', color: "black"}}>Login</a></Button>
-          <Button variant="outlined" size="small"><a href="/signup" style={{textDecoration: 'none', color: "black"}}>Signup</a></Button>
+          <MenuItem><a href="/login" style={{textDecoration: 'none', color: "black"}}>Login</a></MenuItem>
+          <MenuItem><a href="/signup" style={{textDecoration: 'none', color: "black"}}>Signup</a></MenuItem>
         </div>)
     } else {
-      login = (<Button variant="outlined" size="small" onClick={this.logout}>ME</Button>)
+      login = (
+        <div>
+          <MenuItem><span className="cursorDefault" >A 님</span></MenuItem>
+          <Divider />
+          <MenuItem><a href="/profile" style={{textDecoration: 'none', color: "black"}}>Propile</a></MenuItem>
+          <MenuItem onClick={this.logout}><span onClick={this.logout}>Logout</span></MenuItem>
+        </div>);
     }
 
     return (
@@ -75,11 +93,17 @@ class Header extends React.Component {
           </Drawer>
 
             <Typography component="h2" variant="h5" color="inherit" align="center" noWrap style={{flexGrow: 1}}>
-                {/* <a href="/"><img src={require('../img/armypurple.jpg')} align="center" alt="x" /></a> */}
                 <a href="/" style={{textDecoration: "none", color: "black"}}>ARMYHOME</a>
             </Typography>
             
-            <div>{login}</div>
+            <div>
+              <Button variant="outlined" size="small" onClick={this.handleClick} style={{width: "5%"}}>
+                {(false) ? "Me" : "User"}
+              </Button>
+              <Menu id="simple-menu" anchorEl={this.state.anchorEl} keepMounted open={Boolean(this.state.anchorEl)} onClose={this.handleClose}>
+                {login}
+              </Menu>
+            </div>
     
           </Toolbar>
         </div>
