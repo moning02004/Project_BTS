@@ -1,6 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+<<<<<<< HEAD:bts-react/src/containers/MemberProfile.js
 import Header from '../components/Header';
+=======
+import Header from '../component/Header';
+import Footer from '../component/Footer';
+>>>>>>> upstream/master:bts-react/src/container/Profile.js
 
 
  // BTS 멤버 소개 페이지
@@ -362,7 +367,7 @@ class MemberProfile extends React.Component {
                    </div>
     
      </div>
-                
+                <Footer/>
             </React.Fragment>
             );
     }
