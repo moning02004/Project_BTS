@@ -1,38 +1,45 @@
-export const LOGIN = "LOGIN";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAILURE = "LOGIN_FAILURE";
+export const SIGNIN = "SIGNIN";
+export const SIGNIN_SUCCESS = "SIGNIN_SUCCESS";
+export const SIGNIN_FAILURE = "SIGNIN_FAILURE";
 
-export const REGISTER = "REGISTER";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_FAILURE = "REGISTER_FAILURE";
+export const SIGNUP = "SIGNUP";
+export const SIGNUP_CHECK_SUCCESS = "SIGNUP_CHECK_SUCCESS";
+export const SIGNUP_CHECK_FAILURE = "SIGNUP_CHECK_FAILURE";
+export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
 
 export const GET_STATUS = "GET_STATUS";
 export const GET_STATUS_SUCCESS = "GET_STATUS_SUCCESS";
 export const GET_STATUS_CLEAR = "GET_STATUS_CLEAR";
 
 const axios = require('axios');
-const decoder = require('jwt-decode');
 
-export const login = () => ({
-    type: LOGIN
+export const signin = () => ({
+    type: SIGNIN
 });
 
-export const loginSuccess = (token) => ({
-    type: LOGIN_SUCCESS,
+export const signinSuccess = (token) => ({
+    type: SIGNIN_SUCCESS,
     token
 });
-export const loginFailure = () => ({
-    type: LOGIN_FAILURE
+export const signinFailure = () => ({
+    type: SIGNIN_FAILURE
 });
 
-export const register = () => ({
-    type: REGISTER
+export const signup = () => ({
+    type: SIGNUP
 });
-export const registerSuccess = () => ({
-    type: REGISTER_SUCCESS
+export const signupCheckSuccess = () => ({
+    type: SIGNUP_CHECK_SUCCESS
 });
-export const registerFailure = () => ({
-    type: REGISTER_FAILURE
+export const signupCheckFailure = () => ({
+    type: SIGNUP_CHECK_FAILURE
+});
+export const signupSuccess = () => ({
+    type: SIGNUP_SUCCESS
+});
+export const signupFailure = () => ({
+    type: SIGNUP_FAILURE
 });
 
 export const getStatus = () => ({
@@ -48,24 +55,32 @@ export const getStatusClear = () => ({
     type: GET_STATUS_CLEAR
 })
 
-export const loginRequest = (username, password) => {
+export const signinRequest = (username, password) => {
     return (dispatch) => {
-        dispatch(login());
-        return axios.post('http://127.0.0.1:8000/user/login/', {
+        dispatch(signin());
+        return axios.post('http://127.0.0.1:8000/user/signin/', {
             username: username,
             password: password
         }).then( response => {
-            dispatch(loginSuccess(response.data.token));
+            dispatch(signinSuccess(response.data.token));
         }).catch( error => {
-            dispatch(loginFailure);
+            dispatch(signinFailure);
         });
     }
 }
 
-export const registerRequest = (username, password, nickname) => {
+export const signupRequest = (username, password, nickname) => {
     return (dispatch) => {
-        console.log(username, password, nickname);
-        dispatch(register());
+        dispatch(signup());
+        return axios.post('http://127.0.0.1:8000/user/signup/', {
+            username: username,
+            password: password,
+            nickname: nickname
+        }).then( response => {
+            dispatch(signupSuccess());
+        }).catch( error => {
+            dispatch(signupFailure());
+        });
     }
 }
 
@@ -77,6 +92,19 @@ export const statusRequest = (user_id) => {
             dispatch(getStatusSuccess(id, nickname, grade))
         }).catch( error => {
             dispatch(getStatusClear())
+        });
+    }
+}
+
+export const checkUsernameRequest = (username) => {
+    return (dispatch) => {
+        return axios.post('http://127.0.0.1:8000/user/check/', {
+            username: username
+        }).then( response => {
+            if (response.data.message === "OK") dispatch(signupCheckSuccess())
+            else dispatch(signupCheckFailure());
+        }).catch( error => {
+            dispatch(signupCheckFailure());
         });
     }
 }

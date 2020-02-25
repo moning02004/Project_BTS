@@ -1,11 +1,11 @@
 import * as types from '../actions/Authentication';
  
 const initialState = {
-    login: {
+    signin: {
         status: 'INIT',
         token: ''
     },
-    register: {
+    signup: {
         status: 'INIT',
     },
     status: {
@@ -20,48 +20,63 @@ const initialState = {
  
 function authentication(state = initialState, action) {
     switch(action.type) {
-      // login
-        case types.LOGIN:
+      // signin
+        case types.SIGNIN:
             return {
-              ...state,
-              login:{
-                  status: 'LOGIN',
-              }
-          }
-        case types.LOGIN_SUCCESS:
-          return {
-              ...state,
-              login:{
-                  status: 'SUCCESS',
-                  token: action.token
-              }
-          }
-      case types.LOGIN_FAILURE:
-          return {
-              ...state,
-              login:{
-                  status: 'FAILURE',
-              }
-          }
-    case types.REGISTER:
+                ...state,
+                signin:{
+                    status: 'SIGNIN',
+                }
+            }
+        case types.SIGNIN_SUCCESS:
+            return {
+                ...state,
+                signin:{
+                    status: 'SUCCESS',
+                    token: action.token
+                }
+            }
+      case types.SIGNIN_FAILURE:
+            return {
+                ...state,
+                signin:{
+                    status: 'FAILURE',
+                }
+            }
+    // signup
+    case types.SIGNUP:
         return {
             ...state,
-            register: {
+            signup: {
                 status: 'WAITING',
             }
         }
-    case types.REGISTER_SUCCESS:
+    case types.SIGNUP_SUCCESS:
         return {
             ...state,
-            register: {
+            signup: {
                 status: 'SUCCESS'
             }
         }
-    case types.REGISTER_FAILURE:
+    case types.SIGNUP_FAILURE:
         return {
             ...state,
-            register:{
+            signup:{
                 status: 'FAILURE',
+            }
+        }
+    case types.SIGNUP_CHECK_SUCCESS:
+        return {
+            ...state,
+            signup:{
+                status: 'CHECK_SUCCESS',
+            }
+        }
+    case types.SIGNUP_CHECK_FAILURE:
+        return {
+            ...state,
+            signup:{
+                status: 'CHECK_FAILURE',
             }
         }
     // status

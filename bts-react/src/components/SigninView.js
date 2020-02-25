@@ -6,7 +6,7 @@ import Link from '@material-ui/core/Link';
 import JwtDecode from 'jwt-decode';
 
 
-class LoginView extends React.Component {
+class SigninView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,18 +20,18 @@ class LoginView extends React.Component {
     this.setState(nextState);
   }
 
-  login = (e) => {
+  signin = (e) => {
     e.preventDefault();
     let {username, password} = this.state;
     this.props.onSubmit(username, password).then(
       () => {
         if (this.props.status === "SUCCESS") {
           let token = JwtDecode(this.props.token);
-          let loginData = {
+          let signinData = {
             isAuth: true,
             user_id: token.user_id
           };
-          document.cookie = "key=" + btoa(JSON.stringify(loginData));
+          document.cookie = "key=" + btoa(JSON.stringify(signinData));
         }
         window.location.replace('/')
       }
@@ -45,8 +45,7 @@ class LoginView extends React.Component {
           <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
             <a href="/"><img src='../../img/armypurple.jpg' className="img" alt="" /></a>
           </div>
-          {(this.props.status) && (<div>로그인 됨</div>)}
-          <form onSubmit={this.login}>
+          <form onSubmit={this.signin}>
             <div className="formGroup">
               <TextField
                 variant="outlined"
@@ -72,7 +71,7 @@ class LoginView extends React.Component {
                 value={this.state.password}
               />
             </div>
-            <Button type="submit" fullWidth variant="contained" color="primary" onClick={this.login}>Sign In</Button>
+            <Button type="submit" fullWidth variant="contained" color="primary" onClick={this.signin}>Sign In</Button>
           </form>
           <div style={{textAlign: "right"}}>
             <Link href="/signup" variant="body2">
@@ -83,4 +82,4 @@ class LoginView extends React.Component {
     </React.Fragment>
   )};
 }
-export default LoginView;
+export default SigninView;

@@ -69,30 +69,32 @@ class Header extends React.Component {
   
   logout = (e) => {
     e.preventDefault();    
-    let loginData = {
+    let singinData = {
       isAuth: false,
       user_id: ''
     };
-    document.cookie = "key=" + btoa(JSON.stringify(loginData));
+    document.cookie = "key=" + btoa(JSON.stringify(singinData));
     this.props.onLogout();
-    window.location.reload();
+    this.handleClose();
   }
   render() {
-    let login;
+    let signin;
 
     if (!this.props.auth) {
-      login = (
+      signin = (
         <div>
-          <MenuItem><a href="/login" style={{textDecoration: 'none', color: "black"}}>Login</a></MenuItem>
-          <MenuItem><a href="/signup" style={{textDecoration: 'none', color: "black"}}>Signup</a></MenuItem>
+          <MenuItem 
+            onClick={() => { window.location.href = "/signin" }}><span style={{textDecoration: 'none', color: "black"}}>Signin</span>
+          </MenuItem>
+          <MenuItem onClick={() => { window.location.href = "/signup" }}><span style={{textDecoration: 'none', color: "black"}}>Signup</span></MenuItem>
         </div>)
     } else {
-      login = (
+      signin = (
         <div>
           <MenuItem><span className="cursorDefault" >{this.props.currentUser.nickname} 님</span></MenuItem>
           <Divider />
           <MenuItem><a href="/profile" style={{textDecoration: 'none', color: "black"}}>Propile</a></MenuItem>
-          <MenuItem onClick={this.logout}><span onClick={this.logout}>Logout</span></MenuItem>
+          <MenuItem onClick={this.logout}><span onClick={this.logout}>Singout</span></MenuItem>
         </div>);
     }
 
@@ -115,7 +117,7 @@ class Header extends React.Component {
                 {(this.props.auth) ? "Me" : "User"}
               </Button>
               <Menu id="simple-menu" anchorEl={this.state.anchorEl} keepMounted open={Boolean(this.state.anchorEl)} onClose={this.handleClose}>
-                {login}
+                {signin}
               </Menu>
             </div>
     

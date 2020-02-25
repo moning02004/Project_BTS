@@ -5,9 +5,8 @@ import Link from '@material-ui/core/Link';
 import { IconButton } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 
-const axios = require('axios');
 
-class SignUp extends React.Component{
+class SignupView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,60 +18,13 @@ class SignUp extends React.Component{
       disabled: true
     }
   }
-
-  handleChange = (e) => {
-    let nextState = {}
-    nextState[e.target.name] = e.target.value;
-    if (e.target.name === "username") {
-      nextState["checkUsername"] = false;
-    }
-    this.setState(nextState, data => {
-      console.log(this.enableSubmit())
-      if (this.enableSubmit()) {
-        this.setState({
-          disabled: false
-        })
-      }
-    });
-  }
-  enableSubmit = (e) => {
-    let { username, password, password2, nickname, checkUsername } = this.state;
-    return (username !== "" && password !== "" && password === password2 && nickname !== "" && checkUsername);
-  }
-
-  checkEmail = (e) => {
-    axios.post('http://127.0.0.1:8000/user/check/', {
-      username: this.state.username
-    }).then( response => {
-      this.setState({
-        checkUsername: true
-      });
-    }).catch( response => {
-      console.log(response);
-    })
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    
-    let { username, password, nickname } = this.state;
-    axios.post('http://127.0.0.1:8000/user/register/', {
-      username: username,
-      password: password,
-      nickname: nickname
-    }).then( response => {
-      console.log(response)
-      window.location.href = '/login';
-    }).catch( response => {
-      console.log(response)
-    })
-  }
   render(){
     const BtnCheck = () => (
-      <IconButton onClick={this.checkEmail} style={{color: (this.state.checkUsername) ? "blue" : "red"}}>
+      <IconButton onClick={this.checkUsername} style={{color: (this.state.checkUsername) ? "blue" : "red"}}>
         <DoneIcon />
       </IconButton>
     )
+
     return(
       <React.Fragment>
         <div className="container">
@@ -139,7 +91,7 @@ class SignUp extends React.Component{
           </form>
 
           <div style={{textAlign: "right"}}>
-            <Link href="/login" variant="body2">
+            <Link href="/signin" variant="body2">
               Already have an account? Sign in
             </Link>
           </div>
@@ -147,5 +99,51 @@ class SignUp extends React.Component{
       </React.Fragment>
     );
   }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    let { username, password, nickname } = this.state;
+    this.props.onSubmit(username, password, nickname).then( () => {
+      window.location.replace('/signin')
+    });
+  }
+  
+  handleChange = (e) => {
+    let nextState = {}
+    nextState[e.target.name] = e.target.value;
+    if (e.target.name === "username") {
+      nextState["checkUsername"] = false;
+    }
+    this.setState(nextState, data => {
+      if (this.enableSubmit()) {
+        this.setState({
+          disabled: false
+        })
+      }
+    });
+  }
+
+  enableSubmit = (e) => {
+    let { username, password, password2, nickname, checkUsername } = this.state;
+    return (username !== "" && password !== "" && password === password2 && nickname !== "" && checkUsername);
+  }
+
+  checkUsername = (e) => {
+    e.preventDefault();
+    this.props.onCheck(this.state.username).then( () => {
+      this.setState({
+        ...this.state,
+        checkUsername: (this.props.status === "CHECK_SUCCESS")
+      });
+      if (this.props.status === "CHECK_FAILURE") {
+        alert('이미 있는 계정입니다.')
+      }
+    });
+  }  
 }
-export default SignUp;
+
+SignupView.defaultProps = {
+  onSubmit: () => {console.log('signupView onSubmit not defined')},
+  onCheck: () => {console.log('signupView onCheck not defined')}
+}
+export default SignupView;
