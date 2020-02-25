@@ -1,6 +1,6 @@
 import * as actions from '../actions';
 import { connect } from 'react-redux';
-import Category from '../components/Category';
+import CategoryView from '../components/CategoryView';
 
 const mapStateToProps = (state) => {
     return {
@@ -16,6 +16,6 @@ const mapDispatchToProps = (dispatch) => ({
     setCatOST: () => {dispatch(actions.setCatOST())},
 });
 
-const CategoryContainer = connect(mapStateToProps, mapDispatchToProps)(Category);
+const CategoryContainer = connect(mapStateToProps, mapDispatchToProps)(CategoryView);
 
 export default CategoryContainer;

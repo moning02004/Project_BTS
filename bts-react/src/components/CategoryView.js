@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { Button } from '@material-ui/core';
 
-const Category = ({keyword, setCatAll, setCatRegular, setCatMini, setCatSingle, setCatOST}) => {
+const CategoryView = ({keyword, setCatAll, setCatRegular, setCatMini, setCatSingle, setCatOST}) => {
     return (
         <div style={{borderTop: `1px solid #ffdddd`}}>
             <div>{ keyword }</div>
@@ -17,7 +17,7 @@ const Category = ({keyword, setCatAll, setCatRegular, setCatMini, setCatSingle, 
     );
 }
 
-Category.propTypes = {
+CategoryView.propTypes = {
     keyword: PropTypes.string,
     setCatAll: PropTypes.func,
     setCatRegular: PropTypes.func,
@@ -25,7 +25,7 @@ Category.propTypes = {
     setCatSingle: PropTypes.func,
     setCatOST: PropTypes.func
 }
-Category.defaultProps = {
+CategoryView.defaultProps = {
     keyword: '',
     setCatAll: () => {console.log("setCatAll not defined");},
     setCatRegular: () => {console.log("setCatRegular not defined");},
@@ -34,4 +34,4 @@ Category.defaultProps = {
     setCatOST: () => {console.log("setCatOST not defined");}
 }
 
-export default Category;
+export default CategoryView;
