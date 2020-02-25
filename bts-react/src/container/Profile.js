@@ -35,7 +35,7 @@ class Profile extends React.Component {
                 <Header />
                 <div style={{marginLeft: "5rem", marginTop: "3rem", marginRight: "5rem"}}>
                     <div align = 'center' style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
-                    <h1>BTS</h1>
+                    <h1>1. BTS</h1>
                     2013년 데뷔해 국내외 신인상을 휩쓴 방탄소년단은 3년 만에 명실상부 한국을 대표하는 최정상 보이 그룹으로 성장했다.
                      현재는 아시아를 넘어 북미, 유럽, 남미, 중동에 이르기까지 전 세계 방탄소년단 열풍을 일으키며 글로벌 슈퍼스타로 우뚝 섰다. 
                     미국 빌보드, 영국 오피셜 차트, 일본 오리콘, 아이튠즈, 스포티파이, 애플뮤직 등 세계 유수의 차트에서 기록한 성적이 이를 증명하고 있으며 음반 판매량, 뮤직비디오 조회수, SNS 지수 등에서도 독보적인 수치를 기록 중이다. 
@@ -43,7 +43,7 @@ class Profile extends React.Component {
                     </div> 
      
                 <div className={useStyles.paper} align = 'center'>
-                <h1>Members</h1>
+                <h1>2. Members</h1>
                     <img src="http://armyzip.com/files/attach/images/42769/605/043/e75e43c2e4002dadba03d38b16aaaaf9.jpg"/>
                         <h3>RM</h3><br />
                         1994. 09. 12 │ #RM, #ナム, #MON_STUDIO<br />
@@ -107,8 +107,8 @@ class Profile extends React.Component {
                         포지션: 보컬, 래퍼, 댄서, 작곡, 작사<br />
                     
                     </div>
-                <div className={useStyles.paper} >
-                <h1>DISCOGRAPHY</h1>
+                <div className={useStyles.paper}>
+                <h1>3. DISCOGRAPHY</h1>
                     <ul>
                         <li>2013.06.12. Single Album [2 COOL 4 SKOOL]</li>
                         <li>2013.09.11. 1st Mini Album [O!RUL8,2?]</li>
@@ -138,7 +138,7 @@ class Profile extends React.Component {
                         <li>2018.11.07. Single Album [FAKE LOVE/Airplane pt.2]</li>
                     </ul>
     
-                <h1>DVD/Blu-ray</h1>
+                <h1>4. DVD/Blu-ray</h1>
                     <ul>
                         <li>2014.04.09. [BTS NOW IN THAILAND]</li>
                         <li>2014.08.27. [防弾少年団 1st JAPAN SHOWCASE -NEXT STAGE- in Zepp TOKYO]</li>
@@ -186,7 +186,7 @@ class Profile extends React.Component {
                 </div>
     
                 <div className={useStyles.paper} >
-                <h1>CONCERT</h1>
+                <h1>5. CONCERT</h1>
                     <ul>
                         <li>2014.10. BTS 2014 LIVE TRILOGY: EPISODE Ⅱ. THE RED BULLET (3회, 서울)</li>
                         <li>2015.02. BTS 1ST JAPAN TOUR 2015 WAKE UP: OPEN YOUR EYES (6회, 일본)</li>
@@ -202,7 +202,7 @@ class Profile extends React.Component {
                     </div>
     
                 <div classname={useStyles.paper} >
-                    <h1>EVENT</h1>
+                    <h1>6. EVENT</h1>
                     <ul>
                         <li>2014.03.29. BTS 1ST FAN MEETING 'MUSTER’</li>
                         <li>2015.10.29. Halloween Party with BTS</li>
@@ -222,7 +222,7 @@ class Profile extends React.Component {
                     </div>
     
                     <div className={useStyles.paper} >
-                        <h1>ACHIEVEMENT</h1>
+                        <h1>7. ACHIEVEMENT</h1>
                     <ul>
                         <li>2015.05.05. SBS MTV 《THE SHOW》 "I NEED U" 더 쇼 초이스 1위</li>
                         <li>2015.05.07. Mnet 《엠카운트다운》 "I NEED U" 1위</li>
@@ -289,7 +289,7 @@ class Profile extends React.Component {
                         <li>2019.05.12. SBS 《인기가요》 "작은 것들을 위한 시(Boy With Luv)" 1위 (2회)</li>
                     </ul>
     
-                    <h1>AWARD</h1>
+                    <h1>8. AWARD</h1>
                     <ul>
                         <li>2013.06.12. Single Album [2 COOL 4 SKOOL]</li>
                         <li>2013.09.11. 1st Mini Album [O!RUL8,2?]</li>

@@ -10,7 +10,7 @@ from api_user.models import User
 class PostAPI(APIView):
 
     def get(self, request, pk=None):
-        post_list = Post.objects.select_related('author').all().order_by('updated').reverse()
+        post_list = Post.objects.select_related('author').all().order_by('created').reverse()
         if pk is not None:
             post_list = post_list.filter(pk=int(pk))
 

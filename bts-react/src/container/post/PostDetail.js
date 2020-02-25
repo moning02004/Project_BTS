@@ -11,37 +11,28 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow'; 
 import Button from '@material-ui/core/Button';
+import Header from '../../component/Header';
+import Footer from '../../component/Footer';
 
-class PostDetail extends React.Component {
+const axios = require('axios');
 
+class PostDetail extends React.Component{
+   
     render(){
         return(
           <React.Fragment>
-              <div lassName="container" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
-                  <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
-                                 
-                      <Paper style={{margin: "auto", width: '100%'}}>
-                      <TableContainer style={{margin: "auto", maxHeight: 440}}>
-                          <Table stickyHeader aria-label="sticky table">
-                              <TableHead>
-                                  <TableRow>
-                                    <TableCell minWidth = "30" align="center" >번호</TableCell>
-                                    <TableCell minWidth = "200" align ="center">제목</TableCell>
-                                    <TableCell minWidth = "100" align ="center">작성자</TableCell>
-                                    <TableCell minWidth = "170" align ="center">작성일자</TableCell>
-                                  </TableRow>
-                              </TableHead>
-                              <TableBody>
-                           content
-                              </TableBody>
-                          </Table>
-                      </TableContainer>
-                      
-                      </Paper>
+            <Header />
 
-                      <Button color="primary" size="1rem">글쓰기</Button> 
+            <div lassName="container" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
+                  <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
+
+                    
+                      <Button color="primary" size="1rem">수정</Button> 
+                      <Button color="primary" size="1rem">삭제</Button> 
+
                   </div>
               </div>
+              <Footer />
           </React.Fragment>
         );
     }

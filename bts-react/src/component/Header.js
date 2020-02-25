@@ -91,7 +91,7 @@ class Header extends React.Component {
         </div>
   
         <div style={{width: "50%", margin: 'auto'}}>
-          <img src="https://www.officialcharts.com/media/657256/bts-make-it-right.jpg?width=796&mode=stretch" width="100%" alt="x" />
+          <img src="https://media.pitchfork.com/photos/5e4f4251159f9400097eb937/2:1/w_790/BTS.jpg" width="100%" alt="x" />
        </div>
       </React.Fragment>
     );

@@ -12,113 +12,72 @@ import Button from '@material-ui/core/Button';
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 
-const data = [
-    {
-        post_id : '1',
-        title : 'in',
-        author :'army',
-        write_date :'20200217'
-    },
-    {
-        post_id : '2',
-        title : 'cn',
-        author : 'bts',
-        write_date :'20200217'
-    },
-    {
-        post_id: '3',
-        title : 'eat',
-        author :'jin',
-        write_date : '20200217'
-    },
-    {
-        post_id :  '4',
-        title : 'bts good',
-        author :'army',
-        write_date : '20200217'
-    },
-    {
-        post_id : '5',
-        title : 'wow',
-        author :'good',
-        write_date : '20200217'
-    },
-    {
-        post_id : '6',
-        title : 'in',
-        author :'army',
-        write_date :'20200217'
-    },
-    {
-        post_id : '7',
-        title : 'jimin',
-        author :'jimin',
-        write_date : '20200218'
-    },
-    {
-        post_id : '8',
-        title : '집이다',
-        author : '방탄',
-        write_date : '20200218'
-    },
-    {
-        post_id : '9',
-        title : '컴백축하',
-        author : '방탄',
-        write_date : '20200218'
-    },
-    {
-        post_id : '10',
-        title : '아....',
-        author : '슈가',
-        write_date : '20200219'
-    },
-    {
-        post_id : '11',
-        title : '으아아아아아아',
-        author : '비티에스',
-        write_date : '20200219'
-    },
+const axios = require('axios');
 
-]
 class PostList extends React.Component {
-/*
-    handleChangePage = (event, newPage) => {
-      setPage(newPage);
+  
+  constructor(props){
+    super(props);
+    this.state = {
+        post_list: [], // post 리스트
+        currentPage : 1, // 현재 페이지 위치
+        pageSize : 10, // 한 페이지에 보여줄 컨텐츠 갯수
+    }
+  }
+
+ 
+componentDidMount() {
+  axios.get('http://127.0.0.1:8000/post/').then(response => {
+      let responses = response.data;
+      responses.forEach(element => {
+          const {post_list} = this.state;
+          this.setState({
+            post_list: post_list.concat(element)
+          })
+      });
+  });
+}
+handleClickAlbum = (e) => {
+  console.log(e.currentTarget);
+}
+  
+  handleChangePage = (event, newPage) => {
+      this.setPage(newPage);
     };
   
     handleChangeRowsPerPage = event => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
+      this.setRowsPerPage(+event.target.value);
+      this.setPage(0);
     };
-  */
+  
     render(){
         return(
           <React.Fragment>
             <Header />
               <div lassName="container" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
                   <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
-                                 
-                      <Paper style={{margin: "auto", width: '100%'}}>
-                      <TableContainer style={{margin: "auto", maxHeight: 440}}>
-                          <Table stickyHeader aria-label="sticky table">
-                              <TableHead>
-                                  <TableRow>
-                                    <TableCell minWidth = "30" align="center" >번호</TableCell>
-                                    <TableCell minWidth = "200" align ="center">제목</TableCell>
-                                    <TableCell minWidth = "100" align ="center">작성자</TableCell>
-                                    <TableCell minWidth = "170" align ="center">작성일자</TableCell>
-                                  </TableRow>
-                              </TableHead>
-                              <TableBody>
-                            왜 안나올까
-                            아아아아아아..........
-                              </TableBody>
-                          </Table>
-                      </TableContainer>
-                      
-                      </Paper>
 
+                    <Table className="table" style={{margin: "auto", width: '80%'}} >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align='left' style={{width: '10%'}}>번호</TableCell>
+                          <TableCell align='left' style={{width: '50%'}}>제목</TableCell>
+                          <TableCell align='left' style={{width: '10%'}}>작성자</TableCell>
+                          <TableCell align='left' style={{width: '30%'}}>작성일자</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                      {this.state.post_list.map(post =>
+                        <TableRow key={post.id}>
+                          <TableCell align='left'>{post.id}</TableCell>
+                          <TableCell align='left'><a href='/post/:{post.id}' style={{textDecoration: 'none', color: "black"}}>{post.title}</a></TableCell>
+                          <TableCell align='left'>{post.username}</TableCell>
+                          <TableCell align='left'>{post.updated}</TableCell>
+                        </TableRow>
+                      )}
+                      </TableBody>
+                      </Table>             
+                        
                       <Button color="primary" size="1rem">글쓰기</Button> 
                   </div>
               </div>
