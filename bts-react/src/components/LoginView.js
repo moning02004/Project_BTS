@@ -3,10 +3,10 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
+import JwtDecode from 'jwt-decode';
 
-const axios = require('axios');
 
-class Login extends React.Component {
+class LoginView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,18 +22,20 @@ class Login extends React.Component {
 
   login = (e) => {
     e.preventDefault();
-    
     let {username, password} = this.state;
-    axios.post('http://127.0.0.1:8000/user/login/', {
-      username: username,
-      password: password
-    }).then( response => {
-      let decode = response.data;   
-      localStorage.setItem('TOKEN', decode.token);
-      window.location.replace('/');
-    }).catch( error => {
-      alert(error);
-    });
+    this.props.onSubmit(username, password).then(
+      () => {
+        if (this.props.status === "SUCCESS") {
+          let token = JwtDecode(this.props.token);
+          let loginData = {
+            isAuth: true,
+            user_id: token.user_id
+          };
+          document.cookie = "key=" + btoa(JSON.stringify(loginData));
+        }
+        window.location.replace('/')
+      }
+    );
   }
   
   render() {
@@ -43,6 +45,7 @@ class Login extends React.Component {
           <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
             <a href="/"><img src='../../img/armypurple.jpg' className="img" alt="" /></a>
           </div>
+          {(this.props.status) && (<div>로그인 됨</div>)}
           <form onSubmit={this.login}>
             <div className="formGroup">
               <TextField
@@ -80,4 +83,4 @@ class Login extends React.Component {
     </React.Fragment>
   )};
 }
-export default Login;
+export default LoginView;

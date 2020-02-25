@@ -2,7 +2,6 @@ import React from 'react';
 import Content from './Content';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Button } from '@material-ui/core';
 
 
 class Main extends React.Component {

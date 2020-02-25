@@ -37,12 +37,10 @@ class SignUp extends React.Component{
   }
   enableSubmit = (e) => {
     let { username, password, password2, nickname, checkUsername } = this.state;
-    return (username != "" && password != "" && password === password2 && nickname != "" && checkUsername);
+    return (username !== "" && password !== "" && password === password2 && nickname !== "" && checkUsername);
   }
 
   checkEmail = (e) => {
-    let check = e.target;
-
     axios.post('http://127.0.0.1:8000/user/check/', {
       username: this.state.username
     }).then( response => {
