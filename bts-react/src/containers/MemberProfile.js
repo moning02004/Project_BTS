@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Header from '../component/Header';
-import Footer from '../component/Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 
  // BTS 멤버 소개 페이지
@@ -26,7 +26,7 @@ import Footer from '../component/Footer';
     },
   }));
 
-class Profile extends React.Component {
+class MemberProfile extends React.Component {
 
     render() {
         return (
@@ -44,7 +44,7 @@ class Profile extends React.Component {
      
                 <div className={useStyles.paper} align = 'center'>
                 <h1>Members</h1>
-                    <img src="http://armyzip.com/files/attach/images/42769/605/043/e75e43c2e4002dadba03d38b16aaaaf9.jpg"/>
+                    <img src="http://armyzip.com/files/attach/images/42769/605/043/e75e43c2e4002dadba03d38b16aaaaf9.jpg" alt=""/>
                         <h3>RM</h3><br />
                         1994. 09. 12 │ #RM, #ナム, #MON_STUDIO<br />
                         이름: 김남준 (金南俊, Kim Namjoon)<br />
@@ -53,7 +53,7 @@ class Profile extends React.Component {
                         포지션: 리더, 래퍼, 작곡, 작사, 프로듀싱<br /><br /><br />
                     
      
-                    <img src="http://armyzip.com/files/attach/images/42769/605/043/e149dbffcf2b96b390444403ca55f34f.jpg"/>
+                    <img src="http://armyzip.com/files/attach/images/42769/605/043/e149dbffcf2b96b390444403ca55f34f.jpg" alt="" />
                         <h3>JIN</h3><br />
                         1992.12.04  |  #EATJIN #HYUNG<br />
                         이름: 김석진 (金碩珍, Kim Seokjin)<br />
@@ -62,7 +62,7 @@ class Profile extends React.Component {
                         포지션: 보컬, 작곡, 작사<br /><br /><br />
                     
      
-                    <img src="http://armyzip.com/files/attach/images/42769/605/043/ebb273d851a7839533658f06ea00423d.jpg"/>
+                    <img src="http://armyzip.com/files/attach/images/42769/605/043/ebb273d851a7839533658f06ea00423d.jpg" alt="" />
                         <h3>SUGA</h3><br />
                         1993.03.09  |  #GENIUSLAB<br />
                         이름: 민윤기(閔玧其, Min Yoon-gi)<br />
@@ -71,7 +71,7 @@ class Profile extends React.Component {
                         포지션: 래퍼, 작곡, 작사, 프로듀싱<br /><br /><br />
                     
     
-                    <img src="http://armyzip.com/files/attach/images/42769/605/043/172c275ab282728230f9a4ceaf375c3c.jpg"/>
+                    <img src="http://armyzip.com/files/attach/images/42769/605/043/172c275ab282728230f9a4ceaf375c3c.jpg" alt="" />
                      <h3>J-HOPE</h3><br />
                         1994.02.18  |  #HOBI, #HOPEWORLD<br />
                         이름: 정호석 (鄭號錫, Jeong Hoseok)<br />
@@ -80,7 +80,7 @@ class Profile extends React.Component {
                         포지션: 래퍼, 작곡, 작사, 댄서<br /><br /><br />
                     
     
-                    <img src="http://armyzip.com/files/attach/images/42769/605/043/2fb65edc25b7cffa191e4eb07b1c20b5.jpg"/>
+                    <img src="http://armyzip.com/files/attach/images/42769/605/043/2fb65edc25b7cffa191e4eb07b1c20b5.jpg" alt="" />
                     <h3>Jimin</h3><br />                    
                         1995.10.13  |  #CHIMCHIM<br />
                         이름: 박지민 (朴智旻, Park Jimin)<br />
@@ -89,7 +89,7 @@ class Profile extends React.Component {
                         포지션: 보컬, 댄서, 작곡, 작사<br /><br /><br />
                 
     
-                    <img src="http://armyzip.com/files/attach/images/42769/605/043/7ec5f86731cb5c5563c5a96a3ab2e4fd.jpg"/>
+                    <img src="http://armyzip.com/files/attach/images/42769/605/043/7ec5f86731cb5c5563c5a96a3ab2e4fd.jpg" alt="" />
                     <h3>V</h3><br />
                         1995.12.30  |  #TT
                         이름: 김태형 (金泰亨, Kim Taehyung)<br />
@@ -98,7 +98,7 @@ class Profile extends React.Component {
                         포지션: 보컬, 작곡, 작사<br /><br /><br />
                     
     
-                    <img src="http://armyzip.com/files/attach/images/42769/605/043/6fe48222503abacf19d947df98561347.jpg"/>
+                    <img src="http://armyzip.com/files/attach/images/42769/605/043/6fe48222503abacf19d947df98561347.jpg" alt="" />
                         <h3>JUNGKOOK</h3> <br />
                             1997.09.01  |  #KOOKIE<br />
                         이름: 전정국 (田柾國, Jeon Jungkook)<br />
@@ -369,4 +369,4 @@ class Profile extends React.Component {
     }
 }
 
-export default Profile;
+export default MemberProfile;

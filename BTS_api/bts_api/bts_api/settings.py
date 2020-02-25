@@ -37,6 +37,7 @@ REST_FRAMEWORK = {
 }
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'api_user.jwt.jwt_custom_handler'
 }
 
 # cors-headers
