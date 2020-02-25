@@ -7,3 +7,6 @@ class User(AbstractUser):
     nickname = models.CharField(max_length=50)
     grade = models.CharField(max_length=10, default='Bronze')
     point = models.SmallIntegerField(default=0)
+
+    def __str__(self):
+        return self.username

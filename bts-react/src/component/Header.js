@@ -35,7 +35,7 @@ class Header extends React.Component {
       <Divider />
       <List>
       <ListItem button>
-          <a href="/member" style={{textDecoration: 'none', color: "black"}}>회원</a>
+          <a href="/userList" style={{textDecoration: 'none', color: "black"}}>회원</a>
         </ListItem>
         <ListItem button>
           <a href="/register" style={{textDecoration: 'none', color: "black"}}>앨범등록</a>
