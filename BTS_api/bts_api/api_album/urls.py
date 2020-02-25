@@ -9,7 +9,8 @@ urlpatterns= [
     path('edit/<int:pk>/', views.AlbumAPI.as_view()),  # put
     path('detail/<int:pk>/', views.AlbumAPI.as_view()),  # get
     path('delete/', views.AlbumAPI.as_view()),  # delete
-
+    path('category/', views.AlbumCategoryAPI.as_view()),
+    path('genre/', views.AlbumGenreAPI.as_view()),
     path('comment/new/', views.CommentAPI.as_view()),  # post
     path('comment/<int:pk>/', views.CommentAPI.as_view()),  # put
 ]

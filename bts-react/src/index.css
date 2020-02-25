@@ -16,3 +16,26 @@ code {
 }
 
 
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+.container {
+  width: 50%;
+  margin: auto;
+  margin-top: 3rem;
+}
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.img {
+  border-radius: 10px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .container {
+    width: 95%;
+  }
+}

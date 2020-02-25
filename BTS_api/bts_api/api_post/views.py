@@ -26,11 +26,7 @@ class PostAPI(APIView):
             content = request.data.get('content')
 
             author = User.objects.get(pk=int(author))
-            Post.objects.create(
-                title=title,
-                content=content,
-                author=author
-            )
+            Post.objects.create()
             author.point += 10
             author.grade = 'Bronze' if 0 <= author.point < 100 else 'Silver' if 1000 <= author.point < 1000 else 'Gold'
             author.save()
@@ -82,11 +78,7 @@ class CommentAPI(APIView):
             content = request.data.get('content')
 
             author = User.objects.get(pk=int(author))
-            PostComment.objects.create(
-                post=Post.objects.get(pk=int(post)),
-                content=content,
-                author=author
-            )
+            PostComment.objects.create()
             author.point += 5
             author.grade = 'Bronze' if 0 <= author.point < 100 else 'Silver' if 1000 <= author.point < 1000 else 'Gold'
             author.save()

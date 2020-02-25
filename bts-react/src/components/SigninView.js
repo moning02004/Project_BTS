@@ -3,10 +3,10 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
+import JwtDecode from 'jwt-decode';
 
-const axios = require('axios');
 
-class Login extends React.Component {
+class SigninView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,21 +20,22 @@ class Login extends React.Component {
     this.setState(nextState);
   }
 
-  login = (e) => {
+  signin = (e) => {
     e.preventDefault();
-    
     let {username, password} = this.state;
-    axios.post('http://127.0.0.1:8000/user/login/', {
-      username: username,
-      password: password
-    }).then( response => {
-      let decode = response.data.token;      
-      localStorage.setItem('TOKEN', decode);
-
-      window.location.replace('/');
-    }).catch( response => {
-      alert('해당하는 계정이 없습니다.');
-    });
+    this.props.onSubmit(username, password).then(
+      () => {
+        if (this.props.status === "SUCCESS") {
+          let token = JwtDecode(this.props.token);
+          let signinData = {
+            isAuth: true,
+            user_id: token.user_id
+          };
+          document.cookie = "key=" + btoa(JSON.stringify(signinData));
+        }
+        window.location.replace('/')
+      }
+    );
   }
   
   render() {
@@ -42,9 +43,9 @@ class Login extends React.Component {
       <React.Fragment>
         <div className="container">
           <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
-            <a href="/"><img src={(require('../img/armypurple.jpg'))} className="img" alt="" /></a>
+            <a href="/"><img src='../../img/armypurple.jpg' className="img" alt="" /></a>
           </div>
-          <form onSubmit={this.login}>
+          <form onSubmit={this.signin}>
             <div className="formGroup">
               <TextField
                 variant="outlined"
@@ -70,7 +71,7 @@ class Login extends React.Component {
                 value={this.state.password}
               />
             </div>
-            <Button type="submit" fullWidth variant="contained" color="primary" onClick={this.login}>Sign In</Button>
+            <Button type="submit" fullWidth variant="contained" color="primary" onClick={this.signin}>Sign In</Button>
           </form>
           <div style={{textAlign: "right"}}>
             <Link href="/signup" variant="body2">
@@ -81,4 +82,4 @@ class Login extends React.Component {
     </React.Fragment>
   )};
 }
-export default Login;
+export default SigninView;

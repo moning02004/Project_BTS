@@ -4,8 +4,9 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIV
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Album
-from .serializers import AlbumSerializer, AlbumCreateSerializer, AlbumDetailSerializer
+from .models import Album, Category, Genre
+from .serializers import AlbumSerializer, AlbumCreateSerializer, AlbumDetailSerializer, AlbumCategorySerializer, \
+    AlbumGenreSerializer
 
 
 class AlbumAPI(ListAPIView):
@@ -28,6 +29,16 @@ class AlbumCreateAPI(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         return super(AlbumCreateAPI, self).create(request, *args, **kwargs)
+
+
+class AlbumCategoryAPI(ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = AlbumCategorySerializer
+
+
+class AlbumGenreAPI(ListAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = AlbumGenreSerializer
 
 
 class CommentAPI(APIView):

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Album, Genre, Music
+from .models import Album, Genre, Music, Category
 
 
 class AlbumSerializer(serializers.ModelSerializer):
@@ -20,11 +20,16 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
         fields = ('id', 'thumbnail', 'title', 'created', 'category', 'content', 'genre')
 
 
-
-class GenreSerializer(serializers.ModelSerializer):
+class AlbumGenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = ('keyword', )
+
+
+class AlbumCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('keyword',)
 
 
 class AlbumCreateSerializer(serializers.ModelSerializer):
@@ -37,13 +42,7 @@ class AlbumCreateSerializer(serializers.ModelSerializer):
         created = validated_data.get('created')
         category = validated_data.get('category')
 
-        album = Album.objects.create(
-            thumbnail=thumbnail,
-            title=title,
-            content=content,
-            created=created,
-            category=category
-        )
+        album = Album.objects.create()
         for x in validated_data.get('genre').split(','):
             album.genre.add(Genre.objects.get(keyword=x.strip()))
         album.save()

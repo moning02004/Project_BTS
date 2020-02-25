@@ -12,8 +12,8 @@ class AlbumRegister extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      category: [],
-      genre: [],
+        category: [],
+        genre: [],
         thumbnail: '',
         title: '',
         category: '',

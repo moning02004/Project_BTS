@@ -1,35 +1,27 @@
 import React from 'react';
 import { Grid, Card, CardMedia, CardContent, Box } from '@material-ui/core';
-
-const axios = require('axios');
+import CategoryContainer from './CategoryContainer';
 
 class Content extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            album_list: []
+            category: 'all'
         }
     }
-    
-    componentDidMount() {
-        axios.get('http://127.0.0.1:8000/album/').then(response => {
-            let responses = response.data;
-            responses.forEach(element => {
-                const {album_list} = this.state;
-                this.setState({
-                    album_list: album_list.concat(element)
-                })
-            });
+    setCategory = (e) => {
+        console.log(e.target);
+        this.setState({
+            category: 'all'
         });
     }
-    handleClickAlbum = (e) => {
-        console.log(e.currentTarget);
-    }
+
     render() {
         return (
             <div style={{width: "70%", margin: "auto", marginTop: "1rem"}}>
+                <CategoryContainer />
                 <Grid container spacing={4}>
-                    {
+                        {/* {
                         this.state.album_list.map(album => (
                         <Grid item key={album.id} xs={12} sm={3} md={2} onClick={this.handleClickAlbum}>
                             <Card style={{height: '100%', display: 'flex', flexDirection: 'column'}} className="cursorPointer">
@@ -48,7 +40,7 @@ class Content extends React.Component {
                             </Card>
                         </Grid>
                         ))
-                   }
+                   } */}
                 </Grid>
             </div>
         );
