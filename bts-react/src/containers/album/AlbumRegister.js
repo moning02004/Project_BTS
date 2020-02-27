@@ -4,6 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import { Table } from '@material-ui/core';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import Header from '../../component/Header';
+import Footer from '../../component/Footer';
 
 const axios = require('axios')
 class AlbumRegister extends React.Component{
@@ -43,6 +45,69 @@ class AlbumRegister extends React.Component{
   render(){
     return(
       <React.Fragment>
+        <Header />
+        <div lassName="container" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
+          <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
+            <form onSubmit={this.handleSubmit}>
+              <Table className="table" style={{margin: "auto", width: '60%'}} >
+              <tr>
+                <th align='left' style={{width: '20%'}}>썸네일</th>
+                  <td align='left' style={{width: '80%'}}><input name="thumbnail" id="thumbnail" type="file" name="file" label = "사진" onChange={null}/></td>
+                </tr>
+                <tr>
+                <th align='left' style={{width: '20%'}}>앨범명</th>
+                  <td align='left' style={{width: '80%'}}>
+                    <TextField
+                        id="title"
+                        margin="normal"
+                        name="title" 
+                        width ="70%"/>
+                    </td>
+                </tr>
+                <tr>
+                <th align='left' style={{width: '20%'}}>카테고리</th>
+                <td align='left' style={{width: '80%'}}>
+                <Select
+                    native
+         //         value={state.category}
+         //         onChange={handleChange('category')}
+                  inputProps={{
+                  name: 'category',
+                  id: 'category',
+                  margin:"normal",
+                  width:"200"
+                  }}
+                >
+                <option value="" />
+                <option value="정규">정규</option>
+                <option value="미니">미니</option>
+                <option value="싱글">싱글</option>
+                <option value="OST">OST</option>
+
+                </Select>
+                </td>
+                </tr>
+                <tr>
+                <th align='left' style={{width: '20%'}}>장르</th>
+                <td align='left' style={{width: '30%'}}>장르</td>
+                </tr>
+                <tr></tr>
+              </Table>
+            </form>
+          </div>
+        </div>
+
+        <Footer />
+      </React.Fragment>
+    );
+  }
+}
+export default AlbumRegister;
+/*
+
+
+
+
         <div className="container">
             <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}> 
             <form onSubmit={this.handleSubmit}>
@@ -157,86 +222,5 @@ class AlbumRegister extends React.Component{
           </form>
 
             </div>
-        
-        </div>
-      </React.Fragment>
-    );
-  }
-}
-export default AlbumRegister;
-/*
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    margin: theme.spacing(3),
-  },
-}));
-
-export default function RadioButtonsGroup() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState('female');
-
-  const handleChange = event => {
-    setValue(event.target.value);
-  };
-
-  return (
-    <div>
-      <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Gender</FormLabel>
-        <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-          <FormControlLabel value="female" control={<Radio />} label="Female" />
-          <FormControlLabel value="male" control={<Radio />} label="Male" />
-          <FormControlLabel value="other" control={<Radio />} label="Other" />
-          <FormControlLabel
-            value="disabled"
-            disabled
-            control={<Radio />}
-            label="(Disabled option)"
-          />
-        </RadioGroup>
-      </FormControl>
-      <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Gender</FormLabel>
-        <RadioGroup aria-label="gender" name="gender2" value={value} onChange={handleChange}>
-          <FormControlLabel
-            value="female"
-            control={<Radio color="primary" />}
-            label="Female"
-            labelPlacement="start"
-          />
-          <FormControlLabel
-            value="male"
-            control={<Radio color="primary" />}
-            label="Male"
-            labelPlacement="start"
-          />
-          <FormControlLabel
-            value="other"
-            control={<Radio color="primary" />}
-            label="Other"
-            labelPlacement="start"
-          />
-          <FormControlLabel
-            value="disabled"
-            disabled
-            control={<Radio />}
-            label="(Disabled option)"
-            labelPlacement="start"
-          />
-        </RadioGroup>
-        <FormHelperText>labelPlacement start</FormHelperText>
-      </FormControl>
-    </div>
-  );
-}
 
 */
