@@ -42,7 +42,7 @@ class AlbumDetail extends React.Component {
                 <Header />
                 <div className="container my-3">
                     <div className="my-3" style={{display: "flex", flexWrap: "wrap", alignItems: "center"}}>
-                        <div className="detail-img"><img src={this.state.thumbnail} width="100%" /></div>
+                        <div className="detail-img"><img src={this.state.thumbnail} width="100%" alt="" /></div>
                         <div style={{marginLeft: "2rem"}}>
                             <Typography style={{margin: "1rem"}}>앨범명</Typography>
                             <Typography style={{margin: "1rem"}}>발매일</Typography>

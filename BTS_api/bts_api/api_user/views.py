@@ -32,7 +32,7 @@ class UserRegisterAPI(CreateAPIView):
         return super(UserRegisterAPI, self).create(request, *args, **kwargs)
 
 
-class UserUpdateAPI(UpdateAPIView):
+class UserUpdateAPI(RetrieveAPIView, UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserUpdateSerializer
 
