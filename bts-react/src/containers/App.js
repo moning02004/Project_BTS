@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BrowserRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux';
-import MemberProfile from '../containers/MemberProfile';
+import BTSProfile from './BTSProfile';
 import Main from '../containers/Main';
 import AlbumRegister from '../containers/album/AlbumRegister';
 import PostDetail from '../containers/post/PostDetail';
@@ -37,9 +37,9 @@ class App extends React.Component {
                 <Route exact path="/" component={ Main } />
                 <Route path="/signin" component={ Signin } />
                 <Route path="/signup" component={ Signup }/>
-                <Route path="/member/profile" component={ MemberProfile }/>
+                <Route path="/btsProfile" component={ BTSProfile }/>
                 <Route exact path="/post" component={ PostList }/>
-                <Route exact path="/post/:id" component={ PostDetail }/>
+                <Route exact path="/post/:id"  component={ PostDetail }/>
                 <Route exact path="/register" component={ AlbumRegister }/>
             </BrowserRouter>
         );

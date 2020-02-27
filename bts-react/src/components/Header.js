@@ -39,7 +39,7 @@ class Header extends React.Component {
     >
       <List>
         <ListItem button>
-          <a href="/profile" style={{textDecoration: 'none', color: "black"}}>프로필</a>
+          <a href="/btsProfile" style={{textDecoration: 'none', color: "black"}}>프로필</a>
         </ListItem>
         <ListItem button>
           <a href="/post" style={{textDecoration: 'none', color: "black"}}>자유게시판</a>

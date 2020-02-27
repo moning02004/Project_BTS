@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import { Link } from 'react-router-dom';
 
 const axios = require('axios');
 
@@ -54,7 +55,7 @@ handleClickAlbum = (e) => {
         return(
           <React.Fragment>
             <Header />
-              <div lassName="container" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
+              <div className="root" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
                   <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
 
                     <Table className="table" style={{margin: "auto", width: '80%'}} >
@@ -70,7 +71,7 @@ handleClickAlbum = (e) => {
                       {this.state.post_list.map(post =>
                         <TableRow key={post.id}>
                           <TableCell align='left'>{post.id}</TableCell>
-                          <TableCell align='left'><a href='/post/:{post.id}' style={{textDecoration: 'none', color: "black"}}>{post.title}</a></TableCell>
+                          <TableCell align='left'><Link to ={`/post/${post.id}`} style={{textDecoration: 'none', color: "black"}}>{post.title}</Link></TableCell>
                           <TableCell align='left'>{post.username}</TableCell>
                           <TableCell align='left'>{post.updated}</TableCell>
                         </TableRow>
