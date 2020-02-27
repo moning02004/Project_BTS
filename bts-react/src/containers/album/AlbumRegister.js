@@ -4,8 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import { Table } from '@material-ui/core';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import Header from '../../component/Header';
-import Footer from '../../component/Footer';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
 const axios = require('axios')
 class AlbumRegister extends React.Component{
