@@ -1,6 +1,6 @@
 import * as types from '../actions/Authentication';
  
-const initialState = {
+const initialState = { // state.auth => initialState
     signin: {
         status: 'INIT',
         token: ''
@@ -9,11 +9,13 @@ const initialState = {
         status: 'INIT',
     },
     status: {
-        isAuth: false,
+        isAuth: false, 
         currentUser: {
             user_id: 0,
             username: '',
-            nickname: ''
+            nickname: '',
+            point: '',
+            grade: '',
         }
     }
 };
@@ -95,7 +97,9 @@ function authentication(state = initialState, action) {
                 currentUser: {
                     user_id: action.user_id,
                     username: action.username,
-                    nickname: action.nickname
+                    nickname: action.nickname,
+                    point: action.point,
+                    grade: action.grade,
                 }
             }
         }

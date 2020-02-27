@@ -7,9 +7,15 @@ import Main from '../containers/Main';
 import AlbumRegister from '../containers/album/AlbumRegister';
 import PostDetail from '../containers/post/PostDetail';
 import PostList from '../containers/post/PostList';
+import PostAdd from '../containers/post/PostAdd';
+
+import PostEdit from '../containers/post/PostEdit';
+import UserList from '../containers/user/UserList';
+
 import Signup from './Signup';
 import Signin from './Signin';
 import { statusRequest } from '../actions/Authentication';
+import AlbumDetail from './album/AlbumDetail';
 
 class App extends React.Component {
 
@@ -38,8 +44,16 @@ class App extends React.Component {
                 <Route path="/signin" component={ Signin } />
                 <Route path="/signup" component={ Signup }/>
                 <Route path="/btsProfile" component={ BTSProfile }/>
+
+                <Route path="/album/:id" component={ AlbumDetail }/>
+                <Route path="/userList" component={ UserList }/> 
                 <Route exact path="/post" component={ PostList }/>
                 <Route exact path="/post/:id"  component={ PostDetail }/>
+                <Route exact path="/postAdd"  component={ PostAdd }/>
+
+                <Route exact path="/post/edit/:id"  component={ PostEdit }/>
+
+                
                 <Route exact path="/register" component={ AlbumRegister }/>
             </BrowserRouter>
         );

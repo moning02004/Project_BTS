@@ -45,6 +45,9 @@ class BTSProfile extends React.Component {
                 <div className={useStyles.paper} align = 'center'>
                 <h1>2. Members</h1>
                     <img src="http://armyzip.com/files/attach/images/42769/605/043/e75e43c2e4002dadba03d38b16aaaaf9.jpg"/>
+
+                <h1>Members</h1>
+                    <img src="http://armyzip.com/files/attach/images/42769/605/043/e75e43c2e4002dadba03d38b16aaaaf9.jpg" alt=""/>
                         <h3>RM</h3><br />
                         1994. 09. 12 │ #RM, #ナム, #MON_STUDIO<br />
                         이름: 김남준 (金南俊, Kim Namjoon)<br />

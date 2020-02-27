@@ -3,6 +3,12 @@ from rest_framework import serializers
 from .models import Album, Genre, Music, Category
 
 
+class MusicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Music
+        fields = ('track', 'name', 'is_title')
+
+
 class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
@@ -11,13 +17,14 @@ class AlbumSerializer(serializers.ModelSerializer):
 
 class AlbumDetailSerializer(serializers.ModelSerializer):
     genre = serializers.SerializerMethodField('get_genre')
+    music_set = MusicSerializer(many=True, read_only=True)
 
     def get_genre(self, obj):
         return ','.join([x.keyword for x in obj.genre.all()])
 
     class Meta:
         model = Album
-        fields = ('id', 'thumbnail', 'title', 'created', 'category', 'content', 'genre')
+        fields = ('id', 'thumbnail', 'title', 'created', 'category', 'content', 'genre', 'music_set')
 
 
 class AlbumGenreSerializer(serializers.ModelSerializer):

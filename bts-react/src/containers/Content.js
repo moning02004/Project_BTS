@@ -1,50 +1,51 @@
 import React from 'react';
 import { Grid, Card, CardMedia, CardContent, Box } from '@material-ui/core';
 import CategoryContainer from './CategoryContainer';
+import AlbumList from './album/AlbumList';
+import { connect } from 'react-redux';
+
+
+const axios = require('axios')
 
 class Content extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            category: 'all'
+            album_list: [],
+            filtered: []
         }
     }
-    setCategory = (e) => {
-        console.log(e.target);
-        this.setState({
-            category: 'all'
+    
+    componentDidMount() {
+        axios.get('http://127.0.0.1:8000/album/').then(response => {
+            let responses = response.data;
+            responses.forEach(element => {
+                const { album_list } = this.state;
+                this.setState({
+                    ...this.state,
+                    album_list: album_list.concat(element)
+                })
+            });
         });
     }
 
     render() {
         return (
-            <div style={{width: "70%", margin: "auto", marginTop: "1rem"}}>
-                <CategoryContainer />
-                <Grid container spacing={4}>
-                        {/* {
-                        this.state.album_list.map(album => (
-                        <Grid item key={album.id} xs={12} sm={3} md={2} onClick={this.handleClickAlbum}>
-                            <Card style={{height: '100%', display: 'flex', flexDirection: 'column'}} className="cursorPointer">
-                                <CardMedia image={album.thumbnail} style={{paddingTop: '100%', }} />
-                                <CardContent style={{flexGrow: 1,}}>
-                                    <div>
-                                        <Box
-                                            fontWeight="bold" 
-                                            style={{textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{album.title}</Box>
-                                        <div>
-                                            <span style={{borderRight: `1px solid #ffddff`, marginRight: '1rem', paddingRight: '1rem'}}>{album.created}</span>
-                                            <span>{album.category}</span>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        ))
-                   } */}
-                </Grid>
-            </div>
+            <React.Fragment>
+                <div className="container my-3">
+                    <CategoryContainer />
+                </div>
+                <div style={{width: "70%", margin: "auto"}}>
+                    <AlbumList album_list={this.state.album_list} keyword={this.props.keyword} />
+                </div>
+            </React.Fragment>
         );
     }
 }
 
+const mapStateToProps = (state) => ({
+    keyword: state.category.keyword
+})
+
+Content = connect(mapStateToProps)(Content);
 export default Content;

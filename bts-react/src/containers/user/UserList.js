@@ -1,14 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow'; 
-import Button from '@material-ui/core/Button';
+import { Table, TableContainer,TableRow, TableCell, TableBody, TableHead} from '@material-ui/core';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
@@ -29,6 +20,8 @@ class UserList extends React.Component {
 componentDidMount() {
   axios.get('http://127.0.0.1:8000/user/').then(response => {
       let responses = response.data;
+      console.log(responses);
+
       responses.forEach(element => {
           const {userList} = this.state;
           this.setState({
@@ -70,7 +63,7 @@ handleClickAlbum = (e) => {
                       {this.state.userList.map(user =>
                         <TableRow key={user.id}>
                           <TableCell align='left'>{user.id}</TableCell>
-                          <TableCell align='left'><a href='/user/:{user.id}' style={{textDecoration: 'none', color: "black"}}>{user.email}</a></TableCell>
+                          <TableCell align='left'><a href='/user/:{user.id}' style={{textDecoration: 'none', color: "black"}}>{user.username}</a></TableCell>
                           <TableCell align='left'>{user.nickname}</TableCell>
                           <TableCell align='left'>{user.grade}</TableCell>
                         </TableRow>

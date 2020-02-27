@@ -8,7 +8,7 @@ import Footer from '../../components/Footer';
 
 const axios = require('axios');
 
-class PostDetail extends React.Component {
+class PostEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,19 +53,19 @@ componentDidMount() {
                   <TableCell colSpan="3" align='left' style={{width: '100%'}}><h3>{this.state.title}</h3></TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell align='left' style={{width: '10%'}}>{this.state.id}</TableCell>
+                  <TableCell align='left' style={{width: '10%'}}><input type="text">{this.state.id}</input></TableCell>
                   <TableCell align='left' style={{width: '20%'}}>{this.state.username}</TableCell>
                   <TableCell align='left' style={{width: '70%'}}>{this.state.updated}</TableCell>
                 </TableRow>
                </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan="3" align='left' style={{lineHeight: '400px'}}>{this.state.content}</TableCell>
+                  <TableCell colSpan="3" align='left' style={{lineHeight: '500px'}}>{this.state.content}</TableCell>
                 </TableRow>
               </TableBody>
               </Table>
             </TableContainer>
-                      <Button color="primary" size="1rem" >수정</Button> 
+                      <Button color="primary" size="1rem">수정</Button> 
                       <Button color="primary" size="1rem">삭제</Button> 
 
                   </div>
@@ -77,18 +77,7 @@ componentDidMount() {
     }
 }
 
-function DetailList({post_detail_list}){
-  return (
-    
-  <ul key={post_detail_list.id}>
-    {post_detail_list.map(post =>
-    //  <li>{post.title}</li>
-      <li>{post.id} </li>
-      )}
-  </ul>
-  );
-}
-export default PostDetail;
+export default PostEdit;
 
 
 
