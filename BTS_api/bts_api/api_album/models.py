@@ -33,6 +33,8 @@ class Music(models.Model):
     name = models.CharField(max_length=100)
     is_title = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
 
 class AlbumComment(models.Model):
     album = models.ForeignKey(Album, on_delete=models.CASCADE)

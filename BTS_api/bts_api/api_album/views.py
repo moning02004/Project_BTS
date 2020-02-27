@@ -22,6 +22,10 @@ class AlbumDetailAPI(RetrieveAPIView):
     queryset = Album.objects.select_related('category').prefetch_related('genre').all()
     serializer_class = AlbumDetailSerializer
 
+    def get(self, request, *args, **kwargs):
+        print(AlbumDetailSerializer())
+        return super(AlbumDetailAPI,self).get(request, *args, **kwargs)
+
 
 class AlbumCreateAPI(CreateAPIView):
     queryset = Album.objects.select_related('category').prefetch_related('genre').all()

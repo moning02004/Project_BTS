@@ -45,11 +45,12 @@ export const signupFailure = () => ({
 export const getStatus = () => ({
     type: GET_STATUS
 })
-export const getStatusSuccess = (user_id, nickname, grade) => ({
+export const getStatusSuccess = (user_id, nickname, grade, point) => ({
     type: GET_STATUS_SUCCESS,
     user_id,
     nickname,
-    grade
+    grade,
+    point
 })
 export const getStatusClear = () => ({
     type: GET_STATUS_CLEAR
@@ -88,8 +89,8 @@ export const statusRequest = (user_id) => {
     return (dispatch) => {
         dispatch(getStatus());
         return axios.get('http://127.0.0.1:8000/user/profile/'+String(user_id)+"/").then( response => {
-            let { id, nickname, grade } = response.data;
-            dispatch(getStatusSuccess(id, nickname, grade))
+            let { id, nickname, grade, point } = response.data;
+            dispatch(getStatusSuccess(id, nickname, grade, point))
         }).catch( error => {
             dispatch(getStatusClear())
         });
