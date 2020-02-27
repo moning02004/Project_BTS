@@ -13,7 +13,9 @@ const initialState = {
         currentUser: {
             user_id: 0,
             username: '',
-            nickname: ''
+            nickname: '',
+            point: '',
+            grade: '',
         }
     }
 };
@@ -95,7 +97,9 @@ function authentication(state = initialState, action) {
                 currentUser: {
                     user_id: action.user_id,
                     username: action.username,
-                    nickname: action.nickname
+                    nickname: action.nickname,
+                    point: action.point,
+                    grade: action.grade,
                 }
             }
         }

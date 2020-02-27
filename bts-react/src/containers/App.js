@@ -10,6 +10,7 @@ import PostList from '../containers/post/PostList';
 import Signup from './Signup';
 import Signin from './Signin';
 import { statusRequest } from '../actions/Authentication';
+import AlbumDetail from './album/AlbumDetail';
 
 class App extends React.Component {
 
@@ -37,6 +38,7 @@ class App extends React.Component {
                 <Route exact path="/" component={ Main } />
                 <Route path="/signin" component={ Signin } />
                 <Route path="/signup" component={ Signup }/>
+                <Route path="/album/:id" component={ AlbumDetail }/>
                 <Route path="/member/profile" component={ MemberProfile }/>
                 <Route exact path="/post" component={ PostList }/>
                 <Route exact path="/post/:id" component={ PostDetail }/>

@@ -43,13 +43,8 @@ class MemberProfile extends React.Component {
                     </div> 
      
                 <div className={useStyles.paper} align = 'center'>
-<<<<<<< HEAD:bts-react/src/container/Profile.js
-                <h1>2. Members</h1>
-                    <img src="http://armyzip.com/files/attach/images/42769/605/043/e75e43c2e4002dadba03d38b16aaaaf9.jpg"/>
-=======
                 <h1>Members</h1>
                     <img src="http://armyzip.com/files/attach/images/42769/605/043/e75e43c2e4002dadba03d38b16aaaaf9.jpg" alt=""/>
->>>>>>> 3b287315690032bd1f356d0d1f043b9f62e7e70b:bts-react/src/containers/MemberProfile.js
                         <h3>RM</h3><br />
                         1994. 09. 12 │ #RM, #ナム, #MON_STUDIO<br />
                         이름: 김남준 (金南俊, Kim Namjoon)<br />
