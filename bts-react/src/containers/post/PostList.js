@@ -27,6 +27,7 @@ handleClickPostAdd = (e) => {
   console.log(e.currentTarget.id);
   window.location.href = "/postAdd/";
 }  
+
 componentDidMount() {
   axios.get('http://127.0.0.1:8000/post/').then(response => {
       let responses = response.data;
@@ -34,7 +35,10 @@ componentDidMount() {
           const {post_list} = this.state;
           this.setState({
             post_list: post_list.concat(element)
-          })
+          }, () => { // callback 함수: 끝나면 이 함수를 실행
+            console.log(this.state.post_list); 
+          }) 
+         // setState는 비동기적
       });
   });
 }
@@ -72,8 +76,8 @@ handleClickAlbum = (e) => {
                         <TableRow key={post.id}>
                           <TableCell align='left'>{post.id}</TableCell>
                           <TableCell align='left'><Link to ={`/post/${post.id}`} style={{textDecoration: 'none', color: "black"}}>{post.title}</Link></TableCell>
-                          <TableCell align='left'>{post.username}</TableCell>
-                          <TableCell align='left'>{post.updated}</TableCell>
+                          <TableCell align='left'>{post.author}</TableCell>
+                          <TableCell align='left'>{post.created}</TableCell>
                         </TableRow>
                       )}
                       </TableBody>

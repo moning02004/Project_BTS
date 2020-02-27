@@ -6,7 +6,7 @@ from .models import Post, PostComment
 class PostListSerializer(serializers.ModelSerializer):
     count_comment = serializers.SerializerMethodField('count', read_only=True)
     author = serializers.SerializerMethodField('get_author', read_only=True)
-
+    
     def count(self, obj):
         return len(obj.postcomment_set.all())
 

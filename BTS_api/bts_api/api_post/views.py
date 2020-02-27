@@ -11,8 +11,10 @@ from api_user.models import User
 
 
 class PostAPI(ListAPIView):
-    queryset = Post.objects.all()
     serializer_class = PostListSerializer
+
+    def get_queryset(self):
+        return Post.objects.all().order_by('created').reverse()
 
 
 class PostDetailAPI(RetrieveAPIView):

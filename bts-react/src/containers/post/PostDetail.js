@@ -23,7 +23,7 @@ class PostDetail extends React.Component {
 
 componentDidMount() {
   axios.get('http://127.0.0.1:8000/post/'+ this.props.match.params.id+ '/').then(response => {
-    let { id, title,content, updated, username} = response.data[0];      
+    let { id, title,content, updated, username} = response.data;      
    
     this.setState({ 
       id: id,

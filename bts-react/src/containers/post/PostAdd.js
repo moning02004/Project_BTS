@@ -19,15 +19,19 @@ class PostAdd extends React.Component {
 }
 
 postAdd = () => { // 렌더 다음에 실행, axios 상태를 업데이트?
+   // console.log(this.state.title, this.state.content, this.props.currentUser.username);
     axios.post('http://127.0.0.1:8000/post/register/', {
         title: this.state.title,
-        author: this.props.currentUser.username,
+        author: this.props.currentUser.user_id,
         content: this.state.content
   
+    }).then(response => {
+        window.location.href = "/post"
     }).catch( error => {
         console.log(error);
     });
   }
+
 
 handleChange = (e) => { // target 현재 선택되어 있는 태크
     let nextState = {};
@@ -52,7 +56,7 @@ handleChange = (e) => { // target 현재 선택되어 있는 태크
               <TableBody>
                 <TableRow>
                   <TableCell colSpan="3" align='left'>
-                      내용: <textarea name="content" id="content"/></TableCell>
+                      내용: <textarea name="content" id="content" value={this.state.content} onChange={this.handleChange}/></TableCell>
                 </TableRow>
               </TableBody>
               </Table>
@@ -68,6 +72,7 @@ handleChange = (e) => { // target 현재 선택되어 있는 태크
 }
 
 const mapStateToProps = (state) => { // 리덕스가 관리하는 상태를 지켜봄, 
+    console.log(state);
     return {
         currentUser: state.auth.status.currentUser
     }
