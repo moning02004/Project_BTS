@@ -1,57 +1,44 @@
 from rest_framework import status
+from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, CreateAPIView, DestroyAPIView
 from rest_framework.response import Response
+from rest_framework.serializers import ModelSerializer
 from rest_framework.views import APIView
 
 from .models import Post, PostComment
-from .serializers import PostSerializer, PostCommentSerializer
+from .serializers import PostCommentSerializer, PostListSerializer, PostDetailSerializer, PostUpdateSerializer, \
+    PostCreateSerializer
 from api_user.models import User
 
 
-class PostAPI(APIView):
+class PostAPI(ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostListSerializer
 
-    def get(self, request, pk=None):
-        post_list = Post.objects.select_related('author').all().order_by('created').reverse()
-        if pk is not None:
-            post_list = post_list.filter(pk=int(pk))
 
-        response = list()
-        for x in post_list:
-            response.append(PostSerializer(x).data)
-        return Response(response, status=status.HTTP_200_OK)
+class PostDetailAPI(RetrieveAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostDetailSerializer
 
-    def post(self, request):
-        try:
-            title = request.data.get('title')
-            author = request.data.get('author')
-            content = request.data.get('content')
 
-            author = User.objects.get(pk=int(author))
-            Post.objects.create()
-            author.point += 10
-            author.grade = 'Bronze' if 0 <= author.point < 100 else 'Silver' if 1000 <= author.point < 1000 else 'Gold'
-            author.save()
-            return Response(status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class PostUpdateAPI(RetrieveAPIView, UpdateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostUpdateSerializer
 
-    def put(self, request, pk):
-        try:
-            post = Post.objects.get(pk=int(pk))
-            post.title = request.data.get('title')
-            post.content = request.data.get('content')
-            post.save()
-            return Response(status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+    def partial_update(self, request, *args, **kwargs):
+        return super(PostUpdateAPI, self).partial_update(request, *args, **kwargs)
 
-    def delete(self, request, pk=None):
-        assert pk is not None
 
-        try:
-            Post.objects.get(pk=int(pk)).delete()
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_200_OK)
+class PostCreateAPI(CreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostCreateSerializer
+
+    def create(self, request, *args, **kwargs):
+        return super(PostCreateAPI, self).create(request, *args, **kwargs)
+
+
+class PostDestroyAPI(DestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = ModelSerializer
 
 
 class CommentAPI(APIView):
