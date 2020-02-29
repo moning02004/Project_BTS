@@ -4,6 +4,8 @@ import { Table, TableContainer,TableRow, TableCell, TableBody, TableHead} from '
 import Button from '@material-ui/core/Button';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 const axios = require('axios');
@@ -15,31 +17,42 @@ class PostDetail extends React.Component {
         id: 0,
         title: '',
         content: '',
-        updated: '',
+        created: '',
+        author: '',
+
         username: '',
     }
     this.id = this.props.match.params.id;
+    this.username = this.props.currentUser.username; // 현재 로그인한 유저의 아이디
+    
 }
+
+handleClickPostEdit = (e) => {
+  window.location.href = "/postEdit/"+this.state.id;
+}
+
 
 componentDidMount() {
   axios.get('http://127.0.0.1:8000/post/'+ this.props.match.params.id+ '/').then(response => {
-    let { id, title,content, updated, username} = response.data;      
-   
+    let { id, title,content, created, author} = response.data;      
     this.setState({ 
-      id: id,
+      id: id, // 작성자 유저의 정보
       title: title,
       content: content,
-      updated: updated,
-      username: username,
+      created: created,
+      author: author,
 
     });
     console.log(response.data);
+  //  console.log(this.props.currentUser.username);  //undefined
+     console.log(this.username); //undefined
 
   }).catch( error => {
       console.log(error);
   });
 }
-     
+
+
   render(){
     return(
      <React.Fragment>
@@ -54,8 +67,8 @@ componentDidMount() {
                 </TableRow>
                 <TableRow>
                   <TableCell align='left' style={{width: '10%'}}>{this.state.id}</TableCell>
-                  <TableCell align='left' style={{width: '20%'}}>{this.state.username}</TableCell>
-                  <TableCell align='left' style={{width: '70%'}}>{this.state.updated}</TableCell>
+                  <TableCell align='left' style={{width: '20%'}}>{this.state.author.nickname}</TableCell>
+                  <TableCell align='left' style={{width: '70%'}}>{this.state.created}</TableCell>
                 </TableRow>
                </TableHead>
               <TableBody>
@@ -65,30 +78,33 @@ componentDidMount() {
               </TableBody>
               </Table>
             </TableContainer>
-                      <Button color="primary" size="1rem" >수정</Button> 
-                      <Button color="primary" size="1rem">삭제</Button> 
+            
+           author.username= {this.state.author.username} ,
 
-                  </div>
-              </div>
-              <Footer />
-          </React.Fragment>
-        );
+          currentUser.username = 
+          {this.props.currentUser.username}
+          {this.state.username}
+          
+          <Button color="primary" size="1rem" onClick ={this.handleClickPostEdit}>수정</Button> 
+            <Button color="primary" size="1rem">삭제</Button>  
+            
+
+        </div>
+    </div>
+    <Footer />
+    </React.Fragment>
+    );
  
     }
 }
 
-function DetailList({post_detail_list}){
-  return (
-    
-  <ul key={post_detail_list.id}>
-    {post_detail_list.map(post =>
-    //  <li>{post.title}</li>
-      <li>{post.id} </li>
-      )}
-  </ul>
-  );
-}
+const mapStateToProps = (state) => { // 리덕스가 관리하는 상태를 지켜봄, 
+  console.log(state);
+  return {
+  //  auth: state.auth.status.isAuth,
+    currentUser: state.auth.status.currentUser
+  }
+};
+
+PostDetail = connect(mapStateToProps)(PostDetail);
 export default PostDetail;
-
-
-

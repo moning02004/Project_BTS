@@ -51,7 +51,7 @@ class App extends React.Component {
                 <Route exact path="/post/:id"  component={ PostDetail }/>
                 <Route exact path="/postAdd"  component={ PostAdd }/>
 
-                <Route exact path="/post/edit/:id"  component={ PostEdit }/>
+                <Route exact path="/postEdit/:id"  component={ PostEdit }/>
 
                 
                 <Route exact path="/register" component={ AlbumRegister }/>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, TableContainer,TableRow, TableCell, TableBody, TableHead} from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 
 import Button from '@material-ui/core/Button';
 import Header from '../../components/Header';
@@ -22,7 +23,7 @@ postAdd = () => { // 렌더 다음에 실행, axios 상태를 업데이트?
    // console.log(this.state.title, this.state.content, this.props.currentUser.username);
     axios.post('http://127.0.0.1:8000/post/register/', {
         title: this.state.title,
-        author: this.props.currentUser.user_id,
+        author: this.props.currentUser.username,
         content: this.state.content
   
     }).then(response => {
@@ -46,17 +47,28 @@ handleChange = (e) => { // target 현재 선택되어 있는 태크
        <div className="root" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
          <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
          <TableContainer>
-            <Table className="table" style={{margin: "auto", width: '80%'}} >
+            <Table className="table" style={{margin: "auto", width: '60%'}} >
               <TableHead>
                 <TableRow>
                   <TableCell colSpan="3" align='left' style={{width: '100%'}}>
-                      제목: <input type="text" label="제목" name="title" id="title" value={this.state.title} onChange={this.handleChange}></input></TableCell>
+                      제목 : <TextField style={{width: "600px"}} id="title" margin="normal" name="title" width ="70%" value={this.state.title} onChange={this.handleChange}/>
+                  </TableCell>
                 </TableRow>
                </TableHead>
               <TableBody>
                 <TableRow>
                   <TableCell colSpan="3" align='left'>
-                      내용: <textarea name="content" id="content" value={this.state.content} onChange={this.handleChange}/></TableCell>
+                    내용 : 
+                    <TextField
+                    name="content" 
+                    id="content"
+                    multiline
+                    rows="10"
+                    variant="outlined"
+                    style={{width: "600px"}}
+                    value={this.state.content} onChange={this.handleChange}
+                    />
+                  </TableCell>
                 </TableRow>
               </TableBody>
               </Table>

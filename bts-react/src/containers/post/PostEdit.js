@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, TableContainer,TableRow, TableCell, TableBody, TableHead} from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 
 import Button from '@material-ui/core/Button';
 import Header from '../../components/Header';
@@ -12,72 +13,91 @@ class PostEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        id: 0,
-        title: '',
-        content: '',
-        updated: '',
-        username: '',
+      id: 0,
+      title: '',
+      content: '',
+      created: '',
+      author: '',
     }
-    this.id = this.props.match.params.id;
 }
 
-componentDidMount() {
-  axios.get('http://127.0.0.1:8000/post/'+ this.props.match.params.id+ '/').then(response => {
-    let { id, title,content, updated, username} = response.data[0];      
-   
-    this.setState({ 
-      id: id,
-      title: title,
-      content: content,
-      updated: updated,
-      username: username,
+ componentDidMount(){
+   axios.get('http://127.0.0.1:8000/post/edit/'+this.props.match.params.id+'/').then(response =>{
+     let {id, title, content, created, author} = response.data;
+     this.setState({
+       id: id,
+       title: title,
+       content: content,
+       created: created,
+       author: author,
+     });
 
-    });
-    console.log(response.data);
-
-  }).catch( error => {
+   }).catch(error => {
       console.log(error);
+   });
+ }    
+
+
+ postEditEnd = () => {
+  axios.post('http://127.0.0.1:8000/post/edit/'+this.props.match.params.id ,{
+    title: this.state.title,
+    content: this.state.content
+
+  }).then(response => {
+    window.location.href = "/post/"+this.props.match.params.id+'/'
+
+  }).catch(error => {
+    console.log(error);
   });
+ }
+
+ handleChange = (e) => { // target 현재 선택되어 있는 태크
+  let nextState = {};
+  nextState[e.target.name] = e.target.value;
+  this.setState(nextState);
 }
-     
+
   render(){
     return(
-     <React.Fragment>
-       <Header />
-       <div className="root" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
-         <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
-         <TableContainer>
-            <Table className="table" style={{margin: "auto", width: '80%'}} >
-              <TableHead>
-                <TableRow>
-                  <TableCell colSpan="3" align='left' style={{width: '100%'}}><h3>{this.state.title}</h3></TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align='left' style={{width: '10%'}}><input type="text">{this.state.id}</input></TableCell>
-                  <TableCell align='left' style={{width: '20%'}}>{this.state.username}</TableCell>
-                  <TableCell align='left' style={{width: '70%'}}>{this.state.updated}</TableCell>
-                </TableRow>
-               </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell colSpan="3" align='left' style={{lineHeight: '500px'}}>{this.state.content}</TableCell>
-                </TableRow>
-              </TableBody>
-              </Table>
-            </TableContainer>
-                      <Button color="primary" size="1rem">수정</Button> 
-                      <Button color="primary" size="1rem">삭제</Button> 
-
-                  </div>
-              </div>
-              <Footer />
-          </React.Fragment>
+      <React.Fragment>
+      <Header />
+      <div className="root" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
+        <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
+        <TableContainer>
+           <Table className="table" style={{margin: "auto", width: '60%'}} >
+             <TableHead>
+               <TableRow>
+                 <TableCell colSpan="3" align='left' style={{width: '100%'}}>
+                     제목 : <TextField style={{width: "600px"}} id="title" margin="normal" name="title" width ="70%" value={this.state.title} onChange={this.handleChange}/>
+                 </TableCell>
+               </TableRow>
+              </TableHead>
+             <TableBody>
+               <TableRow>
+                 <TableCell colSpan="3" align='left'>
+                   내용 : 
+                   <TextField
+                   name="content" 
+                   id="content"
+                   multiline
+                   rows="10"
+                   variant="outlined"
+                   style={{width: "600px"}}
+                   value={this.state.content} onChange={this.handleChange}
+                   />
+                 </TableCell>
+               </TableRow>
+             </TableBody>
+             </Table>
+           </TableContainer>
+           <Button color="primary" size="1rem" onClick={this.postEditEnd}>저장</Button> 
+                 </div>
+             </div>
+             <Footer />
+         </React.Fragment>
         );
  
     }
 }
 
 export default PostEdit;
-
-
-
