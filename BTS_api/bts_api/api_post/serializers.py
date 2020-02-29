@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import Post, PostComment
-
+from api_user.serializers import UserInfoSerializer
 
 class PostListSerializer(serializers.ModelSerializer):
     count_comment = serializers.SerializerMethodField('count', read_only=True)
@@ -19,7 +19,7 @@ class PostListSerializer(serializers.ModelSerializer):
 
 
 class PostDetailSerializer(serializers.ModelSerializer):
-    author = serializers.SerializerMethodField('get_author', read_only=True)
+    author = UserInfoSerializer(read_only=True)
 
     def get_author(self, obj):
         return obj.author.nickname
