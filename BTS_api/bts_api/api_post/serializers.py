@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models import Post, PostComment
+from api_user.serializers import UserInfoSerializer
 
 
 class PostListSerializer(serializers.ModelSerializer):
@@ -19,11 +20,7 @@ class PostListSerializer(serializers.ModelSerializer):
 
 
 class PostDetailSerializer(serializers.ModelSerializer):
-    author = serializers.SerializerMethodField('get_author', read_only=True)
-
-    def get_author(self, obj):
-        return obj.author.nickname
-
+    author = UserInfoSerializer(read_only=True)
     class Meta:
         model = Post
         fields = ('id', 'title', 'author', 'content', 'created')
