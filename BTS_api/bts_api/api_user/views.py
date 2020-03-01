@@ -3,12 +3,19 @@ from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 
 from .models import User
-from .serializers import UserRegisterSerializer, UserUpdateSerializer, UserCheckSerializer, UserInfoSerializer
+from .serializers import UserRegisterSerializer, UserUpdateSerializer, UserCheckSerializer, UserInfoSerializer, \
+    UserListSerializer
 
 
 class UserInfoAPI(RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserInfoSerializer
+
+class UserAPI(ListAPIView):
+    serializer_class = UserListSerializer
+
+    def get_queryset(self):
+        return User.objects.all().order_by('id').reverse()
 
 
 class UserCheckAPI(ListAPIView):

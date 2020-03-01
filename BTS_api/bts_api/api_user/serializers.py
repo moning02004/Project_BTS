@@ -3,6 +3,14 @@ from rest_framework import serializers
 from .models import User
 
 
+class UserListSerializer(serializers.ModelSerializer):
+    def get_author(self, obj):
+        return obj.author.nickname
+
+    class Meta:
+        model = User
+        fields = ('id','username', 'nickname', 'grade', 'point')
+
 class UserCheckSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

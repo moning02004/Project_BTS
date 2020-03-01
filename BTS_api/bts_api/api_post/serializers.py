@@ -2,12 +2,15 @@ from rest_framework import serializers
 
 from .models import Post, PostComment
 from api_user.serializers import UserInfoSerializer
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/master
 
 class PostListSerializer(serializers.ModelSerializer):
     count_comment = serializers.SerializerMethodField('count', read_only=True)
     author = serializers.SerializerMethodField('get_author', read_only=True)
-
+    
     def count(self, obj):
         return len(obj.postcomment_set.all())
 
@@ -21,6 +24,13 @@ class PostListSerializer(serializers.ModelSerializer):
 
 class PostDetailSerializer(serializers.ModelSerializer):
     author = UserInfoSerializer(read_only=True)
+<<<<<<< HEAD
+=======
+
+    def get_author(self, obj):
+        return obj.author.nickname
+
+>>>>>>> upstream/master
     class Meta:
         model = Post
         fields = ('id', 'title', 'author', 'content', 'created')

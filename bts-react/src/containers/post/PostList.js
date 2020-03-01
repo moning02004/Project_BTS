@@ -1,16 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow'; 
+import { Table, TableRow, TableCell, TableBody, TableHead} from '@material-ui/core';
+
 import Button from '@material-ui/core/Button';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import { Link } from 'react-router-dom';
+
 
 const axios = require('axios');
 
@@ -25,7 +22,12 @@ class PostList extends React.Component {
     }
   }
 
- 
+  
+handleClickPostAdd = (e) => {
+  console.log(e.currentTarget.id);
+  window.location.href = "/postAdd/";
+}  
+
 componentDidMount() {
   axios.get('http://127.0.0.1:8000/post/').then(response => {
       let responses = response.data;
@@ -33,7 +35,10 @@ componentDidMount() {
           const {post_list} = this.state;
           this.setState({
             post_list: post_list.concat(element)
-          })
+          }, () => { // callback 함수: 끝나면 이 함수를 실행
+            console.log(this.state.post_list); 
+          }) 
+         // setState는 비동기적
       });
   });
 }
@@ -54,7 +59,7 @@ handleClickAlbum = (e) => {
         return(
           <React.Fragment>
             <Header />
-              <div lassName="container" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
+              <div className="root" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
                   <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
 
                     <Table className="table" style={{margin: "auto", width: '80%'}} >
@@ -70,15 +75,16 @@ handleClickAlbum = (e) => {
                       {this.state.post_list.map(post =>
                         <TableRow key={post.id}>
                           <TableCell align='left'>{post.id}</TableCell>
-                          <TableCell align='left'><a href='/post/:{post.id}' style={{textDecoration: 'none', color: "black"}}>{post.title}</a></TableCell>
-                          <TableCell align='left'>{post.username}</TableCell>
-                          <TableCell align='left'>{post.updated}</TableCell>
+                          <TableCell align='left'><Link to ={`/post/${post.id}`} style={{textDecoration: 'none', color: "black"}}>{post.title}</Link></TableCell>
+                          <TableCell align='left'>{post.author}</TableCell>
+                          <TableCell align='left'>{post.created}</TableCell>
                         </TableRow>
                       )}
                       </TableBody>
                       </Table>             
-                        
-                      <Button color="primary" size="1rem">글쓰기</Button> 
+                      <Link href="/signin" variant="body2"></Link>
+
+                      <Button color="primary" size="1rem" onClick={this.handleClickPostAdd}>글쓰기</Button> 
                   </div>
               </div>
               <Footer/>
