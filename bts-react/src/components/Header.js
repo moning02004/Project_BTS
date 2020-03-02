@@ -51,7 +51,7 @@ class Header extends React.Component {
           <a href="/userList" style={{textDecoration: 'none', color: "black"}}>회원</a>
         </ListItem>
         <ListItem button>
-          <a href="/register" style={{textDecoration: 'none', color: "black"}}>앨범등록</a>
+          <a href="/album/register" style={{textDecoration: 'none', color: "black"}}>앨범등록</a>
         </ListItem>
         <ListItem button>
           <a href="/police" style={{textDecoration: 'none', color: "black"}}>신고</a>

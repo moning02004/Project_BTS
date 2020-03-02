@@ -45,7 +45,7 @@ export const signupFailure = () => ({
 export const getStatus = () => ({
     type: GET_STATUS
 })
-export const getStatusSuccess = (user_id, username,nickname, grade, point) => ({
+export const getStatusSuccess = (user_id, username, nickname, grade, point) => ({
     type: GET_STATUS_SUCCESS,
     user_id,
     username,

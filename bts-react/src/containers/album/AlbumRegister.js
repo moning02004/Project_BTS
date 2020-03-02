@@ -6,17 +6,12 @@ import TextField from '@material-ui/core/TextField';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '@material-ui/core/Select';
-import { Table, TableRow, TableCell, TableBody, TableHead} from '@material-ui/core';
+import { Table, TableRow, TableCell, TableBody, TableHead, Input} from '@material-ui/core';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
-const axios = require('axios')
-const track = [
-  '1','2','3','4','5','6','7','8','9','10',
-  '11','12','13','14','15','16','17','18','19','20',
-  '21','22','23','24','25', '26', '27','28', '29','30'
-];
 
+const axios = require('axios')
 
 class AlbumRegister extends React.Component{
   constructor(props) {
@@ -25,36 +20,20 @@ class AlbumRegister extends React.Component{
         category_list: [],
         genre_list: [],
         
-        music_list: [{
-          track: '',
-          music_name: '',
-          is_title: ''
-        }],
- /*       thumbnail: '',
+        thumbnail:  null,
         title: '',
-        category: '',
+        category: "",
         genre: '',
         created: '',
         content : '',
-  */
+
+        track: 1,
+        name: '',
+        is_title: false,
+        
+        music_list: [],
     }
   }
-
-  handleChange = (e) => {
-    this.nextState = {};
-    this.nextState[e.target.name] = e.target.value;
-    this.setState({
-        ...this.state,  
-        music_list: this.nextState.concat(this.music_list)
-    });
-    
-    console.log(this.state);
-  }
-  handleSubmit = (e) => {
-    console.log(e);
-  }
-
-
   componentDidMount() {
     axios.get('http://127.0.0.1:8000/album/category/').then(response => {
       let responses = response.data;
@@ -64,162 +43,185 @@ class AlbumRegister extends React.Component{
             category_list: category_list.concat(element),
           })
       });
-  });
+    });
     axios.get('http://127.0.0.1:8000/album/genre/').then(response => {
       let responses = response.data;
       responses.forEach(element => {
          const { genre_list} = this.state;
           this.setState({
-           genre_list: genre_list.concat(element)
+            genre_list: genre_list.concat(element)
           })
+      });
     });
-  });
-}
- 
-render(){
+  }
+  
+  handleChecked = (e) => {
+    let nextState = {};
+    nextState[e.target.name] = e.target.checked
+    this.setState(nextState)
+  }
+  handleChange = (e) => {
+    let nextState = {};
+    nextState[e.target.name] = (e.target.name === "thumbnail") ? e.target.files[0] : e.target.value;
+    this.setState(nextState);
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    let { thumbnail, title, category, genre, created, content, music_list } = this.state;
+    music_list = JSON.stringify(music_list);
+
+    formData.append('thumbnail', thumbnail);
+    formData.append('title', title);
+    formData.append('category', category);
+    formData.append('genre', genre);
+    formData.append('created', created);
+    formData.append('content', content);
+    formData.append('music_list', music_list);
     
-return(
-  <React.Fragment>
-   <Header />
-    <div className="root" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
-      <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
-        <form onSubmit={this.handleSubmit}>
-        <h4>앨범 정보</h4>
-          <Table className="album_Table" style={{margin: "auto", width: '60%'}} >
-          {/* 앨범 정보 */}
+    console.log(formData);
+    axios.post('http://127.0.0.1:8000/album/register/', formData).then( response => {
+      console.log(response);
+    }).catch( error => {
+      console.log(error);
+    });
+  }
+
+  handleAdd = (e) => {
+    e.preventDefault();
+    console.log(this.state)
+    let {track, name, is_title, music_list } = this.state;
+    this.setState({
+      ...this.state,
+      music_list: music_list.concat({track: track, name: name, is_title: is_title})
+    }, () => {
+      this.setState({
+        ...this.state,
+        track: '',
+        name: '',
+        is_title: false
+      });
+    })
+  }
+  handleRemove = (e) => {
+    e.preventDefault();
+  }
+ 
+  render(){
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = date.getMonth()+1 < 10 ? "0" + (date.getMonth()+1) : (date.getMonth()+1);
+  let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+  let today = year+"-"+month+"-"+day;
+
+  return(
+    <React.Fragment>
+      <Header />
+      <div style={{margin: "auto", width: '60%'}} >
+        <form onSubmit={this.onSubmit}>
+          <h4>앨범 정보</h4>
+          <Table>
             <TableRow>
-              <TableCell align='left' style={{width: '20%' }}>썸네일</TableCell>
-              <TableCell align='left' style={{width: '80%'}}><input name="thumbnail" id="thumbnail" type="file" name="file" label = "사진" onChange={null}/></TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align='left' style={{width: '20%'}}>앨범명</TableCell>
-              <TableCell align='left' style={{width: '80%'}}>
-                <TextField fullWidth id="title" margin="normal" name="title" width ="70%"/>
+              <TableCell style={{width: '20%' }}>썸네일</TableCell>
+              <TableCell style={{width: '80%'}}>
+                <input name="thumbnail" type="file" onChange={this.handleChange} />
               </TableCell>
             </TableRow>
+
             <TableRow>
-              <TableCell align='left' style={{width: '20%'}}>카테고리</TableCell>
-              <TableCell align='left' style={{width: '80%'}}>
-              <Select
-                native
-                inputProps={{
-                name: 'category',
-                id: 'category',
-                margin:"normal",
-                }}
-              >
-              {this.state.category_list.map(category =>
-                <option value="">{category.keyword}</option>
-              )}
-              </Select>
+              <TableCell style={{width: '20%'}}>앨범명</TableCell>
+              <TableCell style={{width: '80%'}}>
+                <TextField fullWidth name="title" value={this.state.title} onChange={this.handleChange} />
               </TableCell>
             </TableRow>
+          
             <TableRow>
-              <TableCell align='left' style={{width: '20%'}}>장르</TableCell>
-              <TableCell align='left' style={{width: '80%'}}>
-              <Select
-                native
-         //     value={state.category}
-         //     onChange={handleChange('category')}
-                inputProps={{
-                name: 'genre',
-                id: 'genre',
-                margin:"normal",
-                }}
-              >
-              }
-            {this.state.genre_list.map(genre =>
-            <option value="">{genre.keyword}</option>
-            )}
-              </Select>
+              <TableCell style={{width: '20%'}}>카테고리</TableCell>
+              <TableCell style={{width: '80%'}}>
+                <Select name="category" value={this.state.category} onChange={this.handleChange}>
+                  {this.state.category_list.map((category, index) =>
+                    <option value={category.keyword} key={index}>{category.keyword}</option>
+                  )}
+                </Select>
               </TableCell>
             </TableRow>
+
             <TableRow>
-              <TableCell align='left' style={{width: '20%'}}>발매일</TableCell>
-              <TableCell align='left' style={{width: '80%'}}>
+              <TableCell style={{width: '20%'}}>장르</TableCell>
+              <TableCell style={{width: '80%'}}>
+                <Select name="genre" value={this.state.genre} onChange={this.handleChange}>
+                  {this.state.genre_list.map((genre,index) => 
+                    <option value={genre.keyword} key={index}>{genre.keyword}</option>
+                  )}
+                </Select>
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell style={{width: '20%'}}>발매일</TableCell>
+              <TableCell style={{width: '80%'}}>
+                <TextField name="created" type="date" value={this.state.created} onChange={this.handleChange} />
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell style={{width: '20%'}}>앨범소개</TableCell>
+              <TableCell style={{width: '80%'}}>
                 <TextField
-                  margin="normal"
-                  id="created"
-                  name="created"
-                  type="date"
-                  defaultValue="2020-02-25"
-                  InputLabelProps={{
-                  shrink: true,
-                  }} />
-                </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align='left' style={{width: '20%'}}>앨범소개</TableCell>
-              <TableCell align='left' style={{width: '80%'}}>
-              <TextField
-                     id="outlined-multiline-static"
-                      multiline
-                      rows="5"
-                      variant="outlined"
-                      fullWidth={true}
-                      />
+                  multiline
+                  rows="5"
+                  variant="outlined"
+                  fullWidth
+                  name="content" 
+                  value={this.state.content} onChange={this.handleChange} />
               </TableCell>
             </TableRow>
           </Table>
-          <br/><br/>
 
-         <h4>상세 정보</h4>
-          <Table className="input_Table" style={{margin: "auto", width: '60%'}}>
-           <TableRow >
-             <TableCell align='left' style={{width: '20%'}}>
-               <Select
-                labelId="demo-mutiple-name-label"
-                native
-                inputProps={{
-                name: 'track',
-                id: 'track',
-                margin:"normal",
-              }}
-              onChange={this.handleChange}
-              value={this.state.value}
-              >
-              {track.map(track =>
-              <option value={track}>{track}</option>
-              )}
-              </Select>
-            </TableCell>
-            <TableCell align='left' style={{width: '50%'}}>
-              <TextField id="music_name" margin="normal" name="music_name"  width ="70%" onChange={this.handleChange} value={this.state.value}/>
-            </TableCell>
-            <TableCell align='left' style={{width: '30%'}}>
-              <RadioGroup aria-label="position" id="is_title" name="is_title" row onChange={this.handleChange} value={this.state.value}>
-                <FormControlLabel value="yes" control={<Radio color="primary" />} label="yes" labelPlacement="end"/>
-                <FormControlLabel value="no" control={<Radio color="primary" />} label="no" labelPlacement="end"/>
-              </RadioGroup>
-            </TableCell>
-            <TableCell>
-             <Button variant="contained" color="primary" onClick={this.addRow}>추가</Button>
-            </TableCell>
-          </TableRow>    
-         </Table>
-
-           {/* 앨범 디테일 */}   
-          <Table className="albumDetail_Table" style={{margin: "auto", width: '60%'}} >
-           <TableHead>
-             <TableRow>
-               <TableCell align='left' style={{width: '20%'}}>트랙번호</TableCell>
-               <TableCell align='left' style={{width: '50%'}}>곡명</TableCell>
-               <TableCell align='left' style={{width: '30%'}}>타이틀</TableCell>
-               <TableCell></TableCell>
-            </TableRow>
-           </TableHead>
-    
+          <h4>수록곡</h4>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell style={{width: '20%'}}>트랙</TableCell>
+                <TableCell style={{width: '50%'}}>곡명</TableCell>
+                <TableCell style={{width: '20%'}}>대표</TableCell>
+                <TableCell style={{width: '10%'}}>선택</TableCell>
+              </TableRow>
+            </TableHead>
             <TableBody>
-                   
+              {this.state.music_list.map(music => {
+                console.log(music);
+                return (
+                <TableRow>
+                  <TableCell>{music.track}</TableCell>
+                  <TableCell>{music.name}</TableCell>
+                  <TableCell><input type="checkbox" name="is_title" checked={music.is_title ? "checked" : ""} /></TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              )})}
+              <TableRow>
+                <TableCell>
+                  <TextField type="number" inputProps={{ min: "1" }} name="track" value={this.state.track} onChange={this.handleChange}/>
+                </TableCell>
+                <TableCell>
+                  <TextField fullWidth name="name" value={this.state.name} onChange={this.handleChange} />
+                </TableCell>
+                <TableCell>
+                  <input type="checkbox" name="is_title" checked={this.state.is_title} onChange={this.handleChecked} />
+                </TableCell>
+                <TableCell>
+                  <Button onClick={this.handleAdd}>추가</Button>
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
-          
-            <br/><br />
-         </form>
+          <div className="my-3">
+            <Button type="submit" fullWidth onClick={this.onSubmit}>등록</Button>
           </div>
-        </div>
-
-        <Footer />
+        </form>
+      </div>
+      <Footer />
       </React.Fragment>
     );
   }
@@ -227,100 +229,3 @@ return(
 
 
 export default AlbumRegister;
-
-/*
-
-var ListBox = React.createClass({
-        getInitialState:function(){
-            return{
-                data:[]
-            }
-        },
-        addARow:function(){
-            var tempStateData = this.state.data;
-            tempStateData.push(
-        {"gidx":125, "home_name":"nc", "away_name":"hw","date":"2016-03-30"}
-            );
- 
-            console.log(tempStateData);
-            this.setState({data:tempStateData
-            });
-        },
-        render:function(){
-            console.log("render");
-            console.log(this.state);
-            return(
-            <div className="list_box">
-                <ButtonBox  addARow={this.addARow} />
-                <ScoreTable />
-            </div>
-            )
-        },
-        componentDidMount:function(){
-            this.setState({data:gv_json_data});
-        }
-    });
- 
-var ButtonBox = React.createClass({
-    handleClickButton:function(event){
-        this.props.addARow();
-    },
-    render:function(){
-        console.log("button box render");
-        console.log(this.props);
-        return(
-            <div className="button_box">
-                <button onClick={this.handleClickButton}>click me</button>
-            </div>
-        )
-    }
-});
- 
-var ScoreTable = React.createClass({
-    render:function(){
-        console.log(gv_json_data);
-        var ar_rows = [];
- 
-        $.each(gv_json_data, function(key, value){
-            ar_rows.push(<ScoreTableTr key={key} row={value} />);
-        });
- 
-        return(
-            <table>
-                <tbody>
-                    {ar_rows}
-                </tbody>
-            </table>
-        )
-    }
-});
- 
-var ScoreTableTr = React.createClass({
-    render:function(){
-        console.log(this.props.row);
-        return(
-            <tr className="score_table_tr">
-                    <td>{this.props.row['gidx']}</td>
-                    <td>{this.props.row['home_name']}</td>
-                    <td>{this.props.row['away_name']}</td>
-                    <td>{this.props.row['date']}</td>
-                </tr>
-        )
-    }
-});
- 
-        ReactDOM.render(
-  React.createElement(ListBox, null),
-  document.getElementById('content')
-);
-   
-    </script>
-</head>
-<body>
-    hello world
-    <div id="content" >
-        content
-    </div>
-</body>
-</html>
-*/

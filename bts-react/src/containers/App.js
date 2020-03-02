@@ -44,17 +44,16 @@ class App extends React.Component {
                 <Route path="/signin" component={ Signin } />
                 <Route path="/signup" component={ Signup }/>
                 <Route path="/btsProfile" component={ BTSProfile }/>
-
-                <Route path="/album/:id" component={ AlbumDetail }/>
+                
+                <Route exact path="/album/register" component={ AlbumRegister }/>
+                {/* <Route exact path="/album/:id" component={ AlbumDetail }/> */}
                 <Route path="/userList" component={ UserList }/> 
                 <Route exact path="/post" component={ PostList }/>
                 <Route exact path="/post/:id"  component={ PostDetail }/>
                 <Route exact path="/postAdd"  component={ PostAdd }/>
 
                 <Route exact path="/postEdit/:id"  component={ PostEdit }/>
-
                 
-                <Route exact path="/register" component={ AlbumRegister }/>
             </BrowserRouter>
         );
     }

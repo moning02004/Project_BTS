@@ -9,7 +9,8 @@ class UserListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id','username', 'nickname', 'grade', 'point')
+        fields = ('id', 'username', 'nickname', 'grade', 'point')
+
 
 class UserCheckSerializer(serializers.ModelSerializer):
     class Meta:

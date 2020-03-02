@@ -11,6 +11,8 @@ urlpatterns= [
     path('delete/', views.AlbumAPI.as_view()),  # delete
     path('category/', views.AlbumCategoryAPI.as_view()),
     path('genre/', views.AlbumGenreAPI.as_view()),
-    path('comment/new/', views.CommentAPI.as_view()),  # post
-    path('comment/<int:pk>/', views.CommentAPI.as_view()),  # put
+
+    path('comment/register/', views.AlbumCommentCreateAPI.as_view()),
+    path('comment/edit/<int:pk>/', views.CommentUpdateAPI.as_view()),
+    path('comment/delete/<int:pk>/', views.CommentDestroyAPI.as_view()),
 ]

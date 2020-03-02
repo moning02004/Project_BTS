@@ -1,17 +1,19 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from api_user.models import User
+
 
 def file_path(instance, filename):
     return 'thumbnail/{}'.format(filename)
 
 
 class Category(models.Model):
-    keyword = models.CharField(max_length=10, primary_key=True)
+    keyword = models.CharField(max_length=20, primary_key=True)
 
 
 class Genre(models.Model):
-    keyword = models.CharField(max_length=10, primary_key=True)
+    keyword = models.CharField(max_length=20, primary_key=True)
 
 
 class Album(models.Model):
@@ -36,8 +38,10 @@ class Music(models.Model):
     def __str__(self):
         return self.name
 
+
 class AlbumComment(models.Model):
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 

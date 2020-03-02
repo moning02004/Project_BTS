@@ -47,7 +47,6 @@ code {
   white-space: -o-pre-wrap;
   word-wrap: break-all;
 }
-
 @media only screen and (max-width: 1000px) {
   .container {
     width: 95%;
