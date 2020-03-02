@@ -4,6 +4,12 @@ from .models import Post, PostComment
 from api_user.serializers import UserInfoSerializer
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostComment
+        fields = ('post', 'author', 'content', 'created')
+
+
 class PostListSerializer(serializers.ModelSerializer):
     count_comment = serializers.SerializerMethodField('count', read_only=True)
     author = serializers.SerializerMethodField('get_author', read_only=True)
@@ -21,10 +27,11 @@ class PostListSerializer(serializers.ModelSerializer):
 
 class PostDetailSerializer(serializers.ModelSerializer):
     author = UserInfoSerializer(read_only=True)
+    postcomment_set = CommentSerializer(read_only=True, many=True)
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'author', 'content', 'created')
+        fields = ('id', 'title', 'author', 'content', 'created', 'postcomment_set')
 
 
 class PostUpdateSerializer(serializers.ModelSerializer):
@@ -55,18 +62,24 @@ class PostCreateSerializer(serializers.ModelSerializer):
         return validated_data
 
 
-class PostDestroySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = ('__all__', )
-
-
-class PostCommentSerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField('author', read_only=True)
-
-    def author(self, obj):
-        return obj.author.nickname
-
+class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostComment
-        fields = ('id', 'username', 'content', 'updated')
+        fields = ('post', 'author', 'content')
+
+    def create(self, validated_data):
+        return validated_data
+
+
+class CommentUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostComment
+        fields = ('post', 'author', 'content')
+
+    def update(self, instance, validated_data):
+        content = validated_data.get('content')
+
+        if content is not None:
+            instance.content = content
+        instance.save()
+        return instance

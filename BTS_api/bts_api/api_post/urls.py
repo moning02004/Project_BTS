@@ -10,7 +10,7 @@ urlpatterns = [
     path('edit/<int:pk>/', views.PostUpdateAPI.as_view()),  # patch
     path('delete/<int:pk>/', views.PostDestroyAPI.as_view()),  # delete
 
-    path('<int:pk>/comment/', views.CommentAPI.as_view()),  # get (param : page)
-    path('<int:pk>/comment/new/', views.CommentAPI.as_view()),  # post
-    path('<int:pk>/comment/delete/', views.CommentAPI.as_view()),  # delete
+    path('comment/register/', views.CommentCreateAPI.as_view()),
+    path('comment/edit/<int:pk>/', views.CommentUpdateAPI.as_view()),
+    path('comment/delete/<int:pk>/', views.CommentDestroyAPI.as_view()),
 ]

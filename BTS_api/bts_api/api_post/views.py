@@ -5,8 +5,8 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework.views import APIView
 
 from .models import Post, PostComment
-from .serializers import PostCommentSerializer, PostListSerializer, PostDetailSerializer, PostUpdateSerializer, \
-    PostCreateSerializer
+from .serializers import PostListSerializer, PostDetailSerializer, PostUpdateSerializer, \
+    PostCreateSerializer, CommentCreateSerializer, CommentUpdateSerializer
 from api_user.models import User
 
 
@@ -43,43 +43,22 @@ class PostDestroyAPI(DestroyAPIView):
     serializer_class = ModelSerializer
 
 
-class CommentAPI(APIView):
+class CommentCreateAPI(CreateAPIView):
+    queryset = PostComment.objects.all()
+    serializer_class = CommentCreateSerializer
 
-    def get(self, request, pk=None):
-        assert request.GET.get('page') is not None
+    def create(self, request, *args, **kwargs):
+        return super(CommentCreateAPI, self).create(request, *args, **kwargs)
 
-        page = int(request.GET.get('page'))
 
-        post = Post.objects.select_related('author').get(pk=int(pk))
-        post_list = post.postcomment_set.all().order_by('updated').reverse()
-        post_list = post_list[(page-1)*5:page*5]
+class CommentUpdateAPI(RetrieveAPIView, UpdateAPIView):
+    queryset = PostComment.objects.all()
+    serializer_class = CommentUpdateSerializer
 
-        response = list()
-        for x in post_list:
-            response.append(PostCommentSerializer(x).data)
+    def partial_update(self, request, *args, **kwargs):
+        return super(CommentUpdateAPI, self).partial_update(request, *args, **kwargs)
 
-        return Response(response, status=status.HTTP_200_OK)
 
-    def post(self, request, pk=None):
-        try:
-            post = request.data.get('post')
-            author = request.data.get('author')
-            content = request.data.get('content')
-
-            author = User.objects.get(pk=int(author))
-            PostComment.objects.create()
-            author.point += 5
-            author.grade = 'Bronze' if 0 <= author.point < 100 else 'Silver' if 1000 <= author.point < 1000 else 'Gold'
-            author.save()
-            return Response(status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk=None):
-        assert pk is not None
-
-        try:
-            PostComment.objects.get(pk=pk).delete()
-            return Response(status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class CommentDestroyAPI(DestroyAPIView):
+    queryset = PostComment.objects.all()
+    serializer_class = ModelSerializer
