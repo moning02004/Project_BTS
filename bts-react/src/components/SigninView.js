@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import JwtDecode from 'jwt-decode';
+import { Typography } from '@material-ui/core';
 
 
 class SigninView extends React.Component {
@@ -11,7 +12,8 @@ class SigninView extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      message: ''
     }
   }
   handleChange = (e) => {
@@ -32,8 +34,13 @@ class SigninView extends React.Component {
             user_id: token.user_id
           };
           document.cookie = "key=" + btoa(JSON.stringify(signinData));
+          window.location.replace('/')
+        } else {
+          this.setState({
+            ...this.state,
+            message: "해당 계정을 찾을 수 없습니다."
+          })
         }
-        window.location.replace('/')
       }
     );
   }
@@ -71,6 +78,7 @@ class SigninView extends React.Component {
                 value={this.state.password}
               />
             </div>
+            <Typography margin="normal">{this.state.message}</Typography>
             <Button type="submit" fullWidth variant="contained" color="primary" onClick={this.signin}>Sign In</Button>
           </form>
           <div style={{textAlign: "right"}}>

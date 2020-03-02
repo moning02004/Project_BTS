@@ -1,3 +1,5 @@
+import json
+
 from rest_framework import serializers
 
 from .models import Album, Genre, Music, Category
@@ -41,18 +43,27 @@ class AlbumCategorySerializer(serializers.ModelSerializer):
 
 class AlbumCreateSerializer(serializers.ModelSerializer):
     genre = serializers.CharField(max_length=100)
-    music_set = serializers.ListField()
-
-    def create(self, validated_data):
-        thumbnail, title, content, created, category, genre, music_set = validated_data.values()
-        print(title, music_set)
-        for x in music_set:
-            x['album'] = 4
-            music = MusicSerializer(data=x)
-            if music.is_valid():
-                print(music.data)
-        return validated_data
+    music_list = serializers.ListField()
 
     class Meta:
         model = Album
-        fields = ('thumbnail', 'title', 'content', 'created', 'category', 'genre', 'music_set')
+        fields = ('thumbnail', 'title', 'content', 'created', 'category', 'genre', 'music_list')
+
+    def create(self, validated_data):
+        thumbnail, title, content, created, category, genre, music_list = validated_data.values()
+        album = Album.objects.create(
+            thumbnail=thumbnail,
+            title=title,
+            content=content,
+            created=created,
+            category=category
+        )
+        album.genre.add(genre)
+
+        music_list = json.loads(music_list[0])
+        for x in music_list:
+            x['album'] = album.id
+            music = MusicSerializer(data=x)
+            if music.is_valid():
+                music.save()
+        return validated_data

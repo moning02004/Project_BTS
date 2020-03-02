@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from .models import Album, Category, Genre
 from .serializers import AlbumSerializer, AlbumCreateSerializer, AlbumDetailSerializer, AlbumCategorySerializer, \
-    AlbumGenreSerializer
+    AlbumGenreSerializer, MusicSerializer
 
 
 class AlbumAPI(ListAPIView):
@@ -23,7 +23,6 @@ class AlbumDetailAPI(RetrieveAPIView):
     serializer_class = AlbumDetailSerializer
 
     def get(self, request, *args, **kwargs):
-        print(AlbumDetailSerializer())
         return super(AlbumDetailAPI,self).get(request, *args, **kwargs)
 
 
