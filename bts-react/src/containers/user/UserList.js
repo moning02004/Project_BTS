@@ -29,6 +29,7 @@ class UserList extends React.Component {
         responses.forEach(element => {
             const {userList} = this.state;
             this.setState({
+              ...this.state,
               userList: userList.concat(element)
             }, () => { // callback 함수: 끝나면 이 함수를 실행
               console.log(this.state.userList); 
@@ -52,6 +53,18 @@ handleChangeRowsPerPage = event => {
   this.setPage(0);
 };
 
+userDelete = (e) => {
+  axios.post('http://127.0.0.1:8000/user/delete/'+this.state.id+'/', {
+    id: this.state.id,
+
+  }).then(response => {
+    // modal. 탈퇴처리가 완료되었습니다.
+
+    window.location.href = "/userList"
+  }).catch(error => {
+    console.log(error);
+  })
+}
 /*
 handleOpenModal = (e) => {
   <Modal>
@@ -80,23 +93,8 @@ handleOpenModal = (e) => {
 </Modal>
 };
 */
-getGrade = (grade) => {
-  console.log(grade);
-  let level = <div></div>;
- // console.log(grade);
-  switch(grade){
-    case "Bronze":
-      level = <Avatar style={{backgroundColor: "#cd7f32"}}>B</Avatar> ; break;
-    case "Silver":
-      level = <Avatar style={{backgroundColor: "#C0C0C0"}}>S</Avatar>;  break;
-    case "Gold":
-      level = <Avatar style={{backgroundColor: "#FFD700"}}>G</Avatar>; break;
-    default:
-      level = <Avatar style={{backgroundColor: "#B9F2FF", color: "#205055"}}>D</Avatar>; break;
-  }
-}
-  render(){     
 
+  render(){     
     return(
       <React.Fragment>
         <Header />
@@ -106,23 +104,42 @@ getGrade = (grade) => {
             <Table className="table" style={{margin: "auto", width: '80%'}} >
               <TableHead>
                 <TableRow>
-                  <TableCell align='left' style={{width: '10%'}}>번호</TableCell>
-                  <TableCell align='left' style={{width: '40%'}}>이메일</TableCell>
-                  <TableCell align='left' style={{width: '20%'}}>닉네임</TableCell>
-                  <TableCell align='left' style={{width: '30%'}}>등급</TableCell>
+                  <TableCell style={{width: '10%'}}>번호</TableCell>
+                  <TableCell style={{width: '40%'}}>이메일</TableCell>
+                  <TableCell style={{width: '30%'}}>닉네임</TableCell>
+                  <TableCell style={{width: '10%'}}>등급</TableCell>
+                  <TableCell align='center' style={{width: '10%'}}>탈퇴</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-              {this.state.userList.map(user =>
-                <TableRow key={user.id}>
-                  <TableCell align='left'>{user.id}</TableCell>
-                  <TableCell align='left'><a >{user.username}</a></TableCell>
-                  <TableCell align='left'>{user.nickname}</TableCell>
-                  <TableCell align='left'>
-                         {this.getGrade(user.grade)}
-                  </TableCell>          
-                </TableRow>
-              )}
+              {
+                this.state.userList.map(user => {
+                  let level = <div></div>;
+                
+                  switch(user.grade){
+                    case "Bronze":
+                      level = <Avatar style={{backgroundColor: "#cd7f32"}}>B</Avatar> ; break;
+                    case "Silver":
+                      level = <Avatar style={{backgroundColor: "#C0C0C0"}}>S</Avatar>;  break;
+                    case "Gold":
+                      level = <Avatar style={{backgroundColor: "#FFD700"}}>G</Avatar>; break;
+                    default:
+                      level = <Avatar style={{backgroundColor: "#B9F2FF", color: "#205055"}}>D</Avatar>; break;
+                  }
+
+                  return (
+                    <TableRow key={user.id}>
+                      <TableCell>{user.id}</TableCell>
+                      <TableCell><a>{user.username}</a></TableCell>
+                      <TableCell>{user.nickname}</TableCell>
+                      <TableCell>
+                        {level}
+                      </TableCell>  
+                      <TableCell><Button color="primary" size="1rem" >탈퇴</Button></TableCell>
+                    </TableRow>
+                  )
+                })
+              }
               </TableBody>
               </Table>                 
           </div>

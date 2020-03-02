@@ -39,7 +39,7 @@ class PostEdit extends React.Component {
 
 
  postEditEnd = () => {
-  axios.post('http://127.0.0.1:8000/post/edit/'+this.props.match.params.id ,{
+  axios.patch('http://127.0.0.1:8000/post/edit/'+this.props.match.params.id +'/',{
     title: this.state.title,
     content: this.state.content
 
