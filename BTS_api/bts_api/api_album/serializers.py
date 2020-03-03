@@ -54,10 +54,10 @@ class AlbumCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ('thumbnail', 'title', 'content', 'created', 'category', 'genre', 'music_list')
+        fields = ('title', 'category', 'genre', 'created', 'content', 'music_list', 'thumbnail')
 
     def create(self, validated_data):
-        thumbnail, title, content, created, category, genre, music_list = validated_data.values()
+        title, category, genre, created, content, music_list, thumbnail = validated_data.values()
         album = Album.objects.create(
             thumbnail=thumbnail,
             title=title,

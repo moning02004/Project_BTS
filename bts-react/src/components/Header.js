@@ -45,18 +45,23 @@ class Header extends React.Component {
           <a href="/post" style={{textDecoration: 'none', color: "black"}}>자유게시판</a>
         </ListItem>
       </List>
-      <Divider />
-      <List>
-      <ListItem button>
-          <a href="/userList" style={{textDecoration: 'none', color: "black"}}>회원</a>
-        </ListItem>
-        <ListItem button>
-          <a href="/album/register" style={{textDecoration: 'none', color: "black"}}>앨범등록</a>
-        </ListItem>
-        <ListItem button>
-          <a href="/police" style={{textDecoration: 'none', color: "black"}}>신고</a>
-        </ListItem>
-      </List>
+      {
+        this.props.currentUser.grade === "Dia" &&
+        (<React.Fragment>
+          <Divider />
+          <List>
+            <ListItem button>
+              <a href="/userList" style={{textDecoration: 'none', color: "black"}}>회원</a>
+            </ListItem>
+            <ListItem button>
+              <a href="/album/register" style={{textDecoration: 'none', color: "black"}}>앨범등록</a>
+            </ListItem>
+            <ListItem button>
+              <a href="/police" style={{textDecoration: 'none', color: "black"}}>신고</a>
+            </ListItem>
+          </List>
+        </React.Fragment>)
+      }
     </div>
   );
 

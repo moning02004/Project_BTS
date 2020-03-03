@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import { IconButton } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
+import * as validation from '../utils/Validation';
 
 
 class SignupView extends React.Component {
@@ -11,8 +12,10 @@ class SignupView extends React.Component {
     super(props);
     this.state = {
       username: '',
+      validUsername: false,
       password: '',
       password2: '',
+      validPassword: false,
       nickname: '',
       checkUsername: false,
       disabled: true
@@ -20,7 +23,7 @@ class SignupView extends React.Component {
   }
   render(){
     const BtnCheck = () => (
-      <IconButton onClick={this.checkUsername} style={{color: (this.state.checkUsername) ? "blue" : "red"}}>
+      <IconButton disabled={this.state.validUsername ? false : true} onClick={this.checkUsername} style={{color: (this.state.checkUsername) ? "blue" : "red"}}>
         <DoneIcon />
       </IconButton>
     )
@@ -64,7 +67,8 @@ class SignupView extends React.Component {
                 required
                 fullWidth
                 label="Password"
-                name="password" 
+                name="password"
+                error={!this.state.validPassword}
                 value={this.state.password}
                 onChange={this.handleChange} />
 
@@ -76,7 +80,7 @@ class SignupView extends React.Component {
                 fullWidth
                 label="Password Confirm"
                 name="password2" 
-                error= {this.state.password !== this.state.password2 ? true: false}
+                error= {this.state.password !== this.state.password2 || !this.state.validPassword ? true: false}
                 value={this.state.password2}
                 onChange={this.handleChange} />
             </div>
@@ -87,7 +91,7 @@ class SignupView extends React.Component {
               fullWidth
               variant="contained"
               disabled={this.state.disabled}
-              color="primary"> Sign Up</Button>
+              color="primary">Sign Up</Button>
           </form>
 
           <div style={{textAlign: "right"}}>
@@ -100,6 +104,28 @@ class SignupView extends React.Component {
     );
   }
 
+  handleChange = (e) => {
+    let nextState = {
+      disabled: true,
+      [e.target.name]: e.target.value
+    }
+    if (e.target.name === "username") {
+      nextState = {
+        ...nextState,
+        validUsername: validation.validUsername(e.target.value),
+        checkUsername: false 
+      }
+    } else if (e.target.name === "password" || e.target.name === "password2") {
+      nextState['validPassword'] = validation.validPassword(e.target.value);
+    }
+    this.setState(nextState, () => {
+      this.setState({
+        ...this.state,
+        disabled: !validation.validSignup(this.state)
+      });
+    });
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     let { username, password, nickname } = this.state;
@@ -107,33 +133,22 @@ class SignupView extends React.Component {
       window.location.replace('/signin')
     });
   }
-  
-  handleChange = (e) => {
-    let nextState = {}
-    nextState[e.target.name] = e.target.value;
-    if (e.target.name === "username") {
-      nextState["checkUsername"] = false;
-    }
-    this.setState(nextState, data => {
-      if (this.enableSubmit()) {
-        this.setState({
-          disabled: false
-        })
-      }
-    });
-  }
-
-  enableSubmit = (e) => {
-    let { username, password, password2, nickname, checkUsername } = this.state;
-    return (username !== "" && password !== "" && password === password2 && nickname !== "" && checkUsername);
-  }
 
   checkUsername = (e) => {
     e.preventDefault();
+    if (!validation.validUsername(this.state.username)) {
+      alert('Email 형식이 아닙니다.');
+      return ;
+    }
     this.props.onCheck(this.state.username).then( () => {
       this.setState({
         ...this.state,
         checkUsername: (this.props.status === "CHECK_SUCCESS")
+      }, () => {
+        this.setState({
+          ...this.state,
+          disabled: !validation.validSignup(this.state)
+        })
       });
       if (this.props.status === "CHECK_FAILURE") {
         alert('이미 있는 계정입니다.')
