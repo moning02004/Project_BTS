@@ -8,7 +8,8 @@ from rest_framework.views import APIView
 
 from .models import Album, Category, Genre, AlbumComment, Like
 from .serializers import AlbumSerializer, AlbumCreateSerializer, AlbumDetailSerializer, AlbumCategorySerializer, \
-    AlbumGenreSerializer, MusicSerializer, CommentSerializer, CommentCreateSerializer, CommentUpdateSerializer
+    AlbumGenreSerializer, MusicSerializer, CommentSerializer, CommentCreateSerializer, CommentUpdateSerializer, \
+    CommentLikeSerializer, CommentDislikeSerializer, CommentPoliceSerializer
 
 
 class AlbumAPI(ListAPIView):
@@ -67,3 +68,30 @@ class CommentUpdateAPI(RetrieveAPIView, UpdateAPIView):
 class CommentDestroyAPI(DestroyAPIView):
     queryset = AlbumComment.objects.all()
     serializer_class = ModelSerializer
+
+
+class CommentLikeAPI(CreateAPIView):
+    queryset = AlbumComment.objects.all()
+    serializer_class = CommentLikeSerializer
+
+    def create(self, request, *args, **kwargs):
+        response = super(CommentLikeAPI, self).create(request, *args, **kwargs)
+        return Response({'message': 'create'})
+
+
+class CommentDislikeAPI(CreateAPIView):
+    queryset = AlbumComment.objects.all()
+    serializer_class = CommentDislikeSerializer
+
+    def create(self, request, *args, **kwargs):
+        super(CommentDislikeAPI, self).create(request, *args, **kwargs)
+        return Response({'message': 'create'})
+
+
+class CommentPoliceAPI(CreateAPIView):
+    queryset = AlbumComment.objects.all()
+    serializer_class = CommentPoliceSerializer
+
+    def create(self, request, *args, **kwargs):
+        super(CommentPoliceAPI, self).create(request, *args, **kwargs)
+        return Response({'message': 'create'})

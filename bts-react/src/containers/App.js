@@ -46,10 +46,10 @@ class App extends React.Component {
                 <Route path="/btsProfile" component={ BTSProfile }/>
                 
                 <Switch>
-                    <Route exact path="/album/:id" component={ AlbumDetail }/>
                     <Route exact path="/album/register" component={ AlbumRegister }/>
+                    <Route exact path="/album/:id" component={ AlbumDetail }/>
                     <Route exact path="/post/:id"  component={ PostDetail }/>
-                    <Route exact path="/postAdd"  component={ PostAdd }/>
+                    <Route exact path="/post/add"  component={ PostAdd }/>
                     <Route exact path="/post/edit/:id"  component={ PostEdit }/>
                     <Route exact path="/post" component={ PostList }/>
 
