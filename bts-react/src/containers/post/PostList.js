@@ -1,6 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import { Table, TableRow, TableCell, TableBody, TableHead} from '@material-ui/core';
 
 import Button from '@material-ui/core/Button';
@@ -26,7 +24,7 @@ class PostList extends React.Component {
   
 handleClickPostAdd = (e) => {
   console.log(e.currentTarget.id);
-  window.location.href = "/postAdd/";
+  window.location.href = "/postAdd";
 }  
 
 componentDidMount() {
@@ -62,6 +60,7 @@ render(){
       <Header />
         <div className="root" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
                 <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
+                <h3 style={{color: "grey"}}>자유게시판</h3>
 
                   <Table className="table" style={{margin: "auto", width: '80%'}} >
                     <TableHead style={{backgroundColor: "#EEEEFF"}}>

@@ -11,6 +11,7 @@ import PostAdd from '../containers/post/PostAdd';
 
 import PostEdit from '../containers/post/PostEdit';
 import UserList from '../containers/user/UserList';
+import PoliceList from './PoliceList';
 
 import Signup from './Signup';
 import Signin from './Signin';
@@ -49,10 +50,12 @@ class App extends React.Component {
                     <Route exact path="/album/register" component={ AlbumRegister }/>
                     <Route exact path="/album/:id" component={ AlbumDetail }/>
                     <Route exact path="/post/:id"  component={ PostDetail }/>
-                    <Route exact path="/post/add"  component={ PostAdd }/>
+                    <Route exact path="/postAdd"  component={ PostAdd }/>
                     <Route exact path="/post/edit/:id"  component={ PostEdit }/>
                     <Route exact path="/post" component={ PostList }/>
+                    <Route exact path="/policeList" component={ PoliceList }/>
 
+                    
                 </Switch>
                 <Route path="/userList" component={ UserList }/> 
 
