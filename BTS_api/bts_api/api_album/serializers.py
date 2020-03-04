@@ -84,6 +84,8 @@ class CommentCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         album, author, content = validated_data.values()
         AlbumComment.objects.create(album=album, author=author, content=content)
+        author.point += 5
+        author.save()
         return validated_data
 
 
@@ -99,3 +101,4 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
             instance.content = content
         instance.save()
         return instance
+

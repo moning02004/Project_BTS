@@ -179,7 +179,7 @@ class AlbumRegister extends React.Component{
     formData.append('content', content);
     formData.append('music_list', music_list);
     
-    axios.post('http://127.0.0.1:8000/album/register/', formData).then( response => {
+    axios.post(env.BASE_URL + 'album/register/', formData).then( response => {
       window.location.replace('/')
     }).catch( error => {
       console.log(error);

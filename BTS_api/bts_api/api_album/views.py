@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework.views import APIView
 
-from .models import Album, Category, Genre, AlbumComment
+from .models import Album, Category, Genre, AlbumComment, Like
 from .serializers import AlbumSerializer, AlbumCreateSerializer, AlbumDetailSerializer, AlbumCategorySerializer, \
     AlbumGenreSerializer, MusicSerializer, CommentSerializer, CommentCreateSerializer, CommentUpdateSerializer
 
@@ -67,3 +67,8 @@ class CommentUpdateAPI(RetrieveAPIView, UpdateAPIView):
 class CommentDestroyAPI(DestroyAPIView):
     queryset = AlbumComment.objects.all()
     serializer_class = ModelSerializer
+
+
+class CommentLikeAPI(ListCreateAPIView):
+    queryset = Like.objects.all()
+    serializer_class = 

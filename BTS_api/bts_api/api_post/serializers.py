@@ -6,6 +6,7 @@ from api_user.serializers import UserInfoSerializer
 
 class CommentSerializer(serializers.ModelSerializer):
     author = UserInfoSerializer(read_only=True)
+
     class Meta:
         model = PostComment
         fields = ('post', 'author', 'content', 'created')
@@ -58,6 +59,8 @@ class PostCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         title, author, content = validated_data.values()
         Post.objects.create(title=title, author=author, content=content)
+        author.point += 10
+        author.save()
         return validated_data
 
 
@@ -67,6 +70,12 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         fields = ('post', 'author', 'content')
 
     def create(self, validated_data):
+        post = validated_data.get('post')
+        author = validated_data.get('author')
+        content = validated_data.get('content')
+        PostComment.objects.create(post=post, author=author, content=content)
+        author.point += 5
+        author.save()
         return validated_data
 
 
