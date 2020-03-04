@@ -4,7 +4,7 @@ from django.http import HttpResponseBadRequest
 from rest_framework import serializers
 from rest_framework.response import Response
 
-from .models import Album, Genre, Music, Category, AlbumComment, Like, Dislike, Police
+from .models import Album, Music, AlbumComment, Like, Dislike, Police
 from api_user.serializers import UserInfoSerializer
 
 
@@ -27,7 +27,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AlbumComment
-        fields = ('album', 'author', 'content', 'created', 'count_like', 'dislike_set')
+        fields = ('album', 'author', 'content', 'created', 'count_like', 'count_dislike')
 
 
 class AlbumSerializer(serializers.ModelSerializer):
@@ -58,7 +58,7 @@ class AlbumCreateSerializer(serializers.ModelSerializer):
         fields = ('title', 'category', 'genre', 'created', 'content', 'music_list', 'thumbnail')
 
     def create(self, validated_data):
-        title, category, genre, created, content, music_list, thumbnail = validated_data.values()
+        title, category, genre, created, content, music_set, thumbnail = validated_data.values()
         album = Album.objects.create(
             thumbnail=thumbnail,
             title=title,
@@ -68,13 +68,39 @@ class AlbumCreateSerializer(serializers.ModelSerializer):
         )
         album.genre.add(genre)
 
-        music_list = json.loads(music_list[0])
-        for x in music_list:
+        music_set = json.loads(music_set[0])
+        for x in music_set:
             x['album'] = album.id
             music = MusicSerializer(data=x)
             if music.is_valid():
                 music.save()
         return validated_data
+
+
+class AlbumUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Album
+        fields = ('id', 'title', 'category', 'genre', 'created', 'content', 'music_set', 'thumbnail')
+
+    def update(self, instance, validated_data):
+        print(validated_data)
+        for key, value in validated_data.items():
+            print(key)
+            if value is not None:
+                if key not in ('genre', 'music_set'):
+                    setattr(instance, key, value)
+                elif key == "genre":
+                    instance.genre.clear()
+                    instance.genre.add(value)
+                elif key == "music_set":
+                    for x in value:
+                        print(x)
+                        x['album'] = instance.id
+                        music = MusicSerializer(data=x)
+                        if music.is_valid():
+                            print()
+        instance.save()
+        return instance
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
@@ -114,7 +140,7 @@ class CommentLikeSerializer(serializers.ModelSerializer):
         author = validated_data.get('author')
 
         if comment.dislike_set.filter(author=author).exists():
-            raise serializers.ValidationError({"message": "Already selected dislike"})
+            raise serializers.ValidationError({"message": "Not allowed"})
 
         if not comment.like_set.filter(author=author).exists():
             Like.objects.create(comment=comment, author=author)
@@ -134,7 +160,7 @@ class CommentDislikeSerializer(serializers.ModelSerializer):
         author = validated_data.get('author')
 
         if comment.like_set.filter(author=author).exists():
-            raise serializers.ValidationError({"message": "Already selected like"})
+            raise serializers.ValidationError({"message": "Not allowed"})
 
         if not comment.dislike_set.filter(author=author).exists():
             Dislike.objects.create(comment=comment, author=author)
@@ -147,7 +173,7 @@ class CommentDislikeSerializer(serializers.ModelSerializer):
 class CommentPoliceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Police
-        fields = ('comment', 'author', 'reason')
+        fields = ('id', 'comment', 'author', 'reason', 'admin_confirm')
 
     def create(self, validated_data):
         comment = validated_data.get('comment')
@@ -161,7 +187,30 @@ class CommentPoliceSerializer(serializers.ModelSerializer):
         return validated_data
 
 
+class PoliceUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Police
+        fields = ('id', 'comment', 'author', 'reason', 'admin_confirm')
+
+    def update(self, instance, validated_data):
+        instance.admin_confirm = True
+        instance.save()
+        return instance
+
+
 class PoliceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Police
         fields = ('id', 'comment', 'author', 'reason', 'created')
+
+
+class PoliceHandleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Police
+        fields = ('id', 'comment', 'author', 'reason')
+
+    def update(self, instance, validated_data):
+        print(instance)
+        comment = instance.comment
+        comment.delete()
+        return instance

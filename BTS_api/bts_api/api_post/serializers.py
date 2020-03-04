@@ -9,7 +9,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PostComment
-        fields = ('post', 'author', 'content', 'created')
+        fields = ('id', 'post', 'author', 'content', 'created')
 
 
 class PostListSerializer(serializers.ModelSerializer):
@@ -40,13 +40,9 @@ class PostUpdateSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'author', 'content')
 
     def update(self, instance, validated_data):
-        title = validated_data.get('title')
-        content = validated_data.get('content')
-
-        if title is not None:
-            instance.title = title
-        if content is not None:
-            instance.content = content
+        for key, value in validated_data.items():
+            if value is not None:
+                setattr(instance, key, value)
         instance.save()
         return instance
 
@@ -73,6 +69,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         post = validated_data.get('post')
         author = validated_data.get('author')
         content = validated_data.get('content')
+
         PostComment.objects.create(post=post, author=author, content=content)
         author.point += 5
         author.save()
