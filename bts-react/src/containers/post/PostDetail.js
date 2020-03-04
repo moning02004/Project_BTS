@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { connect } from 'react-redux';
-import { queryAllByAttribute } from '@testing-library/react';
 
 
 const axios = require('axios');
