@@ -6,10 +6,10 @@ from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework.views import APIView
 
-from .models import Album, Category, Genre, AlbumComment, Like
-from .serializers import AlbumSerializer, AlbumCreateSerializer, AlbumDetailSerializer, AlbumCategorySerializer, \
-    AlbumGenreSerializer, MusicSerializer, CommentSerializer, CommentCreateSerializer, CommentUpdateSerializer, \
-    CommentLikeSerializer, CommentDislikeSerializer, CommentPoliceSerializer
+from .models import Album, Category, Genre, AlbumComment, Like, Police
+from .serializers import AlbumSerializer, AlbumCreateSerializer, AlbumDetailSerializer, CommentSerializer, \
+    CommentCreateSerializer, CommentUpdateSerializer, \
+    CommentLikeSerializer, CommentDislikeSerializer, CommentPoliceSerializer, PoliceSerializer
 
 
 class AlbumAPI(ListAPIView):
@@ -32,16 +32,6 @@ class AlbumCreateAPI(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         return super(AlbumCreateAPI, self).create(request, *args, **kwargs)
-
-
-class AlbumCategoryAPI(ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = AlbumCategorySerializer
-
-
-class AlbumGenreAPI(ListAPIView):
-    queryset = Genre.objects.all()
-    serializer_class = AlbumGenreSerializer
 
 
 class AlbumCommentAPI(ListAPIView):
@@ -95,3 +85,8 @@ class CommentPoliceAPI(CreateAPIView):
     def create(self, request, *args, **kwargs):
         super(CommentPoliceAPI, self).create(request, *args, **kwargs)
         return Response({'message': 'create'})
+
+
+class PoliceAPI(ListAPIView):
+    queryset = Police.objects.all()
+    serializer_class = PoliceSerializer
