@@ -58,34 +58,26 @@ userDelete = (e) => {
   })
 }
 
-openDialog = (e) => {
- // this.state.id = this.state.id
-  axios.get('http://127.0.0.1:8000/user/'+this.state.id+'/').then(response => {
-    let responses = response.data;
-    console.log(this.state.id);
-   // console.log(id);
-/*
-    responses.forEach(element =>{
-      const {info} = this.state;
-      this.state({
-        ...this.state,
-        info: info.concat(element),
-      }, () => {
-          <Dialog open={true}>
-            <DialogTitle>고객정보</DialogTitle>
-            <DialogContent>
-              {info.id}<br/>
-              {info.username}<br/>
-              {info.grade}
-            </DialogContent>
-            <DialogActions>
-            <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
-           </DialogActions>
-        </Dialog>
-      }) 
-    }); */
-  });  
+handClickDialog = (e) => {
+  let user_id = e.currentTarget.id;
+  axios.get('http://127.0.0.1:8000/user/profile/'+user_id+'/').then(response => {
+    let {id, username, nickname, grade, point} = response.data;
+    this.setState({
+      id: id,
+      username: username,
+      nickname: nickname,
+      grade: grade,
+      point: point,
+
+      isDialogOpen: true
+    }, () => {
+      console.log(username);
+    });
+  }).catch(error => {
+    console.log(error);
+  });
 }
+
   
 handleClose = () => {
   this.setState({ isDialogOpen: false });
@@ -133,21 +125,22 @@ handleClose = () => {
                         {level}
                       </TableCell>  
                       <TableCell>
-                        <Button id={user.id} variant="outlined" color="primary" onClick={this.openDialog}>확인</Button>
+                        <Button id={user.id} variant="outlined" color="primary" onClick={this.handClickDialog}>확인</Button>
                           {
-                       /*     this.state.isDialogOpen &&
-                         <Dialog open={this.state.isDialogOpen}>
+                            this.state.isDialogOpen &&
+                      
+                          <Dialog open={this.state.isDialogOpen}>
                             <DialogTitle>고객정보</DialogTitle>
-                              <DialogContent>
-                                {user.id}<br/>
-                                {user.username}<br/>
-                                {user.grade}
-                              </DialogContent>
+                            <DialogContent>
+                              {user.id}<br/>
+                              {user.username}<br/>
+                              {user.grade}
+                            </DialogContent>
                             <DialogActions>
-                                <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
+                              <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
                             </DialogActions>
                           </Dialog>
-                          */
+                          
                         }
                       </TableCell>
                       <TableCell><Button variant="outlined" color="primary" size="1rem" >탈퇴</Button></TableCell>

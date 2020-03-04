@@ -20,7 +20,6 @@ class PostDetail extends React.Component {
         created: '',
         author: '',
 
-     //   comment_id: '',
         comment: '',
         postcomment_set: [],
     }
@@ -99,14 +98,10 @@ class PostDetail extends React.Component {
             <div>
              {/*} <Button id={index} color="primary" size="small" onClick={this.handleClickCommentEdit}>수정</Button> */}
               <Button 
-                key={comment.id}
-                name="comment_id" 
-                id="comment_id" 
+                id={comment.id}
                 color="primary" 
                 size="small" 
                 onClick={this.handClickCommentDelete} 
-                onChange={this.handleChange}
-                value={this.state.comment_id} 
                 >삭제</Button>
             </div>
             );
@@ -217,8 +212,9 @@ handleClickCommentEdit = () => {
 
 // 2-4. 댓글 삭제
 handClickCommentDelete = (e) => {
-  console.log(this.state.comment_id);
-  axios.delete('http://127.0.0.1:8000/post/commemt/delete/'+ this.state.comment_id+ '/').then(response =>{
+  let comment_id = e.currentTarget.id;
+  console.log(e.currentTarget.id);
+  axios.delete('http://127.0.0.1:8000/post/comment/delete/'+ comment_id+ '/').then(response =>{
     alert("댓글이 삭제되었습니다.");
     this.commentRender(); // 댓글 리랜더링
   }).catch(error => {
