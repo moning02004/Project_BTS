@@ -5,6 +5,8 @@ from api_user.serializers import UserInfoSerializer
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = UserInfoSerializer(read_only=True)
+
     class Meta:
         model = PostComment
         fields = ('post', 'author', 'content', 'created')
@@ -12,13 +14,10 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostListSerializer(serializers.ModelSerializer):
     count_comment = serializers.SerializerMethodField('count', read_only=True)
-    author = serializers.SerializerMethodField('get_author', read_only=True)
-    
+    author = UserInfoSerializer(read_only=True)
+
     def count(self, obj):
         return len(obj.postcomment_set.all())
-
-    def get_author(self, obj):
-        return obj.author.nickname
 
     class Meta:
         model = Post
@@ -28,6 +27,7 @@ class PostListSerializer(serializers.ModelSerializer):
 class PostDetailSerializer(serializers.ModelSerializer):
     author = UserInfoSerializer(read_only=True)
     postcomment_set = CommentSerializer(read_only=True, many=True)
+    created = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
 
     class Meta:
         model = Post

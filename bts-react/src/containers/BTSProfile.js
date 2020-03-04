@@ -35,6 +35,7 @@ class BTSProfile extends React.Component {
                 <Header />
                 <div style={{marginLeft: "5rem", marginTop: "3rem", marginRight: "5rem"}}>
                     <div align = 'center' style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
+                    <h3 style={{color: "grey"}}>BTS 프로필</h3>
                     <h1>1. BTS</h1>
                     2013년 데뷔해 국내외 신인상을 휩쓴 방탄소년단은 3년 만에 명실상부 한국을 대표하는 최정상 보이 그룹으로 성장했다.
                      현재는 아시아를 넘어 북미, 유럽, 남미, 중동에 이르기까지 전 세계 방탄소년단 열풍을 일으키며 글로벌 슈퍼스타로 우뚝 섰다. 
@@ -44,7 +45,7 @@ class BTSProfile extends React.Component {
      
                 <div className={useStyles.paper} align = 'center'>
                 <h1>2. Members</h1>
-                    <img src="http://armyzip.com/files/attach/images/42769/605/043/e75e43c2e4002dadba03d38b16aaaaf9.jpg"/>
+                    <img src="https://nsimg.kbs.co.kr/data/news/2019/04/16/4180979_9Xa.jpg"/>
 
                 <h1>Members</h1>
                     <img src="http://armyzip.com/files/attach/images/42769/605/043/e75e43c2e4002dadba03d38b16aaaaf9.jpg" alt=""/>

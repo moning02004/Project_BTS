@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux';
 import BTSProfile from './BTSProfile';
 import Main from '../containers/Main';
@@ -45,15 +45,17 @@ class App extends React.Component {
                 <Route path="/signup" component={ Signup }/>
                 <Route path="/btsProfile" component={ BTSProfile }/>
                 
-                <Route exact path="/album/register" component={ AlbumRegister }/>
-                {/* <Route exact path="/album/:id" component={ AlbumDetail }/> */}
-                <Route path="/userList" component={ UserList }/> 
-                <Route exact path="/post" component={ PostList }/>
-                <Route exact path="/post/:id"  component={ PostDetail }/>
-                <Route exact path="/postAdd"  component={ PostAdd }/>
+                <Switch>
+                    <Route exact path="/album/:id" component={ AlbumDetail }/>
+                    <Route exact path="/album/register" component={ AlbumRegister }/>
+                    <Route exact path="/post/:id"  component={ PostDetail }/>
+                    <Route exact path="/postAdd"  component={ PostAdd }/>
+                    <Route exact path="/post/edit/:id"  component={ PostEdit }/>
+                    <Route exact path="/post" component={ PostList }/>
 
-                <Route exact path="/postEdit/:id"  component={ PostEdit }/>
-                
+                </Switch>
+                <Route path="/userList" component={ UserList }/> 
+
             </BrowserRouter>
         );
     }
