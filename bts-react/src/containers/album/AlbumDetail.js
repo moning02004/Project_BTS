@@ -97,6 +97,16 @@ class AlbumDetail extends React.Component {
         });
     }
     
+    // 1-3. 댓글 삭제
+    handClickCommentDelete = (e) => {
+        let comment_id = e.currentTarget.id; 
+        axios.delete('http://127.0.0.1:8000/album/comment/delete/'+ comment_id+ '/').then(response => {
+            alert("댓글이 삭제되었습니다.");
+            this.commentRender();
+        }).catch(error =>{
+            console.log(error);
+        });
+    }
     render() {
     return (
         <React.Fragment>
@@ -170,8 +180,8 @@ class AlbumDetail extends React.Component {
           if(comment.author.username == this.props.currentUser.username){              
             btn2 = (
             <div>
-              <Button id={index} color="primary" size="small" onClick={this.handleClickCommentEdit}>수정</Button>
-              <Button id={index} color="primary" size="small" coClick={this.handClickCommentDel}>삭제</Button>
+             {/*  <Button id={index} color="primary" size="small" onClick={this.handleClickCommentEdit}>수정</Button> */}
+              <Button id={comment.id} color="primary" size="small" onClick={this.handClickCommentDelete}>삭제</Button>
             </div>
             );
           }
