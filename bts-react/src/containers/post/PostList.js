@@ -33,13 +33,13 @@ componentDidMount() {
   axios.get('http://127.0.0.1:8000/post/').then(response => {
       let responses = response.data;
       responses.forEach(element => {
-          const {post_list} = this.state;
+        const { post_list } = this.state;
           this.setState({
+            ...this.state,
             post_list: post_list.concat(element)
-          }, () => { // callback 함수: 끝나면 이 함수를 실행
+          }, () => {
             console.log(this.state.post_list); 
           }) 
-         // setState는 비동기적
       });
   });
 }
@@ -94,89 +94,4 @@ render(){
   }
 }
 
-export default PostList;  
-///////
-////////////////
-
-
-/*
-
-
-/////////
-
-export default function StickyHeadTable() {
-      constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-      password2: '',
-      nickname: '',
-      check_username: false
-    }
-  }
-  const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  return (
-    <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map(column => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {columns.map(column => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </Paper>
-  );
-}
-
-   
-
-
- */
+export default PostList;

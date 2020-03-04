@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import JwtDecode from 'jwt-decode';
 import { Typography } from '@material-ui/core';
-
+import * as validation from '../utils/Validation';
 
 class SigninView extends React.Component {
   constructor(props) {
@@ -13,44 +13,17 @@ class SigninView extends React.Component {
     this.state = {
       username: '',
       password: '',
+      validSubmit: false,
       message: ''
     }
   }
-  handleChange = (e) => {
-    let nextState = {}
-    nextState[e.target.name] = e.target.value;
-    this.setState(nextState);
-  }
-
-  signin = (e) => {
-    e.preventDefault();
-    let {username, password} = this.state;
-    this.props.onSubmit(username, password).then(
-      () => {
-        if (this.props.status === "SUCCESS") {
-          let token = JwtDecode(this.props.token);
-          let signinData = {
-            isAuth: true,
-            user_id: token.user_id
-          };
-          document.cookie = "key=" + btoa(JSON.stringify(signinData));
-          window.location.replace('/')
-        } else {
-          this.setState({
-            ...this.state,
-            message: "해당 계정을 찾을 수 없습니다."
-          })
-        }
-      }
-    );
-  }
-  
+    
   render() {
     return (
       <React.Fragment>
         <div className="container my-3">
           <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
-            <a href="/"><img src='../../img/armypurple.jpg' className="img" alt="" /></a>
+            <a href="/"><img src='img/armypurple.jpg' className="img" alt="" /></a>
           </div>
           <form onSubmit={this.signin}>
             <div className="formGroup">
@@ -79,7 +52,12 @@ class SigninView extends React.Component {
               />
             </div>
             <Typography margin="normal">{this.state.message}</Typography>
-            <Button type="submit" fullWidth variant="contained" color="primary" onClick={this.signin}>Sign In</Button>
+            <Button type="submit"
+              fullWidth
+              variant="contained" 
+              color="primary"
+              onClick={this.handleSubmit} 
+              disabled={!this.state.validSubmit}>Sign In</Button>
           </form>
           <div style={{textAlign: "right"}}>
             <Link href="/signup" variant="body2">
@@ -89,5 +67,36 @@ class SigninView extends React.Component {
       </div>
     </React.Fragment>
   )};
+
+  handleChange = (e) => {
+    let nextState = {
+      [e.target.name]: e.target.value,
+      validSubmit: validation.validSignin(this.state)
+    };
+    this.setState(nextState);
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    let {username, password} = this.state;
+    this.props.onSubmit(username, password).then(
+      () => {
+        if (this.props.status === "SUCCESS") {
+          let token = JwtDecode(this.props.token);
+          let signinData = {
+            isAuth: true,
+            user_id: token.user_id
+          };
+          document.cookie = "key=" + btoa(JSON.stringify(signinData));
+          window.location.replace('/');
+        } else {
+          this.setState({
+            ...this.state,
+            message: "해당 계정을 찾을 수 없습니다."
+          });
+        }
+      }
+    );
+  }
 }
 export default SigninView;

@@ -59,7 +59,7 @@ class Dislike(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
 
-class like(models.Model):
+class Like(models.Model):
     comment = models.ForeignKey(AlbumComment, on_delete=models.CASCADE)
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)

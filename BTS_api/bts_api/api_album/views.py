@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework.views import APIView
 
-from .models import Album, Category, Genre, AlbumComment
+from .models import Album, Category, Genre, AlbumComment, Like
 from .serializers import AlbumSerializer, AlbumCreateSerializer, AlbumDetailSerializer, AlbumCategorySerializer, \
     AlbumGenreSerializer, MusicSerializer, CommentSerializer, CommentCreateSerializer, CommentUpdateSerializer
 

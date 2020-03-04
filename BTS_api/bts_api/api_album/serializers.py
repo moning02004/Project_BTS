@@ -54,10 +54,10 @@ class AlbumCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ('thumbnail', 'title', 'content', 'created', 'category', 'genre', 'music_list')
+        fields = ('title', 'category', 'genre', 'created', 'content', 'music_list', 'thumbnail')
 
     def create(self, validated_data):
-        thumbnail, title, content, created, category, genre, music_list = validated_data.values()
+        title, category, genre, created, content, music_list, thumbnail = validated_data.values()
         album = Album.objects.create(
             thumbnail=thumbnail,
             title=title,
@@ -84,6 +84,8 @@ class CommentCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         album, author, content = validated_data.values()
         AlbumComment.objects.create(album=album, author=author, content=content)
+        author.point += 5
+        author.save()
         return validated_data
 
 
@@ -99,3 +101,4 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
             instance.content = content
         instance.save()
         return instance
+
