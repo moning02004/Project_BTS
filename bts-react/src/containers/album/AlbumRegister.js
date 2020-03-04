@@ -203,7 +203,7 @@ class AlbumRegister extends React.Component{
   }
   handleRemove = (e) => {
     e.preventDefault();
-    console.log(e.target.props('id'));
+    console.log(e.currentTarget.id);
   }
 }
 

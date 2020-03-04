@@ -80,6 +80,7 @@ class PostDetail extends React.Component {
       <Table className="table_comment" style={{margin: "auto", width: '80%'}}>
         
         {this.state.postcomment_set.map((comment, index) => {
+          console.log(comment.id);
           let level = <div></div>;
           let btn2 = <div></div>;
 
