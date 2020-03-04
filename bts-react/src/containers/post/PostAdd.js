@@ -22,7 +22,7 @@ postAdd = () => { // 렌더 다음에 실행, axios 상태를 업데이트?
    // console.log(this.state.title, this.state.content, this.props.currentUser.username);
     axios.post('http://127.0.0.1:8000/post/register/', {
         title: this.state.title,
-        author: this.props.currentUser.username,
+        author: this.props.currentUser.user_id,
         content: this.state.content
   
     }).then(response => {
