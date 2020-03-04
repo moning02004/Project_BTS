@@ -15,7 +15,11 @@ class CommentSerializer(serializers.ModelSerializer):
 class PostListSerializer(serializers.ModelSerializer):
     count_comment = serializers.SerializerMethodField('count', read_only=True)
     author = UserInfoSerializer(read_only=True)
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> upstream/master
     def count(self, obj):
         return len(obj.postcomment_set.all())
 

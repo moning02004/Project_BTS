@@ -5,6 +5,8 @@ class AlbumList extends React.Component {
     constructor(props) {
         super(props);
         this.state={};
+    console.log(document.cookie);
+
     }
     handleClickAlbum = (e) => {
         console.log(e.currentTarget.id);
