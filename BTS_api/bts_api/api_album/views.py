@@ -67,8 +67,3 @@ class CommentUpdateAPI(RetrieveAPIView, UpdateAPIView):
 class CommentDestroyAPI(DestroyAPIView):
     queryset = AlbumComment.objects.all()
     serializer_class = ModelSerializer
-
-
-class CommentLikeAPI(ListCreateAPIView):
-    queryset = Like.objects.all()
-    serializer_class = 
