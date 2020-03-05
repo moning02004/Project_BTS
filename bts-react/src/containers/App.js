@@ -21,22 +21,13 @@ import AlbumDetail from './album/AlbumDetail';
 class App extends React.Component {
 
     componentDidMount() {
-        function getCookie(name) {
-            var value = "; " + document.cookie; 
-            var parts = value.split("; " + name + "="); 
-            if (parts.length === 2) return parts.pop().split(";").shift();
-        }
-        let signinData = getCookie('key')
+        let signinData = sessionStorage.getItem("KEY")
         if (!signinData) return;
         signinData = JSON.parse(atob(signinData))
-        console.log(signinData);
         if (!signinData.isAuth) return ;
 
-        this.props.getStatus(signinData.user_id).then(
-            (e) => {
-                console.log('app')
-            }
-        )
+        this.props.getStatus(signinData.token.user_id).then(() => {
+        });
     }
     render() {
         return (

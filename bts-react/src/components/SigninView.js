@@ -83,11 +83,12 @@ class SigninView extends React.Component {
       () => {
         if (this.props.status === "SUCCESS") {
           let token = JwtDecode(this.props.token);
+
           let signinData = {
             isAuth: true,
-            user_id: token.user_id
+            token: token,
           };
-          document.cookie = "key=" + btoa(JSON.stringify(signinData));
+          sessionStorage.setItem("KEY", btoa(JSON.stringify(signinData)));
           window.location.replace('/');
         } else {
           this.setState({

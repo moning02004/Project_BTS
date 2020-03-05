@@ -78,7 +78,7 @@ class Header extends React.Component {
       isAuth: false,
       user_id: ''
     };
-    document.cookie = "key=" + btoa(JSON.stringify(singinData));
+    sessionStorage.removeItem("KEY");
     this.props.onLogout();
     this.handleClose();
     window.location.reload();

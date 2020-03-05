@@ -109,7 +109,7 @@ function authentication(state = initialState, action) {
             status:{
                 isAuth: false,
                 currentUser: {
-                    user_id: 0,
+                    user_id: '',
                     username: '',
                     nickname: ''
                 }
