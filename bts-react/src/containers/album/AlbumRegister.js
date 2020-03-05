@@ -35,7 +35,7 @@ class AlbumRegister extends React.Component{
     return(
       <React.Fragment>
         <Header />
-        <div className="container-50 my-3">
+        <div className="container-70 my-3">
           <form onSubmit={this.onSubmit}>
             <small><b>앨범 정보</b></small>
             <Table className="my-3">

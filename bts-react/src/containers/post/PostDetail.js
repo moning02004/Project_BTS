@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table,TableContainer,TableRow, TableCell, TableBody, TableHead, Avatar} from '@material-ui/core';
+import { Table,Typography,TableContainer,TableRow, TableCell, TableBody, TableHead, Avatar} from '@material-ui/core';
 
 import Button from '@material-ui/core/Button';
 import Header from '../../components/Header';
@@ -67,72 +67,65 @@ class PostDetail extends React.Component {
         </div>
       
       {/* 댓글란 */}
-      
-      <div style={{margin: "auto", textAlign: "center", marginBottom: "5rem", marginTop: "5rem"}}>
-      <div align="right" style={{margin: "auto", width: '80%', backgroundColor: "#EEEEFF"}}>
-      <h3 align="left">Comment</h3>
-
-      <textarea style={{width: "600px"}} align="center" id="comment" margin="normal" name="comment" width ="70%" value={this.state.comment} onChange={this.handleChange} />
-        <Button variant="outlined" onClick={this.handleClickCommentAdd} >작성</Button>
-      </div>
-      <Table className="table_comment" style={{margin: "auto", width: '80%'}}>
+      <div className="container-80 my-3">
+      <h3>Comment</h3>
+        <div className="input-group">
         
+          <textarea className="form-control comment-textarea" name="comment"
+              value={this.state.comment} onChange={this.handleChange}
+              style={{width:"700px"}}/>
+          <div className="input-group-append">
+            <button type="submit" className="input-group-text"
+               onClick={this.handleClickCommentAdd}>작성</button>
+          </div>
+        </div>
         {this.state.postcomment_set.map((comment, index) => {
-          console.log(comment.id);
-          let level = <div></div>;
-          let btn2 = <div></div>;
-
-          switch(comment.author.grade){
+       
+          let grade = <div></div>;
+          let btn2 = '';
+          switch(this.props.currentUser.grade) {
             case "Bronze":
-              level = <Avatar style={{backgroundColor: "#cd7f32"}}>B</Avatar> ; break;
+             grade = (<Avatar style={{backgroundColor: "#cd7f32"}}>B</Avatar>); break;
             case "Silver":
-              level = <Avatar style={{backgroundColor: "#C0C0C0"}}>S</Avatar>;  break;
+             grade = (<Avatar style={{backgroundColor: "#C0C0C0"}}>S</Avatar>); break;
             case "Gold":
-              level = <Avatar style={{backgroundColor: "#FFD700"}}>G</Avatar>; break;
+             grade = (<Avatar style={{backgroundColor: "#FFD700"}}>G</Avatar>); break;
             default:
-              level = <Avatar style={{backgroundColor: "#B9F2FF", color: "#205055"}}>D</Avatar>; break;
+             grade = (<Avatar style={{backgroundColor: "#B9F2FF", color: "#205055"}}>D</Avatar>); break;
           }
           if(comment.author.username == this.props.currentUser.username){              
             btn2 = (
             <div>
-             {/*} <Button id={index} color="primary" size="small" onClick={this.handleClickCommentEdit}>수정</Button> */}
-              <Button 
-                id={comment.id}
-                color="primary" 
-                size="small" 
-                onClick={this.handClickCommentDelete} 
-                >삭제</Button>
-            </div>
+               <Button id={comment.id} color="primary" size="small" onClick={this.handClickCommentDelete}>삭제</Button>
+             </div>
             );
           }
-          return(
-            <TableRow  colSpan={2} key ={index}>
-              <TableCell align='left' style={{ width: '100px'}}> 
-                {comment.author.nickname}<br></br>
-                {level}
-              </TableCell>
-            <TableRow>
-              <TableCell align='left' style={{width: '700px'}}>
-                {comment.content} 
-               </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align='left'style={{width: '700px'}}>
-                {comment.created}
-                {btn2}  
-              </TableCell>
-            </TableRow>
-            </TableRow>
-          ) // end of return
-        } // end of(comment, index) =>
-      )} 
-      </Table>
-      </div>
-    </div>
+          return (
+           <React.Fragment>
+            <div id={comment.id} style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
+              <div>{grade}</div>
+              <div className="inline-block ml-3 w-100">
+                <Typography><b>{comment.author.nickname}</b></Typography>
+                  <div className="w-100">
+                    <div className="inline">
+                      <span>{comment.content}</span>
+                        <div className="date">
+                          <span className="small mr-2">{comment.created}</span>
+                          {btn2}
+                        </div>
+                    </div>
+                  </div>
+                 </div>
+                </div>
+            </React.Fragment>
+          );
+        })} 
+     </div>
+     </div>
     <Footer />
     </React.Fragment>
     );
- 
+
     }
 
 

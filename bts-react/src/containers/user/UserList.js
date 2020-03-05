@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableContainer,TableRow, TableCell, TableBody, TableHead, Avatar, Modal} from '@material-ui/core';
+import { Table, TableContainer,TableRow, TableCell, TableBody, TableHead, Avatar} from '@material-ui/core';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Button from '@material-ui/core/Button';
@@ -40,48 +40,43 @@ class UserList extends React.Component {
     });
   }
   
-
-handleClickAlbum = (e) => {
-  console.log(e.currentTarget);
-}
-
+  handleChange = (e) => { // target 현재 선택되어 있는 태크
+    let nextState = {};
+      nextState[e.target.name] = e.target.value;
+      this.setState(nextState);
+    
+  }
+  
 userDelete = (e) => {
-  axios.post('http://127.0.0.1:8000/user/delete/'+this.state.id+'/', {
-    id: this.state.id,
+  let user_id = e.currentTarget.id;
+  console.log(user_id);
 
-  }).then(response => {
-    // modal. 탈퇴처리가 완료되었습니다.
-
+  axios.delete('http://127.0.0.1:8000/user/delete/'+user_id+'/').then(response => {
+    alert("탈퇴 처리가 완료되었습니다.");
     window.location.href = "/userList"
   }).catch(error => {
     console.log(error);
-  })
+  });
 }
 
 handClickDialog = (e) => {
   let user_id = e.currentTarget.id;
+
   axios.get('http://127.0.0.1:8000/user/profile/'+user_id+'/').then(response => {
     let {id, username, nickname, grade, point} = response.data;
     this.setState({
-      id: id,
-      username: username,
-      nickname: nickname,
-      grade: grade,
-      point: point,
-
-      isDialogOpen: true
-    }, () => {
-      console.log(username);
+      info: {id : id, username: username, nickname: nickname, grade: grade, point: point},
+      isDialogOpen: true,
     });
   }).catch(error => {
     console.log(error);
   });
 }
 
-  
 handleClose = () => {
   this.setState({ isDialogOpen: false });
 }
+
 
   render(){     
     return(
@@ -125,27 +120,36 @@ handleClose = () => {
                         {level}
                       </TableCell>  
                       <TableCell>
-                        <Button id={user.id} variant="outlined" color="primary" onClick={this.handClickDialog}>확인</Button>
-                          {
-                            this.state.isDialogOpen &&
-                      
-                          <Dialog open={this.state.isDialogOpen}>
-                            <DialogTitle>고객정보</DialogTitle>
-                            <DialogContent>
-                              {user.id}<br/>
-                              {user.username}<br/>
-                              {user.grade}
+                       <Button id={user.id} variant="outlined" color="primary" onClick={this.handClickDialog}>확인</Button> 
+                        
+                          <Dialog 
+                            open={this.state.isDialogOpen}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                            fullWidth="md"
+                            >
+
+                            <DialogTitle id="alert-dialog-title" onClose={this.handleClose}>고객정보</DialogTitle>
+                            <DialogContent dividers>
+                              
+                              고객번호 : {this.state.info.id}<br/>
+                              이메일 : {this.state.info.username}<br/>
+                              닉네임 : {this.state.info.nickname}<br/>
+                              포인트 : {this.state.info.point}<br/>
+                             
                             </DialogContent>
                             <DialogActions>
                               <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
                             </DialogActions>
                           </Dialog>
                           
-                        }
                       </TableCell>
-                      <TableCell><Button variant="outlined" color="primary" size="1rem" >탈퇴</Button></TableCell>
+                      <TableCell>
+                        <Button id={user.id} variant="outlined" color="primary" size="1rem" onClick={this.userDelete}>탈퇴
+                        </Button>
+                      </TableCell>
                     </TableRow>
-                  )
+                  );
                 })
               }
               </TableBody>

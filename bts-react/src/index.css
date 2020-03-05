@@ -21,8 +21,12 @@ code {
   cursor: pointer;
 }
 
-.container-50 {
-  width: 50%;
+.container-70 {
+  width: 70%;
+  margin: auto;
+}
+.container-80 {
+  width: 80%;
   margin: auto;
 }
 .formGroup {

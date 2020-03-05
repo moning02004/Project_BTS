@@ -6,12 +6,10 @@ import NotificationsActiveTwoToneIcon from '@material-ui/icons/NotificationsActi
 import ThumbDownTwoToneIcon from '@material-ui/icons/ThumbDownTwoTone';
 import ThumbUpTwoToneIcon from '@material-ui/icons/ThumbUpTwoTone';
 import { connect } from 'react-redux';
-import { BASE_URL } from '../../utils/environment';
-import PoliceView from '../../components/PoliceView';
 
 const axios = require('axios');
 
-class AlbumDetail extends React.PureComponent {
+class AlbumDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,8 +24,6 @@ class AlbumDetail extends React.PureComponent {
 
             comment: '',
             albumcomment_set: [],
-            isOpen: false,
-            selected: ''
         }
     
     }
@@ -52,9 +48,10 @@ class AlbumDetail extends React.PureComponent {
                 this.setState({
                     ...this.state,
                     musicSet: musicSet.concat(music)
-                });
+                }, () => console.log(this.state.musicSet));
             });
         }).catch( error => {
+            console.log(error);
         });
     }
 
@@ -99,38 +96,7 @@ class AlbumDetail extends React.PureComponent {
             console.log(error);
         });
     }
-    commentLike = (e) => {
-        e.preventDefault();
-        let root = e.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode
-        axios.post(BASE_URL + 'album/comment/like/register/', {
-            comment: root.id,
-            author: this.props.currentUser.user_id
-        }).then( response => {
-            this.commentRender();
-        }).catch( error => {
-            this.commentRender();
-        });
-    }
-    commentDislike = (e) => {
-        e.preventDefault();
-        let root = e.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode
-        axios.post(BASE_URL + 'album/comment/dislike/register/', {
-            comment: root.id,
-            author: this.props.currentUser.user_id
-        }).then( response => {
-            this.commentRender();
-        }).catch( error => {
-            this.commentRender();
-        });
-    }
-    commentPolice = (e) => {
-        let root = e.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode;
-        this.setState({
-            ...this.state,
-            isOpen: true,
-            selected: root.id
-        })
-    }
+    
     // 1-3. 댓글 삭제
     handClickCommentDelete = (e) => {
         let comment_id = e.currentTarget.id; 
@@ -141,18 +107,11 @@ class AlbumDetail extends React.PureComponent {
             console.log(error);
         });
     }
-    handleClose =(e) => {
-        this.setState({
-            ...this.state,
-            isOpen: false,
-            selected: ''
-        })
-    }
     render() {
         return (
             <React.Fragment>
             <Header />
-            <div className="container-50 my-3">
+            <div className="container-70 my-3">
                 <div className="my-3" style={{display: "flex", flexWrap: "wrap", alignItems: "center"}}>
                     <div className="detail-img"><img src={this.state.thumbnail} width="100%" alt="" /></div>
                     <div style={{marginLeft: "2rem"}}>
@@ -209,18 +168,9 @@ class AlbumDetail extends React.PureComponent {
                 </div>
 
                 {this.state.albumcomment_set.map((comment, index) => {
-                    console.log(comment.like_set)
-                    let isContainsLike = false;
-                    let isContainsDislike = false;
-                    comment.like_set.forEach( like => {
-                        console.log(this.props.currentUser.user_id === like.author)
-                        if (this.props.currentUser.user_id === like.author) {isContainsLike = true;}
-                    })
-                    comment.dislike_set.forEach( dislike => {
-                        if (this.props.currentUser.user_id === dislike.author) isContainsDislike = true;
-                    })
                     let grade = <div></div>;
                     let btn2 = '';
+                    
                     switch(this.props.currentUser.grade) {
                         case "Bronze":
                             grade = (<Avatar style={{backgroundColor: "#cd7f32"}}>B</Avatar>); break;
@@ -241,26 +191,22 @@ class AlbumDetail extends React.PureComponent {
                     }
                     return (
                         <React.Fragment>
-                            <div id={comment.id} className="my-3" style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
-                                <div>{grade}</div>
+                            <div className="my-3" style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
+                                <div >{grade}</div>
                                 <div className="inline-block ml-3 w-100">
-                                    <Typography><b>{comment.author.nickname}</b></Typography>
+                                    <Typography><b>관리자</b></Typography>
                                     <div className="w-100">
                                         <div className="inline">
-                                            <span>{comment.content}</span>
+                                            <span>이번 앨범 진짜 좋은 거 같아유</span>
                                             <div className="date">
-                                                <span className="small mr-2">{comment.created}</span>
-                                                <IconButton onClick={this.commentLike}>
-                                                    <ThumbUpTwoToneIcon fontSize="small" style={{color: (isContainsLike) ? "blue" : "" }}/>
-                                                    <small style={{fontSize: "0.8rem"}}>{comment.like_set.length}</small>
+                                                <span className="small mr-2">2020-03-01</span>
+                                                <IconButton>
+                                                    <ThumbUpTwoToneIcon fontSize="small" color="action" />
                                                 </IconButton>
-
-                                                <IconButton onClick={this.commentDislike}>
-                                                    <ThumbDownTwoToneIcon fontSize="small" style={{color: (isContainsDislike) ? "red" : "" }} />
-                                                    <small style={{fontSize: "0.8rem"}}>{comment.dislike_set.length}</small>
+                                                <IconButton>
+                                                    <ThumbDownTwoToneIcon fontSize="small" color="action" />
                                                 </IconButton>
-                                                
-                                                <IconButton onClick={this.commentPolice}>
+                                                <IconButton>
                                                     <NotificationsActiveTwoToneIcon fontSize="small" color="action" />
                                                 </IconButton>
                                             </div>
@@ -271,12 +217,6 @@ class AlbumDetail extends React.PureComponent {
                         </React.Fragment>
                     )})} 
             </div>
-            <PoliceView 
-                comment_id={this.state.selected} 
-                user_id={this.props.currentUser.user_id} 
-                open={this.state.isOpen} 
-                handleClose={this.handleClose}
-            />
             <Footer />
             </React.Fragment>
         );
@@ -284,6 +224,7 @@ class AlbumDetail extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => { // 리덕스가 관리하는 상태를 지켜봄, 
+    console.log(state);
     return {
         currentUser: state.auth.status.currentUser
     }

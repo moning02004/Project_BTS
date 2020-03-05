@@ -34,7 +34,7 @@ class BTSProfile extends React.Component {
 
                 <Header />
                 <div style={{marginLeft: "5rem", marginTop: "3rem", marginRight: "5rem"}}>
-                    <div align = 'center' style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
+                    <div className="container-70 my-3" align = 'center' style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
                     <h3 style={{color: "grey"}}>BTS 프로필</h3>
                     <h1>1. BTS</h1>
                     2013년 데뷔해 국내외 신인상을 휩쓴 방탄소년단은 3년 만에 명실상부 한국을 대표하는 최정상 보이 그룹으로 성장했다.
