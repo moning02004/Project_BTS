@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { connect } from 'react-redux';
-import { queryAllByAttribute } from '@testing-library/react';
 
 
 const axios = require('axios');
@@ -79,6 +78,7 @@ class PostDetail extends React.Component {
       <Table className="table_comment" style={{margin: "auto", width: '80%'}}>
         
         {this.state.postcomment_set.map((comment, index) => {
+          console.log(comment.id);
           let level = <div></div>;
           let btn2 = <div></div>;
 

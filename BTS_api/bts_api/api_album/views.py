@@ -7,9 +7,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework.views import APIView
 
 from .models import Album, Category, Genre, AlbumComment, Like, Police
-from .serializers import AlbumSerializer, AlbumCreateSerializer, AlbumDetailSerializer, CommentSerializer, \
-    CommentCreateSerializer, CommentUpdateSerializer, \
-    CommentLikeSerializer, CommentDislikeSerializer, CommentPoliceSerializer, PoliceSerializer
+from .serializers import *
 
 
 class AlbumAPI(ListAPIView):
@@ -32,6 +30,19 @@ class AlbumCreateAPI(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         return super(AlbumCreateAPI, self).create(request, *args, **kwargs)
+
+
+class AlbumUpdateAPI(RetrieveAPIView, UpdateAPIView):
+    queryset = Album.objects.all()
+    serializer_class = AlbumUpdateSerializer
+
+    def partial_update(self, request, *args, **kwargs):
+        return super(AlbumUpdateAPI, self).partial_update(request, *args, **kwargs)
+
+
+class AlbumDestroyAPI(DestroyAPIView):
+    queryset = Album.objects.all()
+    serializer_class = ModelSerializer
 
 
 class AlbumCommentAPI(ListAPIView):
@@ -65,7 +76,7 @@ class CommentLikeAPI(CreateAPIView):
     serializer_class = CommentLikeSerializer
 
     def create(self, request, *args, **kwargs):
-        response = super(CommentLikeAPI, self).create(request, *args, **kwargs)
+        super(CommentLikeAPI, self).create(request, *args, **kwargs)
         return Response({'message': 'create'})
 
 
@@ -87,6 +98,27 @@ class CommentPoliceAPI(CreateAPIView):
         return Response({'message': 'create'})
 
 
-class PoliceAPI(ListAPIView):
+class CommentPoliceConfirmAPI(RetrieveAPIView, UpdateAPIView):
     queryset = Police.objects.all()
+    serializer_class = PoliceUpdateSerializer
+
+    def partial_update(self, request, *args, **kwargs):
+        return super(CommentPoliceConfirmAPI, self).partial_update(request, *args, **kwargs)
+
+
+class PoliceAPI(ListAPIView):
+    queryset = Police.objects.filter(admin_confirm=False).all()
     serializer_class = PoliceSerializer
+
+
+class PoliceDestroyAPI(DestroyAPIView):
+    queryset = Police.objects.all()
+    serializer_class = ModelSerializer
+
+
+class CommentPoliceHandleAPI(RetrieveAPIView, UpdateAPIView):
+    queryset = Police.objects.all()
+    serializer_class = PoliceHandleSerializer
+
+    def partial_update(self, request, *args, **kwargs):
+        return super(CommentPoliceHandleAPI, self).partial_update(request, *args, **kwargs)

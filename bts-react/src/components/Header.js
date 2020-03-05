@@ -105,7 +105,7 @@ class Header extends React.Component {
         </div>);
     }
 
-    let auth = <div></div>
+    let auth = <div></div>;
     switch(this.props.currentUser.grade) {
       case "Bronze":
         auth = (<Avatar style={{backgroundColor: "#cd7f32"}}>B</Avatar>); break;

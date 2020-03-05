@@ -34,7 +34,7 @@ class Content extends React.Component {
             <React.Fragment>
                 <div className="container my-3">
                     <CategoryContainer />
-                <AlbumList album_list={this.state.album_list} keyword={this.props.keyword} />
+                    <AlbumList album_list={this.state.album_list} keyword={this.props.keyword} />
                 </div>
             </React.Fragment>
         );
