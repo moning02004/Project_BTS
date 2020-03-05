@@ -194,6 +194,8 @@ class PoliceUpdateSerializer(serializers.ModelSerializer):
 
 
 class PoliceSerializer(serializers.ModelSerializer):
+    created = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+
     class Meta:
         model = Police
         fields = ('id', 'comment', 'author', 'reason', 'created')

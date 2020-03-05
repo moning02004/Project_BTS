@@ -32,6 +32,10 @@ class PoliceList extends React.Component {
 
     });
   }
+
+  gotoPoliceHandle = (e) => {
+    console.log(e.currentTarget.id)
+  }
   
   render(){     
     return(
@@ -48,8 +52,8 @@ class PoliceList extends React.Component {
                     <Checkbox>전체선택</Checkbox>
                   </TableCell>
                   <TableCell style={{width: '10%'}}>번호</TableCell>
-                  <TableCell style={{width: '65%'}}>내용</TableCell>
-                  <TableCell style={{width: '15%'}}>신고일자</TableCell>
+                  <TableCell style={{width: '55%'}}>내용</TableCell>
+                  <TableCell style={{width: '25%'}}>신고일자</TableCell>
                   <TableCell align='center' style={{width: '10%'}}>삭제</TableCell>
                 </TableRow>
               </TableHead>
@@ -57,7 +61,7 @@ class PoliceList extends React.Component {
                 {
                   this.state.policeList.map( (police, index) => {
                     return (
-                      <TableRow>
+                      <TableRow id={police.id} onClick={this.gotoPoliceHandle} className="cursor-pointer">
                         <TableCell>
                           <Checkbox>전체선택</Checkbox>
                         </TableCell>
