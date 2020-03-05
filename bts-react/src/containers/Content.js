@@ -32,7 +32,7 @@ class Content extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="container my-3">
+                <div className="container-50 my-3">
                     <CategoryContainer />
                     <AlbumList album_list={this.state.album_list} keyword={this.props.keyword} />
                 </div>

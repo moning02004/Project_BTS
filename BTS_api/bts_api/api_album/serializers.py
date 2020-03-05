@@ -14,21 +14,55 @@ class MusicSerializer(serializers.ModelSerializer):
         fields = ('album', 'track', 'name', 'is_title')
 
 
+class CommentLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ('comment', 'author')
+
+    def create(self, validated_data):
+        comment = validated_data.get('comment')
+        author = validated_data.get('author')
+
+        if comment.dislike_set.filter(author=author).exists():
+            raise serializers.ValidationError({"message": "Not allowed"})
+
+        if not comment.like_set.filter(author=author).exists():
+            Like.objects.create(comment=comment, author=author)
+        else:
+            Like.objects.get(comment=comment, author=author).delete()
+            raise serializers.ValidationError({"message": "delete"})
+        return validated_data
+
+
+class CommentDislikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dislike
+        fields = ('comment', 'author')
+
+    def create(self, validated_data):
+        comment = validated_data.get('comment')
+        author = validated_data.get('author')
+
+        if comment.like_set.filter(author=author).exists():
+            raise serializers.ValidationError({"message": "Not allowed"})
+
+        if not comment.dislike_set.filter(author=author).exists():
+            Dislike.objects.create(comment=comment, author=author)
+        else:
+            Dislike.objects.get(comment=comment, author=author).delete()
+            raise serializers.ValidationError({"message": "delete"})
+        return validated_data
+
+
 class CommentSerializer(serializers.ModelSerializer):
     author = UserInfoSerializer(read_only=True)
-    count_like = serializers.SerializerMethodField('get_like')
-    count_dislike = serializers.SerializerMethodField('get_dislike')
+    like_set = CommentLikeSerializer(many=True, read_only=True)
+    dislike_set = CommentDislikeSerializer(many=True, read_only=True)
     created = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
-
-    def get_like(self, instance):
-        return len(instance.like_set.all())
-
-    def get_dislike(self, instance):
-        return len(instance.dislike_set.all())
 
     class Meta:
         model = AlbumComment
-        fields = ('album', 'author', 'content', 'created', 'count_like', 'count_dislike')
+        fields = ('id', 'album', 'author', 'content', 'created', 'like_set', 'dislike_set')
 
 
 class AlbumSerializer(serializers.ModelSerializer):
@@ -129,46 +163,6 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
             instance.content = content
         instance.save()
         return instance
-
-
-class CommentLikeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Like
-        fields = ('comment', 'author')
-
-    def create(self, validated_data):
-        comment = validated_data.get('comment')
-        author = validated_data.get('author')
-
-        if comment.dislike_set.filter(author=author).exists():
-            raise serializers.ValidationError({"message": "Not allowed"})
-
-        if not comment.like_set.filter(author=author).exists():
-            Like.objects.create(comment=comment, author=author)
-        else:
-            Like.objects.get(comment=comment, author=author).delete()
-            raise serializers.ValidationError({"message": "delete"})
-        return validated_data
-
-
-class CommentDislikeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Dislike
-        fields = ('comment', 'author')
-
-    def create(self, validated_data):
-        comment = validated_data.get('comment')
-        author = validated_data.get('author')
-
-        if comment.like_set.filter(author=author).exists():
-            raise serializers.ValidationError({"message": "Not allowed"})
-
-        if not comment.dislike_set.filter(author=author).exists():
-            Dislike.objects.create(comment=comment, author=author)
-        else:
-            Dislike.objects.get(comment=comment, author=author).delete()
-            raise serializers.ValidationError({"message": "delete"})
-        return validated_data
 
 
 class CommentPoliceSerializer(serializers.ModelSerializer):
