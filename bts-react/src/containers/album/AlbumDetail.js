@@ -7,6 +7,7 @@ import ThumbDownTwoToneIcon from '@material-ui/icons/ThumbDownTwoTone';
 import ThumbUpTwoToneIcon from '@material-ui/icons/ThumbUpTwoTone';
 import { connect } from 'react-redux';
 import { BASE_URL } from '../../utils/environment';
+import PoliceView from '../../components/PoliceView';
 
 const axios = require('axios');
 
@@ -25,6 +26,8 @@ class AlbumDetail extends React.PureComponent {
 
             comment: '',
             albumcomment_set: [],
+            isOpen: false,
+            selected: ''
         }
     
     }
@@ -121,8 +124,12 @@ class AlbumDetail extends React.PureComponent {
         });
     }
     commentPolice = (e) => {
-        let root = e.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode
-
+        let root = e.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode;
+        this.setState({
+            ...this.state,
+            isOpen: true,
+            selected: root.id
+        })
     }
     // 1-3. 댓글 삭제
     handClickCommentDelete = (e) => {
@@ -134,7 +141,13 @@ class AlbumDetail extends React.PureComponent {
             console.log(error);
         });
     }
-
+    handleClose =(e) => {
+        this.setState({
+            ...this.state,
+            isOpen: false,
+            selected: ''
+        })
+    }
     render() {
         return (
             <React.Fragment>
@@ -258,6 +271,12 @@ class AlbumDetail extends React.PureComponent {
                         </React.Fragment>
                     )})} 
             </div>
+            <PoliceView 
+                comment_id={this.state.selected} 
+                user_id={this.props.currentUser.user_id} 
+                open={this.state.isOpen} 
+                handleClose={this.handleClose}
+            />
             <Footer />
             </React.Fragment>
         );
