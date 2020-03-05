@@ -142,7 +142,7 @@ class Header extends React.Component {
           </Toolbar>
         </div>
   
-        <div className="container" style={{borderBottom: `1px solid #ffdddd`}}>
+        <div className="container-50" style={{borderBottom: `1px solid #ffdddd`}}>
           <img src="https://www.officialcharts.com/media/657256/bts-make-it-right.jpg?width=796&mode=stretch" width="100%" alt="x" />
         </div>
       </React.Fragment>
