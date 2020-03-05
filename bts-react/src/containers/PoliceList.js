@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import { BASE_URL } from '../utils/environment';
 
 
 const axios = require('axios');
@@ -20,6 +21,16 @@ class PoliceList extends React.Component {
   }
 
   componentDidMount() {
+    axios.get(BASE_URL + "album/comment/police/").then( response => {
+      response.data.forEach( police => {
+        let { policeList } = this.state;
+        this.setState({
+          policeList: policeList.concat(police)
+        })
+      })
+    }).catch( error => {
+
+    });
   }
   
   render(){     
@@ -44,8 +55,19 @@ class PoliceList extends React.Component {
               </TableHead>
               <TableBody>
                 {
-                  // 각 row별로 comment_id를 가지고 있어서 삭제버튼을 누르면 
-                  // policeList에서 글이 삭제되면서 동시에 게시글에 작성한 댓글도 같이 삭제된다.
+                  this.state.policeList.map( (police, index) => {
+                    return (
+                      <TableRow>
+                        <TableCell>
+                          <Checkbox>전체선택</Checkbox>
+                        </TableCell>
+                        <TableCell>{police.id}</TableCell>
+                        <TableCell>{police.reason}</TableCell>
+                        <TableCell>{police.created}</TableCell>
+                        <TableCell align='center'><Button>삭제</Button></TableCell>
+                      </TableRow>
+                    )
+                  })
                 }
               </TableBody>
               </Table>                 
