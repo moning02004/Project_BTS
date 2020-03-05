@@ -18,6 +18,7 @@ class CommentSerializer(serializers.ModelSerializer):
     author = UserInfoSerializer(read_only=True)
     count_like = serializers.SerializerMethodField('get_like')
     count_dislike = serializers.SerializerMethodField('get_dislike')
+    created = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
 
     def get_like(self, instance):
         return len(instance.like_set.all())

@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import {Button, Divider, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Avatar } from '@material-ui/core';
+import {Button, Divider, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Avatar, IconButton } from '@material-ui/core';
 import NotificationsActiveTwoToneIcon from '@material-ui/icons/NotificationsActiveTwoTone';
 import ThumbDownTwoToneIcon from '@material-ui/icons/ThumbDownTwoTone';
 import ThumbUpTwoToneIcon from '@material-ui/icons/ThumbUpTwoTone';
@@ -108,116 +108,119 @@ class AlbumDetail extends React.Component {
         });
     }
     render() {
-    return (
-        <React.Fragment>
-        <Header />
-        <div className="container my-3">
-            <div className="my-3" style={{display: "flex", flexWrap: "wrap", alignItems: "center"}}>
-                <div className="detail-img"><img src={this.state.thumbnail} width="100%" alt="" /></div>
-                <div style={{marginLeft: "2rem"}}>
-                    <Typography style={{margin: "1rem"}}>앨범명</Typography>
-                    <Typography style={{margin: "1rem"}}>발매일</Typography>
-                    <Typography style={{margin: "1rem"}}>카테고리</Typography>
-                    <Typography style={{margin: "1rem"}}>장르</Typography>
+        return (
+            <React.Fragment>
+            <Header />
+            <div className="container my-3">
+                <div className="my-3" style={{display: "flex", flexWrap: "wrap", alignItems: "center"}}>
+                    <div className="detail-img"><img src={this.state.thumbnail} width="100%" alt="" /></div>
+                    <div style={{marginLeft: "2rem"}}>
+                        <Typography style={{margin: "1rem"}}>앨범명</Typography>
+                        <Typography style={{margin: "1rem"}}>발매일</Typography>
+                        <Typography style={{margin: "1rem"}}>카테고리</Typography>
+                        <Typography style={{margin: "1rem"}}>장르</Typography>
+                    </div>
+                    <div>
+                        <Typography style={{margin: "1rem"}}>{this.state.title}</Typography>
+                        <Typography style={{margin: "1rem"}}>{this.state.created}</Typography>
+                        <Typography style={{margin: "1rem"}}>{this.state.category}</Typography>
+                        <Typography style={{margin: "1rem"}}>{this.state.genre}</Typography>
+                    </div>
                 </div>
-                <div style={{}}>
-                    <Typography style={{margin: "1rem"}}>{this.state.title}</Typography>
-                    <Typography style={{margin: "1rem"}}>{this.state.created}</Typography>
-                    <Typography style={{margin: "1rem"}}>{this.state.category}</Typography>
-                    <Typography style={{margin: "1rem"}}>{this.state.genre}</Typography>
+
+                <Divider />
+                <TableContainer>
+                    <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center" width="20%">트랙 번호</TableCell>
+                                <TableCell align="center">곡</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.musicSet.map(music => (
+                                <TableRow key={music.name} style={{backgroundColor: (music.is_title) ? "#EEEEFF" : ""}}>
+                                    <TableCell align="center">{music.track}</TableCell>
+                                    <TableCell align="center">{music.name}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <div id="content" className="my-3 content-box">
+                    <div style={{textAlign: "right"}}>
+                        <Button onClick={() => {document.getElementById('content').classList.toggle("content-box")}}>더보기</Button>
+                    </div>
+                    <div className="pre-box">{this.state.content}</div>
                 </div>
-            </div>
 
-            <Divider />
-            <TableContainer>
-                <Table className={{minWidth: 500}} size="small">
-                    <TableHead>
-                    <TableRow>
-                        <TableCell align="center" width="20%">트랙 번호</TableCell>
-                        <TableCell align="center">곡</TableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {this.state.musicSet.map(music => (
-                        <TableRow key={music.name} style={{backgroundColor: (music.is_title) ? "#EEEEFF" : ""}}>
-                            <TableCell align="center">{music.track}</TableCell>
-                            <TableCell align="center">{music.name}</TableCell>
-                        </TableRow>
-                    ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <div className="my-3">
-                <Typography className="pre-box">{this.state.content}</Typography>
-            </div>
-        </div>
-
-    {/* 댓글란 */}
-      
-    <div style={{margin: "auto", textAlign: "center", marginBottom: "5rem", marginTop: "5rem"}}>
-      <div align="right" style={{margin: "auto", width: '80%', backgroundColor: "#EEEEFF"}}>
-      <h3 align="left">Comment</h3>
-
-      <textarea style={{width: "600px"}} align="center" id="comment" margin="normal" name="comment" width ="70%" value={this.state.comment} onChange={this.handleChange} />
-        <Button variant="outlined" onClick={this.handleClickCommentAdd}>작성</Button>
-      </div>
-      <Table className="table_comment" style={{margin: "auto", width: '80%'}}>
         
-        {this.state.albumcomment_set.map((comment, index) => {
-          let level = <div></div>;
-          let btn2 = <div></div>;
+            {/* 댓글란 */}
+                <h3>Comment</h3>
+                <div className="input-group">
+                    <textarea className="form-control comment-textarea" name="comment"
+                        value={this.state.comment} onChange={this.handleChange}
+                    />
+                    <div className="input-group-append">
+                        <button type="submit" className="input-group-text"
+                            onClick={this.handleClickCommentAdd}>작성</button>
+                    </div>
+                </div>
 
-          switch(comment.author.grade){
-            case "Bronze":
-              level = <Avatar style={{backgroundColor: "#cd7f32"}}>B</Avatar> ; break;
-            case "Silver":
-              level = <Avatar style={{backgroundColor: "#C0C0C0"}}>S</Avatar>;  break;
-            case "Gold":
-              level = <Avatar style={{backgroundColor: "#FFD700"}}>G</Avatar>; break;
-            default:
-              level = <Avatar style={{backgroundColor: "#B9F2FF", color: "#205055"}}>D</Avatar>; break;
-          }
-          if(comment.author.username == this.props.currentUser.username){              
-            btn2 = (
-            <div>
-             {/*  <Button id={index} color="primary" size="small" onClick={this.handleClickCommentEdit}>수정</Button> */}
-              <Button id={comment.id} color="primary" size="small" onClick={this.handClickCommentDelete}>삭제</Button>
+                {this.state.albumcomment_set.map((comment, index) => {
+                    let grade = <div></div>;
+                    let btn2 = '';
+                    
+                    switch(this.props.currentUser.grade) {
+                        case "Bronze":
+                            grade = (<Avatar style={{backgroundColor: "#cd7f32"}}>B</Avatar>); break;
+                        case "Silver":
+                            grade = (<Avatar style={{backgroundColor: "#C0C0C0"}}>S</Avatar>); break;
+                        case "Gold":
+                            grade = (<Avatar style={{backgroundColor: "#FFD700"}}>G</Avatar>); break;
+                        default:
+                            grade = (<Avatar style={{backgroundColor: "#B9F2FF", color: "#205055"}}>D</Avatar>); break;
+                    }
+                    if(comment.author.username == this.props.currentUser.username){              
+                        btn2 = (
+                            <div>
+                                <Button id={index} color="primary" size="small" onClick={this.handleClickCommentEdit}>수정</Button>
+                                <Button id={comment.id} color="primary" size="small" onClick={this.handClickCommentDelete}>삭제</Button>
+                            </div>
+                        );
+                    }
+                    return (
+                        <React.Fragment>
+                            <div className="my-3" style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
+                                <div >{grade}</div>
+                                <div className="inline-block ml-3 w-100">
+                                    <Typography><b>관리자</b></Typography>
+                                    <div className="w-100">
+                                        <div className="inline">
+                                            <span>이번 앨범 진짜 좋은 거 같아유</span>
+                                            <div className="date">
+                                                <span className="small mr-2">2020-03-01</span>
+                                                <IconButton>
+                                                    <ThumbUpTwoToneIcon fontSize="small" color="action" />
+                                                </IconButton>
+                                                <IconButton>
+                                                    <ThumbDownTwoToneIcon fontSize="small" color="action" />
+                                                </IconButton>
+                                                <IconButton>
+                                                    <NotificationsActiveTwoToneIcon fontSize="small" color="action" />
+                                                </IconButton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </React.Fragment>
+                    )})} 
             </div>
-            );
-          }
-          return(
-            <TableRow  colSpan={2} key ={index}>
-              <TableCell align='left' style={{ width: '100px'}}> 
-                {comment.author.nickname}<br></br>
-                {level}
-              </TableCell>
-            <TableRow>
-              <TableCell align='left' style={{width: '700px'}}>
-                {comment.content} 
-               </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align='left'style={{width: '700px'}}>
-                {comment.created} <br/>
-                 
-               {/*좋아요/ 싫어요/ 신고 버튼 아이콘 */}
-                <ThumbUpTwoToneIcon fontSize="small" color="action" style={{marginTop: "auto"}}/>
-                <ThumbDownTwoToneIcon fontSize="small" color="action" style={{paddingLeft: "10px"}}/>
-                <NotificationsActiveTwoToneIcon fontSize="small" color="action" style={{paddingLeft: "10px"}}/>
-
-                 {btn2}  
-              </TableCell>
-            </TableRow>
-            </TableRow>
-          ) // end of return
-        } // end of(comment, index) =>
-      )} 
-      </Table>
-      </div>
-     <Footer />
-    </React.Fragment>
-    );
-}
+            <Footer />
+            </React.Fragment>
+        );
+    }
 }
 
 const mapStateToProps = (state) => { // 리덕스가 관리하는 상태를 지켜봄, 
