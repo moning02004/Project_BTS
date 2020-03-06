@@ -18,20 +18,24 @@ class PoliceDetail extends React.Component {
         created: '',
         author: '',
         comment: '',
+        album_id: '',
+        album_title: ''
       }
     }
-    console.log(this.props.police_id)
   }
   componentDidMount() {
     axios.get(BASE_URL + "album/comment/police/"+ this.props.police_id +"/").then( response => {  
-      console.log(response);
-      let { comment_content, author, reason, created } = response.data
+      let { comment_content, author, reason, created, album_content } = response.data
+      console.log(response.data)
       this.setState({
         police: {
           reason: reason,
           created: created,
           author: author.nickname,
-          comment: comment_content
+          comment: comment_content.content,
+          comment_author: comment_content.author,
+          album_id: album_content.album_id,
+          album_title: album_content.album_title
         }
       })
     }).catch( error => {
@@ -71,11 +75,16 @@ class PoliceDetail extends React.Component {
         <Dialog open={this.props.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">신고된 내용</DialogTitle>
           <DialogContent>
-            <DialogContentText className="p-4">
+            <p><b>{this.state.police.album_title}</b> 에 작성된 댓글입니다. </p>
+            <DialogContentText className="border p-2">
+              <p className="m-0">{this.state.police.comment_author} </p>
+              <Divider className="m-1" />
               {this.state.police.comment}
-              <Divider className="my-3" />
-              {this.state.police.reason}
             </DialogContentText>
+            <Divider className="my-3" />
+
+            <p><b>{this.state.police.author}</b> 님이 신고하셨습니다.</p>
+            <p className="border p-2">{this.state.police.reason}</p>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleHandle}>조치</Button>

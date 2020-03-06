@@ -6,11 +6,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { BASE_URL } from '../utils/environment';
+import * as validation from '../utils/Validation';
+
 
 const axios = require('axios')
 const PoliceView = ({comment_id, user_id, open, handleClose}) => {
     const handleSubmit = () => {
-        console.log( document.getElementById('reason').value);
+        if (!validation.validPolice(document.getElementById('reason').value)){
+            alert('내용을 입력하세요')
+            return false;
+        }
+        
         axios.post(BASE_URL + 'album/comment/police/register/', {
             comment: comment_id,
             author: user_id,

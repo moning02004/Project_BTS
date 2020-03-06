@@ -125,6 +125,7 @@ class AlbumDetail extends React.PureComponent {
     }
     commentPolice = (e) => {
         let root = e.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode;
+        axios.get(BASE_URL + "album/comment/police/")
         this.setState({
             ...this.state,
             isOpen: true,
@@ -146,7 +147,9 @@ class AlbumDetail extends React.PureComponent {
             ...this.state,
             isOpen: false,
             selected: ''
-        })
+        }, () => {
+            this.commentRender();
+        });
     }
     render() {
         return (
@@ -209,15 +212,18 @@ class AlbumDetail extends React.PureComponent {
                 </div>
 
                 {this.state.albumcomment_set.map((comment, index) => {
-                    console.log(comment.like_set)
                     let isContainsLike = false;
                     let isContainsDislike = false;
+                    let isContainsPolice = false;
                     comment.like_set.forEach( like => {
                         console.log(this.props.currentUser.user_id === like.author)
                         if (this.props.currentUser.user_id === like.author) {isContainsLike = true;}
                     })
                     comment.dislike_set.forEach( dislike => {
                         if (this.props.currentUser.user_id === dislike.author) isContainsDislike = true;
+                    })
+                    comment.police_set.forEach( police => {
+                        if (this.props.currentUser.user_id === police.author) isContainsPolice = true;
                     })
                     let grade = <div></div>;
                     let btn2 = '';
@@ -260,8 +266,8 @@ class AlbumDetail extends React.PureComponent {
                                                     <small style={{fontSize: "0.8rem"}}>{comment.dislike_set.length}</small>
                                                 </IconButton>
                                                 
-                                                <IconButton onClick={this.commentPolice}>
-                                                    <NotificationsActiveTwoToneIcon fontSize="small" color="action" />
+                                                <IconButton onClick={this.commentPolice} disabled={(isContainsPolice) ? "disabled":  ""}>
+                                                    <NotificationsActiveTwoToneIcon fontSize="small" />
                                                 </IconButton>
                                             </div>
                                         </div>

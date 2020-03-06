@@ -54,15 +54,33 @@ class CommentDislikeSerializer(serializers.ModelSerializer):
         return validated_data
 
 
+class CommentPoliceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Police
+        fields = ('id', 'comment', 'author', 'reason', 'admin_confirm')
+
+    def create(self, validated_data):
+        comment = validated_data.get('comment')
+        author = validated_data.get('author')
+        reason = validated_data.get('reason')
+
+        if not comment.police_set.filter(author=author).exists():
+            Police.objects.create(comment=comment, author=author, reason=reason)
+        else:
+            raise serializers.ValidationError({"message": "Not allowed"})
+        return validated_data
+
+
 class CommentSerializer(serializers.ModelSerializer):
     author = UserInfoSerializer(read_only=True)
     like_set = CommentLikeSerializer(many=True, read_only=True)
     dislike_set = CommentDislikeSerializer(many=True, read_only=True)
+    police_set = CommentPoliceSerializer(many=True, read_only=True)
     created = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
 
     class Meta:
         model = AlbumComment
-        fields = ('id', 'album', 'author', 'content', 'created', 'like_set', 'dislike_set')
+        fields = ('id', 'album', 'author', 'content', 'created', 'like_set', 'dislike_set', 'police_set')
 
 
 class AlbumSerializer(serializers.ModelSerializer):
@@ -74,7 +92,10 @@ class AlbumSerializer(serializers.ModelSerializer):
 class AlbumDetailSerializer(serializers.ModelSerializer):
     genre = serializers.SerializerMethodField('get_genre')
     music_set = MusicSerializer(many=True, read_only=True)
-    albumcomment_set = CommentSerializer(many=True, read_only=True)
+    albumcomment_set = serializers.SerializerMethodField('get_album_comment')
+
+    def get_album_comment(self, instance):
+        return CommentSerializer(instance.albumcomment_set.all().order_by('-created'), many=True, read_only=True).data
 
     def get_genre(self, obj):
         return ','.join([x.keyword for x in obj.genre.all()])
@@ -165,23 +186,6 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
         return instance
 
 
-class CommentPoliceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Police
-        fields = ('id', 'comment', 'author', 'reason', 'admin_confirm')
-
-    def create(self, validated_data):
-        comment = validated_data.get('comment')
-        author = validated_data.get('author')
-        reason = validated_data.get('reason')
-
-        if not comment.police_set.filter(author=author).exists():
-            Police.objects.create(comment=comment, author=author, reason=reason)
-        else:
-            raise serializers.ValidationError({"message": "Not allowed"})
-        return validated_data
-
-
 class PoliceUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Police
@@ -215,11 +219,18 @@ class PoliceHandleSerializer(serializers.ModelSerializer):
 
 
 class PoliceDetailSerializer(serializers.ModelSerializer):
+    album_content = serializers.SerializerMethodField('get_album')
     comment_content = serializers.SerializerMethodField('get_comment')
+    author = UserInfoSerializer(read_only=True)
 
     def get_comment(self, instance):
-        return instance.comment.content
+        comment = instance.comment
+        return {'content': comment.content, 'author': comment.author.nickname}
+
+    def get_album(self, instance):
+        album = instance.comment.album
+        return {'album_title': album.title, 'album_id': album.id}
 
     class Meta:
         model = Police
-        fields = ('id', 'comment', 'author', 'reason', 'comment_content')
+        fields = ('id', 'comment', 'author', 'reason', 'comment_content', 'album_content')
