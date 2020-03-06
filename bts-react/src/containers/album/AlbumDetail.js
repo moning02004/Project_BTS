@@ -8,6 +8,8 @@ import ThumbUpTwoToneIcon from '@material-ui/icons/ThumbUpTwoTone';
 import { connect } from 'react-redux';
 import { BASE_URL } from '../../utils/environment';
 import PoliceView from '../../components/PoliceView';
+import * as validation from '../../utils/Validation';
+
 
 const axios = require('axios');
 
@@ -68,21 +70,20 @@ class AlbumDetail extends React.PureComponent {
     // 1-1. 댓글 작성
     handleClickCommentAdd = (e) => {
         e.preventDefault();
-      
-        if(this.props.currentUser.username == ""){
-            alert("로그인하세요.");
+        if (validation.validComment(this.state.comment)) {
+            alert('내용을 입력하세요');
+            return false;
         }
-        if(this.state.comment== ""){
-            alert("내용을 입력하세요.");
-        }
-    
+
         axios.post('http://127.0.0.1:8000/album/comment/register/' , {
-        album : this.state.id,
-        author: this.props.currentUser.user_id,
-        content: this.state.comment,
-      
+            album : this.state.id,
+            author: this.props.currentUser.user_id,
+            content: this.state.comment,
         }).then(response => {
             this.commentRender(); // 댓글 리랜더링
+            this.setState({
+                comment: ''
+            })
         }).catch(error => {
             console.log(error);
         });
@@ -125,6 +126,7 @@ class AlbumDetail extends React.PureComponent {
     }
     commentPolice = (e) => {
         let root = e.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode;
+        axios.get(BASE_URL + "album/comment/police/")
         this.setState({
             ...this.state,
             isOpen: true,
@@ -146,7 +148,9 @@ class AlbumDetail extends React.PureComponent {
             ...this.state,
             isOpen: false,
             selected: ''
-        })
+        }, () => {
+            this.commentRender();
+        });
     }
     render() {
         return (
@@ -188,6 +192,7 @@ class AlbumDetail extends React.PureComponent {
                         </TableBody>
                     </Table>
                 </TableContainer>
+
                 <div id="content" className="my-3 content-box">
                     <div style={{textAlign: "right"}}>
                         <Button onClick={() => {document.getElementById('content').classList.toggle("content-box")}}>더보기</Button>
@@ -196,28 +201,37 @@ class AlbumDetail extends React.PureComponent {
                 </div>
 
         
-            {/* 댓글란 */}
-                <h3>Comment</h3>
-                <div className="input-group">
-                    <textarea className="form-control comment-textarea" name="comment"
-                        value={this.state.comment} onChange={this.handleChange}
-                    />
-                    <div className="input-group-append">
-                        <button type="submit" className="input-group-text"
-                            onClick={this.handleClickCommentAdd}>작성</button>
-                    </div>
-                </div>
-
+                {/* 댓글란 */}
+                {
+                    (this.props.currentUser.username !== '') &&
+                    (
+                        <React.Fragment>
+                            <h3>Comment</h3>
+                            <div className="input-group">
+                                <textarea className="form-control comment-textarea" name="comment"
+                                    value={this.state.comment} onChange={this.handleChange}
+                                />
+                                <div className="input-group-append">
+                                    <button type="submit" className="input-group-text"
+                                        onClick={this.handleClickCommentAdd}>작성</button>
+                                </div>
+                            </div>
+                        </React.Fragment>
+                    )
+                }
                 {this.state.albumcomment_set.map((comment, index) => {
-                    console.log(comment.like_set)
                     let isContainsLike = false;
                     let isContainsDislike = false;
+                    let isContainsPolice = false;
                     comment.like_set.forEach( like => {
                         console.log(this.props.currentUser.user_id === like.author)
                         if (this.props.currentUser.user_id === like.author) {isContainsLike = true;}
                     })
                     comment.dislike_set.forEach( dislike => {
                         if (this.props.currentUser.user_id === dislike.author) isContainsDislike = true;
+                    })
+                    comment.police_set.forEach( police => {
+                        if (this.props.currentUser.user_id === police.author) isContainsPolice = true;
                     })
                     let grade = <div></div>;
                     let btn2 = '';
@@ -250,19 +264,21 @@ class AlbumDetail extends React.PureComponent {
                                             <span>{comment.content}</span>
                                             <div className="date">
                                                 <span className="small mr-2">{comment.created}</span>
-                                                <IconButton onClick={this.commentLike}>
+                                                <IconButton onClick={this.commentLike} disabled={(this.props.currentUser.username !== '') ? "" : "disalbed"}>
                                                     <ThumbUpTwoToneIcon fontSize="small" style={{color: (isContainsLike) ? "blue" : "" }}/>
-                                                    <small style={{fontSize: "0.8rem"}}>{comment.like_set.length}</small>
+                                                    <small style={{color: "black", fontSize: "0.8rem"}}>{comment.like_set.length}</small>
                                                 </IconButton>
 
-                                                <IconButton onClick={this.commentDislike}>
+                                                <IconButton onClick={this.commentDislike} disabled={(this.props.currentUser.username !== '') ? "" : "disalbed"}>
                                                     <ThumbDownTwoToneIcon fontSize="small" style={{color: (isContainsDislike) ? "red" : "" }} />
-                                                    <small style={{fontSize: "0.8rem"}}>{comment.dislike_set.length}</small>
+                                                    <small style={{color: "black", fontSize: "0.8rem"}}>{comment.dislike_set.length}</small>
                                                 </IconButton>
-                                                
-                                                <IconButton onClick={this.commentPolice}>
-                                                    <NotificationsActiveTwoToneIcon fontSize="small" color="action" />
-                                                </IconButton>
+                                                {
+                                                    this.props.currentUser.username !== '' && 
+                                                    (<IconButton onClick={this.commentPolice} disabled={(!isContainsPolice) ? "":  "disabled"}>
+                                                        <NotificationsActiveTwoToneIcon fontSize="small" />
+                                                    </IconButton>)
+                                                }
                                             </div>
                                         </div>
                                     </div>

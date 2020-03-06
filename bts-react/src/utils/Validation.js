@@ -24,3 +24,11 @@ export function validAlbumRegister(state) {
         genre !== "" && created !== "" && content !== "" && music_list.length != 0 
     )
 }
+
+export function validPolice(value) {
+    return value !== ''
+}
+
+export function validComment(comment) {
+    return comment !== ''
+}
