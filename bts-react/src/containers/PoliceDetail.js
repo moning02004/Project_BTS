@@ -9,7 +9,7 @@ import { BASE_URL } from '../utils/environment';
 
 const axios = require('axios');
 
-class PoliceList extends React.Component {
+class PoliceDetail extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -17,20 +17,6 @@ class PoliceList extends React.Component {
 
         isDialogOpen: false,
     }
-
-  }
-
-  componentDidMount() {
-    axios.get(BASE_URL + "album/comment/police/").then( response => {
-      response.data.forEach( police => {
-        let { policeList } = this.state;
-        this.setState({
-          policeList: policeList.concat(police)
-        })
-      })
-    }).catch( error => {
-
-    });
   }
 
   gotoPoliceHandle = (e) => {
@@ -83,4 +69,4 @@ class PoliceList extends React.Component {
   }
 }
 
-export default PoliceList;  
+export default PoliceDetail;  

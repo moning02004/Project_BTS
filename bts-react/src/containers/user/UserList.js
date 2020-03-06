@@ -124,10 +124,7 @@ handleClose = () => {
                         
                           <Dialog 
                             open={this.state.isDialogOpen}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description"
-                            fullWidth="md"
-                            >
+                            fullWidth="md">
 
                             <DialogTitle id="alert-dialog-title" onClose={this.handleClose}>고객정보</DialogTitle>
                             <DialogContent dividers>
