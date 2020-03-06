@@ -122,3 +122,8 @@ class CommentPoliceHandleAPI(RetrieveAPIView, UpdateAPIView):
 
     def partial_update(self, request, *args, **kwargs):
         return super(CommentPoliceHandleAPI, self).partial_update(request, *args, **kwargs)
+
+
+class PoliceDetailAPI(RetrieveAPIView):
+    queryset = Police.objects.all()
+    serializer_class = PoliceDetailSerializer

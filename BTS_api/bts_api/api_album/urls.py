@@ -22,4 +22,5 @@ urlpatterns = [
     path('comment/police/confirm/<int:pk>/', views.CommentPoliceConfirmAPI.as_view()),
     path('comment/police/delete/<int:pk>/', views.PoliceDestroyAPI.as_view()),
     path('comment/police/', views.PoliceAPI.as_view()),
+    path('comment/police/<int:pk>/', views.PoliceDetailAPI.as_view()),
 ]

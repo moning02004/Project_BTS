@@ -1,72 +1,91 @@
 import React from 'react';
-import { Table, TableContainer,TableRow, TableCell, TableBody, TableHead, Avatar, Modal} from '@material-ui/core';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
+import { TextField, Button, Divider } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { BASE_URL } from '../utils/environment';
 
 
-const axios = require('axios');
-
+const axios = require('axios')
 class PoliceDetail extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-        policeList: [], // post 리스트
-
-        isDialogOpen: false,
+      police: {
+        reason: '',
+        created: '',
+        author: '',
+        comment: '',
+      }
     }
+    console.log(this.props.police_id)
   }
+  componentDidMount() {
+    axios.get(BASE_URL + "album/comment/police/"+ this.props.police_id +"/").then( response => {  
+      console.log(response);
+      let { comment_content, author, reason, created } = response.data
+      this.setState({
+        police: {
+          reason: reason,
+          created: created,
+          author: author.nickname,
+          comment: comment_content
+        }
+      })
+    }).catch( error => {
+      console.log(this.props.police_id)
+    })
+    return false;
+  }
+  handleConfirm = (e) => {
+    e.preventDefault();
+    axios.patch(BASE_URL + "album/comment/police/confirm/" + this.props.police_id + "/", {}).then (response => {
+      console.log(response);
+      this.props.handleClose();
+    }).catch( error => {
 
-  gotoPoliceHandle = (e) => {
-    console.log(e.currentTarget.id)
+    });
   }
   
-  render(){     
-    return(
-      <React.Fragment>
-        <Header />
-        <div className="contain" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
-          <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
+  handleDelete = (e) => {
+    e.preventDefault();
+    axios.delete(BASE_URL + "album/comment/police/delete/" + this.props.police_id + "/").then (response => {
+      this.props.handleClose();
+    }).catch( error => {
 
-            <Button variant="outlined" color="primary" align="left" size="1rem">선택삭제</Button>
-            <Table className="table" style={{margin: "auto", width: '80%'}} >
-              <TableHead style={{backgroundColor: "#EEEEFF"}}>
-                <TableRow>
-                  <TableCell>
-                    <Checkbox>전체선택</Checkbox>
-                  </TableCell>
-                  <TableCell style={{width: '10%'}}>번호</TableCell>
-                  <TableCell style={{width: '55%'}}>내용</TableCell>
-                  <TableCell style={{width: '25%'}}>신고일자</TableCell>
-                  <TableCell align='center' style={{width: '10%'}}>삭제</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {
-                  this.state.policeList.map( (police, index) => {
-                    return (
-                      <TableRow id={police.id} onClick={this.gotoPoliceHandle} className="cursor-pointer">
-                        <TableCell>
-                          <Checkbox>전체선택</Checkbox>
-                        </TableCell>
-                        <TableCell>{police.id}</TableCell>
-                        <TableCell>{police.reason}</TableCell>
-                        <TableCell>{police.created}</TableCell>
-                        <TableCell align='center'><Button>삭제</Button></TableCell>
-                      </TableRow>
-                    )
-                  })
-                }
-              </TableBody>
-              </Table>                 
-          </div>
-       </div>
-       <Footer/>
+    });
+  }
+  handleHandle = (e) => {
+    e.preventDefault();
+    axios.patch(BASE_URL + "album/comment/police/handle/" + this.props.police_id + "/", {}).then (response => {
+      this.props.handleClose();
+    }).catch( error => {
+
+    });
+  }
+  render() {
+    return (
+      <React.Fragment>
+        <Dialog open={this.props.open} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">신고된 내용</DialogTitle>
+          <DialogContent>
+            <DialogContentText className="p-4">
+              {this.state.police.comment}
+              <Divider className="my-3" />
+              {this.state.police.reason}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleHandle}>조치</Button>
+            <Button onClick={this.handleConfirm}>확인</Button>
+            <Button onClick={this.handleDelete}>신고 삭제</Button>
+          </DialogActions>
+        </Dialog>
       </React.Fragment>
-    );
+    )
   }
 }
 
-export default PoliceDetail;  
+export default PoliceDetail;
