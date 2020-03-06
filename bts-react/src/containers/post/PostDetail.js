@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table,Typography,TableContainer,TableRow, TableCell, TableBody, TableHead, Avatar} from '@material-ui/core';
+import { Table,Typography,TableContainer,TableRow, TableCell, TableBody, TableHead, Avatar, Divider} from '@material-ui/core';
 
 import Button from '@material-ui/core/Button';
 import Header from '../../components/Header';
@@ -8,29 +8,28 @@ import { connect } from 'react-redux';
 
 
 const axios = require('axios');
-
 class PostDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        id: this.props.match.params.id,
-        title: '',
-        content: '',
-        created: '',
-        author: '',
+      id: this.props.match.params.id,
+      title: '',
+      content: '',
+      created: '',
+      author: '',
 
-        comment: '',
-        postcomment_set: [],
+      comment: '',
+      postcomment_set: [],
     }
   }
 
   render(){
     // 게시판 수정/삭제 버튼
-    let btn1 = null;
+    let editDelete = null;
 
     if(this.state.author.username == this.props.currentUser.username){
-      btn1 = (
-        <div>
+      editDelete = (
+        <div className="text-right">
             <Button color="primary" size="1rem" onClick ={this.handleClickPostEdit}>수정</Button> 
             <Button color="primary" size="1rem" onClick = {this.handleClickPostDelete}>삭제</Button>
         </div>
@@ -38,14 +37,12 @@ class PostDetail extends React.Component {
     }
 
     return(
-     <React.Fragment>
-       <Header />
-       <div className="root" style={{marginLeft: "3rem", marginTop: "3rem", marginRight: "3rem"}}>
-          {/* 게시글 */}
-         <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
-         <h3 style={{color: "grey"}}>자유게시판</h3>
-         <TableContainer>
-            <Table className="table" style={{margin: "auto", width: '80%', border:'1px solid grey'}} >
+      <React.Fragment>
+        <Header />
+        <div className="container-70 my-5">
+          <h3 style={{color: "grey"}}>자유게시판</h3>
+          <TableContainer>
+            <Table className="table" style={{margin: "auto", border:'1px solid grey'}} >
               <TableHead>
                 <TableRow>
                   <TableCell colSpan="3" align='left' style={{width: '100%'}}><h3>{this.state.title}</h3></TableCell>
@@ -55,78 +52,86 @@ class PostDetail extends React.Component {
                   <TableCell align='left' style={{width: '20%'}}>{this.state.author.nickname}</TableCell>
                   <TableCell align='left' style={{width: '70%'}}>{this.state.created}</TableCell>
                 </TableRow>
-               </TableHead>
+              </TableHead>
+              
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan="3" align='left' style={{lineHeight: '400px'}}>{this.state.content}</TableCell>
+                  <TableCell colSpan="3" style={{lineHeight: '400px'}}>{this.state.content}</TableCell>
                 </TableRow>
               </TableBody>
-              </Table>
-            </TableContainer>
-            {btn1}      
-        </div>
+            </Table>
+          </TableContainer>
+          {editDelete}
       
-      {/* 댓글란 */}
-      <div className="container-80 my-3">
-      <h3>Comment</h3>
-        <div className="input-group">
-        
-          <textarea className="form-control comment-textarea" name="comment"
-              value={this.state.comment} onChange={this.handleChange}
-              style={{width:"700px"}}/>
-          <div className="input-group-append">
-            <button type="submit" className="input-group-text"
-               onClick={this.handleClickCommentAdd}>작성</button>
-          </div>
-        </div>
+
+        <div className="my-3"></div>
+        {/* 댓글란 */}
+        {
+          (this.props.currentUser.username !== '') &&
+          (
+            <React.Fragment>
+              <h3>Comment</h3>
+              <div className="input-group">
+                <textarea className="form-control comment-textarea" name="comment"
+                  value={this.state.comment} onChange={this.handleChange}
+                />
+                <div className="input-group-append">
+                  <button type="submit" className="input-group-text"
+                    onClick={this.handleClickCommentAdd}>작성</button>
+                </div>
+              </div>
+            </React.Fragment>
+          )
+        }
+          
         {this.state.postcomment_set.map((comment, index) => {
-       
           let grade = <div></div>;
           let btn2 = '';
           switch(this.props.currentUser.grade) {
             case "Bronze":
-             grade = (<Avatar style={{backgroundColor: "#cd7f32"}}>B</Avatar>); break;
+              grade = (<Avatar style={{backgroundColor: "#cd7f32"}}>B</Avatar>); break;
             case "Silver":
-             grade = (<Avatar style={{backgroundColor: "#C0C0C0"}}>S</Avatar>); break;
+              grade = (<Avatar style={{backgroundColor: "#C0C0C0"}}>S</Avatar>); break;
             case "Gold":
-             grade = (<Avatar style={{backgroundColor: "#FFD700"}}>G</Avatar>); break;
+              grade = (<Avatar style={{backgroundColor: "#FFD700"}}>G</Avatar>); break;
             default:
-             grade = (<Avatar style={{backgroundColor: "#B9F2FF", color: "#205055"}}>D</Avatar>); break;
+              grade = (<Avatar style={{backgroundColor: "#B9F2FF", color: "#205055"}}>D</Avatar>); break;
           }
+          
           if(comment.author.username == this.props.currentUser.username){              
             btn2 = (
-            <div>
-               <Button id={comment.id} color="primary" size="small" onClick={this.handClickCommentDelete}>삭제</Button>
-             </div>
+              <div>
+                <Button id={index} color="primary" size="small" onClick={this.handleClickCommentEdit}>수정</Button>
+                <Button id={comment.id} color="primary" size="small" onClick={this.handClickCommentDelete}>삭제</Button>
+              </div>
             );
           }
           return (
-           <React.Fragment>
-            <div id={comment.id} style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
-              <div>{grade}</div>
-              <div className="inline-block ml-3 w-100">
-                <Typography><b>{comment.author.nickname}</b></Typography>
+            <React.Fragment>
+              <Divider />
+              <div id={comment.id} className="my-3" style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
+                <div>{grade}</div>
+                <div className="inline-block ml-3 w-100">
+                  <Typography><b>{comment.author.nickname}</b></Typography>
                   <div className="w-100">
                     <div className="inline">
                       <span>{comment.content}</span>
-                        <div className="date">
-                          <span className="small mr-2">{comment.created}</span>
-                          {btn2}
-                        </div>
+                      <div className="date">
+                        <span className="small mr-2">{comment.created}</span>
+                        {btn2}
+                      </div>
                     </div>
                   </div>
-                 </div>
                 </div>
+              </div>
             </React.Fragment>
-          );
-        })} 
-     </div>
-     </div>
-    <Footer />
-    </React.Fragment>
-    );
+          )})} 
+      </div>
 
-    }
+      <Footer />
+      </React.Fragment>
+    );
+  }
 
 
 // 1-1. 게시글, 댓글 불러오기    

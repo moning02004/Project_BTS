@@ -8,6 +8,8 @@ import ThumbUpTwoToneIcon from '@material-ui/icons/ThumbUpTwoTone';
 import { connect } from 'react-redux';
 import { BASE_URL } from '../../utils/environment';
 import PoliceView from '../../components/PoliceView';
+import * as validation from '../../utils/Validation';
+
 
 const axios = require('axios');
 
@@ -68,21 +70,20 @@ class AlbumDetail extends React.PureComponent {
     // 1-1. 댓글 작성
     handleClickCommentAdd = (e) => {
         e.preventDefault();
-      
-        if(this.props.currentUser.username == ""){
-            alert("로그인하세요.");
+        if (validation.validComment(this.state.comment)) {
+            alert('내용을 입력하세요');
+            return false;
         }
-        if(this.state.comment== ""){
-            alert("내용을 입력하세요.");
-        }
-    
+
         axios.post('http://127.0.0.1:8000/album/comment/register/' , {
-        album : this.state.id,
-        author: this.props.currentUser.user_id,
-        content: this.state.comment,
-      
+            album : this.state.id,
+            author: this.props.currentUser.user_id,
+            content: this.state.comment,
         }).then(response => {
             this.commentRender(); // 댓글 리랜더링
+            this.setState({
+                comment: ''
+            })
         }).catch(error => {
             console.log(error);
         });
@@ -191,6 +192,7 @@ class AlbumDetail extends React.PureComponent {
                         </TableBody>
                     </Table>
                 </TableContainer>
+
                 <div id="content" className="my-3 content-box">
                     <div style={{textAlign: "right"}}>
                         <Button onClick={() => {document.getElementById('content').classList.toggle("content-box")}}>더보기</Button>
@@ -199,18 +201,24 @@ class AlbumDetail extends React.PureComponent {
                 </div>
 
         
-            {/* 댓글란 */}
-                <h3>Comment</h3>
-                <div className="input-group">
-                    <textarea className="form-control comment-textarea" name="comment"
-                        value={this.state.comment} onChange={this.handleChange}
-                    />
-                    <div className="input-group-append">
-                        <button type="submit" className="input-group-text"
-                            onClick={this.handleClickCommentAdd}>작성</button>
-                    </div>
-                </div>
-
+                {/* 댓글란 */}
+                {
+                    (this.props.currentUser.username !== '') &&
+                    (
+                        <React.Fragment>
+                            <h3>Comment</h3>
+                            <div className="input-group">
+                                <textarea className="form-control comment-textarea" name="comment"
+                                    value={this.state.comment} onChange={this.handleChange}
+                                />
+                                <div className="input-group-append">
+                                    <button type="submit" className="input-group-text"
+                                        onClick={this.handleClickCommentAdd}>작성</button>
+                                </div>
+                            </div>
+                        </React.Fragment>
+                    )
+                }
                 {this.state.albumcomment_set.map((comment, index) => {
                     let isContainsLike = false;
                     let isContainsDislike = false;
@@ -256,19 +264,21 @@ class AlbumDetail extends React.PureComponent {
                                             <span>{comment.content}</span>
                                             <div className="date">
                                                 <span className="small mr-2">{comment.created}</span>
-                                                <IconButton onClick={this.commentLike}>
+                                                <IconButton onClick={this.commentLike} disabled={(this.props.currentUser.username !== '') ? "" : "disalbed"}>
                                                     <ThumbUpTwoToneIcon fontSize="small" style={{color: (isContainsLike) ? "blue" : "" }}/>
-                                                    <small style={{fontSize: "0.8rem"}}>{comment.like_set.length}</small>
+                                                    <small style={{color: "black", fontSize: "0.8rem"}}>{comment.like_set.length}</small>
                                                 </IconButton>
 
-                                                <IconButton onClick={this.commentDislike}>
+                                                <IconButton onClick={this.commentDislike} disabled={(this.props.currentUser.username !== '') ? "" : "disalbed"}>
                                                     <ThumbDownTwoToneIcon fontSize="small" style={{color: (isContainsDislike) ? "red" : "" }} />
-                                                    <small style={{fontSize: "0.8rem"}}>{comment.dislike_set.length}</small>
+                                                    <small style={{color: "black", fontSize: "0.8rem"}}>{comment.dislike_set.length}</small>
                                                 </IconButton>
-                                                
-                                                <IconButton onClick={this.commentPolice} disabled={(isContainsPolice) ? "disabled":  ""}>
-                                                    <NotificationsActiveTwoToneIcon fontSize="small" />
-                                                </IconButton>
+                                                {
+                                                    this.props.currentUser.username !== '' && 
+                                                    (<IconButton onClick={this.commentPolice} disabled={(!isContainsPolice) ? "":  "disabled"}>
+                                                        <NotificationsActiveTwoToneIcon fontSize="small" />
+                                                    </IconButton>)
+                                                }
                                             </div>
                                         </div>
                                     </div>

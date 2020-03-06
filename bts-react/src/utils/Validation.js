@@ -28,3 +28,7 @@ export function validAlbumRegister(state) {
 export function validPolice(value) {
     return value !== ''
 }
+
+export function validComment(comment) {
+    return comment !== ''
+}
