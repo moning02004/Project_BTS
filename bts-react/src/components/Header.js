@@ -73,11 +73,7 @@ class Header extends React.Component {
   };
   
   logout = (e) => {
-    e.preventDefault();    
-    let singinData = {
-      isAuth: false,
-      user_id: ''
-    };
+    e.preventDefault();
     sessionStorage.removeItem("KEY");
     this.props.onLogout();
     this.handleClose();

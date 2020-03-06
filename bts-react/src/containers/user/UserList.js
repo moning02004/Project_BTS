@@ -121,25 +121,6 @@ handleClose = () => {
                       </TableCell>  
                       <TableCell>
                        <Button id={user.id} variant="outlined" color="primary" onClick={this.handClickDialog}>확인</Button> 
-                        
-                          <Dialog 
-                            open={this.state.isDialogOpen}
-                            fullWidth="md">
-
-                            <DialogTitle id="alert-dialog-title" onClose={this.handleClose}>고객정보</DialogTitle>
-                            <DialogContent dividers>
-                              
-                              고객번호 : {this.state.info.id}<br/>
-                              이메일 : {this.state.info.username}<br/>
-                              닉네임 : {this.state.info.nickname}<br/>
-                              포인트 : {this.state.info.point}<br/>
-                             
-                            </DialogContent>
-                            <DialogActions>
-                              <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
-                            </DialogActions>
-                          </Dialog>
-                          
                       </TableCell>
                       <TableCell>
                         <Button id={user.id} variant="outlined" color="primary" size="1rem" onClick={this.userDelete}>탈퇴
@@ -153,6 +134,23 @@ handleClose = () => {
               </Table>                 
           </div>
        </div>
+      <Dialog 
+        open={this.state.isDialogOpen}
+        fullWidth="md">
+
+        <DialogTitle id="alert-dialog-title" onClose={this.handleClose}>고객정보</DialogTitle>
+        <DialogContent dividers>
+        
+          고객번호 : {this.state.info.id}<br/>
+          이메일 : {this.state.info.username}<br/>
+          닉네임 : {this.state.info.nickname}<br/>
+          포인트 : {this.state.info.point}<br/>
+          
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
+        </DialogActions>
+      </Dialog>
        <Footer/>
       </React.Fragment>
     );

@@ -195,6 +195,7 @@ class PoliceUpdateSerializer(serializers.ModelSerializer):
 
 class PoliceSerializer(serializers.ModelSerializer):
     created = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    author = UserInfoSerializer(read_only=True)
 
     class Meta:
         model = Police
@@ -211,3 +212,14 @@ class PoliceHandleSerializer(serializers.ModelSerializer):
         comment = instance.comment
         comment.delete()
         return instance
+
+
+class PoliceDetailSerializer(serializers.ModelSerializer):
+    comment_content = serializers.SerializerMethodField('get_comment')
+
+    def get_comment(self, instance):
+        return instance.comment.content
+
+    class Meta:
+        model = Police
+        fields = ('id', 'comment', 'author', 'reason', 'comment_content')
