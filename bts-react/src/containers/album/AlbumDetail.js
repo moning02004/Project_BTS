@@ -248,7 +248,6 @@ class AlbumDetail extends React.PureComponent {
                     if(comment.author.username == this.props.currentUser.username){              
                         btn2 = (
                             <div>
-                                <Button id={index} color="primary" size="small" onClick={this.handleClickCommentEdit}>수정</Button>
                                 <Button id={comment.id} color="primary" size="small" onClick={this.handClickCommentDelete}>삭제</Button>
                             </div>
                         );
@@ -280,6 +279,7 @@ class AlbumDetail extends React.PureComponent {
                                                     </IconButton>)
                                                 }
                                             </div>
+                                            {btn2}
                                         </div>
                                     </div>
                                 </div>
