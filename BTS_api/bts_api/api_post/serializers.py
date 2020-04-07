@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from .models import Post, PostComment
 from api_user.serializers import UserInfoSerializer
+from .models import Post, PostComment, PostPoint
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -45,9 +45,7 @@ class PostUpdateSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'author', 'content')
 
     def update(self, instance, validated_data):
-        for key, value in validated_data.items():
-            if value is not None:
-                setattr(instance, key, value)
+        instance.set_attr(validated_data)
         instance.save()
         return instance
 
@@ -58,8 +56,13 @@ class PostCreateSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'author', 'content')
 
     def create(self, validated_data):
-        title, author, content = validated_data.values()
-        Post.objects.create(title=title, author=author, content=content)
+        post = Post()
+        post.set_attr(validated_data)
+        post.save()
+
+        author = post.author
+        PostPoint.objects.create(user=author, point=10, reason=f"{post.title}의 게시글 작성")
+
         author.point += 10
         author.save()
         return validated_data
@@ -76,6 +79,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         content = validated_data.get('content')
 
         PostComment.objects.create(post=post, author=author, content=content)
+        PostPoint.objects.create(user=author, point=5, reason=f"{post.title}의 댓글 작성")
         author.point += 5
         author.save()
         return validated_data
@@ -93,3 +97,9 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
             instance.content = content
         instance.save()
         return instance
+
+
+class PointListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostPoint
+        fields = ('id', 'user', 'point')

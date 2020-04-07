@@ -10,3 +10,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def set_attr(self, validated_data):
+        for key, value in validated_data.items():
+            setattr(self, key, value) if key != 'password' else self.set_password(value)

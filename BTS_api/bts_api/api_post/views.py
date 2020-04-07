@@ -1,46 +1,40 @@
-from rest_framework import status
+from rest_framework import viewsets
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, CreateAPIView, DestroyAPIView
-from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.serializers import ModelSerializer
-from rest_framework.views import APIView
 
-from .models import Post, PostComment
+from .models import Post, PostComment, PostPoint
 from .serializers import PostListSerializer, PostDetailSerializer, PostUpdateSerializer, \
-    PostCreateSerializer, CommentCreateSerializer, CommentUpdateSerializer
-from api_user.models import User
+    PostCreateSerializer, CommentCreateSerializer, CommentUpdateSerializer, PointListSerializer
 
 
-class PostAPI(ListAPIView):
-    serializer_class = PostListSerializer
+class PostListViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        return Post.objects.all().order_by('created').reverse()
+        return Post.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return PostListSerializer
+        elif self.action == 'create':
+            if self.request.user.id == int(self.request.POST.get('author')):
+                return PostCreateSerializer
+        self.permission_denied(self.request)
 
 
-class PostDetailAPI(RetrieveAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostDetailSerializer
+class PostDetailViewSet(viewsets.ModelViewSet):
 
+    def get_queryset(self):
+        return Post.objects.all()
 
-class PostUpdateAPI(RetrieveAPIView, UpdateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostUpdateSerializer
-
-    def partial_update(self, request, *args, **kwargs):
-        return super(PostUpdateAPI, self).partial_update(request, *args, **kwargs)
-
-
-class PostCreateAPI(CreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostCreateSerializer
-
-    def create(self, request, *args, **kwargs):
-        return super(PostCreateAPI, self).create(request, *args, **kwargs)
-
-
-class PostDestroyAPI(DestroyAPIView):
-    queryset = Post.objects.all()
-    serializer_class = ModelSerializer
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return PostDetailSerializer
+        elif self.action == 'partial_update':
+            return PostUpdateSerializer
+        elif self.action == 'destroy':
+            return ModelSerializer
 
 
 class CommentCreateAPI(CreateAPIView):
@@ -62,3 +56,8 @@ class CommentUpdateAPI(RetrieveAPIView, UpdateAPIView):
 class CommentDestroyAPI(DestroyAPIView):
     queryset = PostComment.objects.all()
     serializer_class = ModelSerializer
+
+
+class PointAPI(ListAPIView):
+    queryset = PostPoint.objects.all()
+    serializer_class = PointListSerializer

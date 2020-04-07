@@ -1,21 +1,12 @@
-from rest_framework.generics import CreateAPIView, UpdateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView
+from rest_framework import viewsets
+from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 
 from .models import User
 from .serializers import UserRegisterSerializer, UserUpdateSerializer, UserCheckSerializer, UserInfoSerializer, \
     UserListSerializer
-
-
-class UserInfoAPI(RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserInfoSerializer
-
-class UserAPI(ListAPIView):
-    serializer_class = UserListSerializer
-
-    def get_queryset(self):
-        return User.objects.all().order_by('id').reverse()
 
 
 class UserCheckAPI(ListAPIView):
@@ -31,22 +22,28 @@ class UserCheckAPI(ListAPIView):
             return Response({'message': 'OK'})
 
 
-class UserRegisterAPI(CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserRegisterSerializer
+class UserListViewSet(viewsets.ModelViewSet):
 
-    def create(self, request, *args, **kwargs):
-        return super(UserRegisterAPI, self).create(request, *args, **kwargs)
+    def get_queryset(self):
+        return User.objects.all()
 
-
-class UserUpdateAPI(RetrieveAPIView, UpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserUpdateSerializer
-
-    def partial_update(self, request, *args, **kwargs):
-        return super(UserUpdateAPI, self).partial_update(request, *args, **kwargs)
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return UserListSerializer
+        elif self.action == 'create':
+            return UserRegisterSerializer
 
 
-class UserDestroyAPI(DestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = ModelSerializer
+class UserDetailViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return User.objects.none if self.kwargs.get('pk') != self.request.user.id else User.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return UserInfoSerializer
+        elif self.action == 'partial_update':
+            return UserUpdateSerializer
+        elif self.action == 'destroy':
+            return ModelSerializer

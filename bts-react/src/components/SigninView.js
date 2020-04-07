@@ -21,7 +21,7 @@ class SigninView extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="container my-3">
+        <div className="container-70 my-3">
           <div style={{margin: "auto", textAlign: "center", marginBottom: "1rem"}}>
             <a href="/"><img src='img/armypurple.jpg' className="img" alt="" /></a>
           </div>

@@ -37,7 +37,6 @@ REST_FRAMEWORK = {
 }
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'api_user.jwt.jwt_custom_handler'
 }
 
 # cors-headers
@@ -48,6 +47,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 AUTH_USER_MODEL = 'api_user.User'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'bts_api.settings'
 
 # Application definition
 INSTALLED_APPS = [

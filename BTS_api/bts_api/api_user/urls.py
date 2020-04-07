@@ -1,14 +1,23 @@
 from django.urls import path
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 from . import views
 
-urlpatterns= [
-    path('', views.UserAPI.as_view()),  # get
+user_list = views.UserListViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+user_detail = views.UserDetailViewSet.as_view({
+    'get': 'retrieve',
+    'patch': 'partial_update',
+    'delete': 'destroy',
+})
+
+urlpatterns = [
+    path('', user_list),
+    path('<int:pk>/', user_detail),
     path('signin/', obtain_jwt_token),
-    path('signup/', views.UserRegisterAPI.as_view()),
-    path('profile/<int:pk>/', views.UserInfoAPI.as_view()),
+    path('refresh/', refresh_jwt_token),
+    path('verify/', verify_jwt_token),
     path('check/', views.UserCheckAPI.as_view()),
-    path('edit/<int:pk>/', views.UserUpdateAPI.as_view()),
-    path('delete/<int:pk>/', views.UserDestroyAPI.as_view())
 ]

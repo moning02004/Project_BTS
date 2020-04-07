@@ -98,6 +98,9 @@ class Header extends React.Component {
           <MenuItem><span className="cursorDefault">{this.props.currentUser.point} p</span></MenuItem>          
           <Divider />
           <MenuItem onClick={this.logout}><span className="cursorDefault">로그아웃</span></MenuItem>
+          <Divider />
+          <MenuItem onClick={this.logout}><span className="cursorDefault">비밀번호 변경</span></MenuItem>
+          <MenuItem onClick={this.logout}><span className="cursorDefault">회원 탈퇴</span></MenuItem>
         </div>);
     }
 
